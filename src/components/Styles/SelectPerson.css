@@ -1,0 +1,171 @@
+/* ================================
+   TOKENS
+================================ */
+:root{
+  /* Colors */
+  --sp-blue:      #2e4b73;   /* azul principal */
+  --sp-blue-btn:  #2f4f7f;   /* azul del botón */
+  --sp-rule:      #b9c4d6;   /* líneas */
+  --sp-red:       #d12424;   /* rojo para el texto en español */
+  --sp-accent:    #C7007B;   /* acento/magenta (títulos, reglas y botón) */
+
+  /* Fonts */
+  --font-serif: Georgia, "Times New Roman", Times, serif;
+  --font-sans: "Futura PT","Futura","Trebuchet MS", Arial, sans-serif;
+
+  /* Sizing */
+  --page-max-w: 815px;
+  --page-side-px: 16px;
+
+  /* Button */
+  --btn-h: 74px;
+  --btn-w: 336px;
+  --btn-radius: 20px;
+  --btn-shadow: 0 6px 16px rgba(199,0,123,.3);
+  --btn-transition: transform .06s ease, opacity .2s ease, box-shadow .2s ease;
+}
+
+/* ================================
+   LAYOUT GENERAL
+================================ */
+.select{
+  background:#fff;
+  display:grid;
+  place-items:center;
+  padding:120px var(--page-side-px) 24px;
+}
+
+.selectBox{
+  width: min(var(--page-max-w), 96vw);
+  background:#fff;
+  padding:16px 20px 22px;
+  color:var(--sp-blue);
+  font-family: var(--font-serif); 
+}
+
+/* ================================
+   ENCABEZADOS (EN + ES)
+================================ */
+.selectBox__line{
+  text-align:center;
+  margin:0;
+  font-size:16px;
+  line-height:1;
+  color: var(--sp-accent);
+  width: 683px;
+}
+
+.selectBox__line--en{
+  color:#000;
+  font-size:15px;
+  line-height:1.5;
+  margin:0 0 12px;
+  font-family: var(--font-sans);
+  font-weight:500;
+}
+
+.selectBox__line--es{
+  color:#000;
+  font-size:15px;
+  line-height:1.5;
+  margin:0 0 12px;
+  font-family: var(--font-sans);
+  font-weight:500;
+}
+
+.selectBox__rule{
+  border:0;
+  border-top:1px solid var(--sp-accent);
+  margin:10px 0 16px;
+}
+
+/* ================================
+   LISTA + BOTÓN (GRID)
+================================ */
+.selectArea{
+  display:grid;
+  grid-template-columns: 1fr 200px;
+  column-gap:16px;
+  align-items:stretch;
+}
+
+/* Lista sin línea entre nombres */
+.selectList{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.selectRow{
+  padding:8px 0;
+}
+
+.selectRow__name{
+  font-family: var(--font-sans);
+  text-transform:uppercase;
+  font-size:15px;
+  font-weight:500;
+  letter-spacing:.02em;
+  color:#000;
+}
+
+.selectSide{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.selectBtn{
+  background: var(--sp-accent);
+  color:#FFF;
+  border:0;
+  border-radius: var(--btn-radius);
+  font-size:15px;
+  font-weight:400;
+  cursor:pointer;
+  height: var(--btn-h);
+  padding:0 20px;
+  width: var(--btn-w);
+  flex:0 0 var(--btn-w);
+  font-family: var(--font-sans);
+  transition: var(--btn-transition);
+  box-shadow: var(--btn-shadow);
+  margin-left: 0;     
+  margin-right: 120px; 
+}
+
+.selectBtn:hover{ filter:brightness(1.06); }
+.selectBtn:active{ transform:translateY(1px); }
+
+/* ================================
+   MENSAJES DE AYUDA (EN + ES + EN)
+================================ */
+.selectHelp{
+  text-align:center;
+  margin-top:22px;
+}
+
+.selectHelp__en{
+  color:#000;
+  font-size:15px;
+  line-height:1.5;
+  margin:0 0 12px;
+  font-family: var(--font-sans);
+  font-weight:500;
+}
+
+.selectHelp__es{
+  color: var(--sp-accent);
+  font-size:15px;
+  line-height:1.5;
+  margin:0 0 12px;
+  font-family: var(--font-sans);
+  font-weight:500;
+}
+
+
+@media (max-width:560px){
+  .selectArea{ grid-template-columns: 1fr; }
+  .selectSide{ margin-top:12px; }
+  .selectBtn{ width:100%; flex: 0 0 100%; }
+}

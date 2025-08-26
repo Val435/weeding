@@ -1,0 +1,86 @@
+/* Contenedor general */
+.details {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 76px 16px;
+}
+
+/* Dos columnas: placeholder fijo + texto */
+.details__grid {
+  display: grid;
+  grid-template-columns: 531px 1fr;
+  align-items: start;
+  gap: 40px;
+}
+
+/* Placeholder gris (tamaño exacto que pediste) */
+.details__ph {
+  width: 531px;
+  height: 442px;
+  flex-shrink: 0;
+  background: #d9d9d9;
+}
+
+/* Título (rosa, Against, centrado) */
+.details__title {
+  color: #c7007b;
+  text-align: center;
+  font-family: "Against", serif;   /* asegúrate de tener @font-face cargado */
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+
+  margin: 0 0 12px 0;
+}
+
+/* Bloques de horario/lugar (negro, Futura PT 20px) */
+.details__block {
+  color: #000;
+  text-align: center;
+  font-family: "Futura PT","Futura","Trebuchet MS", Arial, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 28px;
+}
+
+/* Sub-líneas dentro del bloque (un poco de jerarquía) */
+.details__time {
+  color: #A30052;
+  font-weight: 700;
+  letter-spacing: .02em;
+  margin-bottom: 8px;
+}
+
+.details__place {
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.details__venue {
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.details__address {
+  font-size: 18px; /* un poco más pequeño para la dirección */
+  line-height: 1.35;
+}
+
+/* Responsive básico: stack en una columna y mantiene proporción del placeholder */
+@media (max-width: 1000px) {
+  .details__grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .details__ph {
+    width: min(531px, 92vw);
+    height: auto;
+    aspect-ratio: 531 / 442;
+  }
+  .details__title {
+    line-height: 1.2;
+    margin-top: 12px;
+  }
+}
