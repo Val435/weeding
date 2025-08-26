@@ -5,79 +5,109 @@
   padding: 76px 16px;
 }
 
-/* Dos columnas: placeholder fijo + texto */
+/* Dos columnas: carrusel + contenido */
 .details__grid {
   display: grid;
-  grid-template-columns: 531px 1fr;
-  align-items: start;
+  grid-template-columns: 392px 1fr;  /* carrusel fijo de 392px */
   gap: 40px;
+  align-items: center;               /* centra verticalmente las columnas */
 }
 
-/* Placeholder gris (tamaño exacto que pediste) */
-.details__ph {
-  width: 531px;
-  height: 442px;
-  flex-shrink: 0;
+/* ===== Carrusel fijo 392x522 ===== */
+.details__carousel {
+  position: relative;
+  width: 392px;
+  height: 522px;          /* altura fija */
+  overflow: hidden;
+  border-radius: 12px;
   background: #d9d9d9;
 }
 
-/* Título (rosa, Against, centrado) */
+.details__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* rellena el marco (puede recortar un poco) */
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.details__img.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Dots encima del carrusel */
+.details__dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.details__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f3b6d0;
+  cursor: pointer;
+  transition: background .3s, transform .3s;
+}
+.details__dot.is-active {
+  background: #c7007b;
+  transform: scale(1.3);
+}
+
+/* ===== Columna derecha ===== */
+.details__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* centra verticalmente el bloque con el carrusel */
+  height: 100%;
+}
+
 .details__title {
   color: #c7007b;
   text-align: center;
-  font-family: "Against", serif;   /* asegúrate de tener @font-face cargado */
+  font-family: "Against", serif;
   font-size: 36px;
-  font-style: normal;
   font-weight: 400;
-
   margin: 0 0 12px 0;
 }
 
-/* Bloques de horario/lugar (negro, Futura PT 20px) */
 .details__block {
   color: #000;
   text-align: center;
   font-family: "Futura PT","Futura","Trebuchet MS", Arial, sans-serif;
   font-size: 20px;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
   margin-top: 28px;
 }
+.details__time { color:#A30052; font-weight:700; letter-spacing:.02em; margin-bottom:8px; }
+.details__place { text-transform:uppercase; margin-bottom:2px; }
+.details__venue { text-transform:uppercase; margin-bottom:6px; }
+.details__address { font-size:18px; line-height:1.35; }
 
-/* Sub-líneas dentro del bloque (un poco de jerarquía) */
-.details__time {
-  color: #A30052;
-  font-weight: 700;
-  letter-spacing: .02em;
-  margin-bottom: 8px;
-}
-
-.details__place {
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.details__venue {
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-.details__address {
-  font-size: 18px; /* un poco más pequeño para la dirección */
-  line-height: 1.35;
-}
-
-/* Responsive básico: stack en una columna y mantiene proporción del placeholder */
+/* ===== Responsive ===== */
 @media (max-width: 1000px) {
   .details__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;    /* apilado */
     justify-items: center;
+    align-items: start;
   }
-  .details__ph {
-    width: min(531px, 92vw);
-    height: auto;
-    aspect-ratio: 531 / 442;
+  .details__carousel {
+    width: min(392px, 92vw);
+    height: calc(392px * 522 / 392); /* mantiene proporción */
+  }
+  .details__content {
+    justify-content: flex-start;
+    text-align: center;
+    margin-top: 20px;
   }
   .details__title {
     line-height: 1.2;

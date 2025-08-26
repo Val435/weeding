@@ -1,11 +1,47 @@
 import "./Styles/DetailsSection.css";
+import { useState, useEffect } from "react";
+
+// importa tus imágenes desde src/assets
+import img1 from "../assets/1.png";
+import img2 from "../assets/2.png";
+import img3 from "../assets/3.png";
+import img4 from "../assets/4.png";
+import img5 from "../assets/5.png";
 
 export default function DetailsSection() {
+  const images = [img1, img2, img3, img4, img5];
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 3000); // cambia cada 3s
+    return () => clearInterval(id);
+  }, [images.length]);
+
   return (
     <section id="detalle" className="details">
       <div className="details__grid">
-        {/* Placeholder gris (reemplazar por imagen luego) */}
-        <div className="details__ph" aria-label="Foto del lugar (próximamente)" />
+        {/* Carrusel */}
+        <div className="details__carousel">
+          {images.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt={`Foto ${i + 1}`}
+              className={`details__img ${i === index ? "is-active" : ""}`}
+            />
+          ))}
+          <div className="details__dots">
+            {images.map((_, i) => (
+              <span
+                key={i}
+                className={`details__dot ${i === index ? "is-active" : ""}`}
+                onClick={() => setIndex(i)}
+              />
+            ))}
+          </div>
+        </div>
 
         {/* Contenido derecho */}
         <div className="details__content">

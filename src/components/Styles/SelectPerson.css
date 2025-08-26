@@ -153,11 +153,11 @@
   background: var(--sp-accent);
   color:#FFF;
   border:0;
-  border-radius: var(--btn-radius);
-  font-size: 15px;
+  border-radius: 14px;
+  font-size: 14px;
   cursor:pointer;
-  height: 56px;
-  padding: 0 22px;
+  padding: 10px 16px;
+  min-width: 130px;
   font-family: var(--font-sans);
   transition: var(--btn-transition);
   box-shadow: var(--btn-shadow);

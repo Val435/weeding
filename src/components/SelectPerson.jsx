@@ -69,7 +69,7 @@ export default function SelectPerson({ onProceed, query = "" }) {
             disabled={selected.size === 0}
             title={selected.size === 0 ? "Selecciona al menos una persona" : "Continuar"}
           >
-            Siguiente
+            SIGUIENTE
           </button>
         </div>
 
