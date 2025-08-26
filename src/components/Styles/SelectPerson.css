@@ -80,24 +80,22 @@
 }
 
 /* ================================
-   LISTA + BOTÓN (GRID)
+   LISTA CON BOTÓN POR PERSONA
 ================================ */
-.selectArea{
-  display:grid;
-  grid-template-columns: 1fr 200px;
-  column-gap:16px;
-  align-items:stretch;
-}
-
-/* Lista sin línea entre nombres */
 .selectList{
   list-style:none;
   margin:0;
   padding:0;
+  width: 100%;
 }
 
 .selectRow{
-  padding:8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0,0,0,.06);
 }
 
 .selectRow__name{
@@ -109,36 +107,71 @@
   color:#000;
 }
 
-.selectSide{
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.selectRow__btn{
+  background: var(--sp-accent);
+  color:#FFF;
+  border:0;
+  border-radius: 14px;
+  font-size: 14px;
+  cursor:pointer;
+  padding: 10px 16px;
+  min-width: 130px;
+  font-family: var(--font-sans);
+  transition: var(--btn-transition);
+  box-shadow: var(--btn-shadow);
+}
+.selectRow__btn:hover{ filter:brightness(1.06); }
+.selectRow__btn:active{ transform:translateY(1px); }
+
+/* Estado seleccionado: invertir estilo */
+.selectRow__btn.is-selected{
+  background: #fff;
+  color: var(--sp-accent);
+  border: 2px solid var(--sp-accent);
+  box-shadow: none;
 }
 
-.selectBtn{
+/* ================================
+   FOOTER CON BOTÓN SIGUIENTE
+================================ */
+.selectFooter{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.selectFooter__count{
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #000;
+  opacity: .8;
+}
+
+.nextBtn{
   background: var(--sp-accent);
   color:#FFF;
   border:0;
   border-radius: var(--btn-radius);
-  font-size:15px;
-  font-weight:400;
+  font-size: 15px;
   cursor:pointer;
-  height: var(--btn-h);
-  padding:0 20px;
-  width: var(--btn-w);
-  flex:0 0 var(--btn-w);
+  height: 56px;
+  padding: 0 22px;
   font-family: var(--font-sans);
   transition: var(--btn-transition);
   box-shadow: var(--btn-shadow);
-  margin-left: 0;     
-  margin-right: 120px; 
+}
+.nextBtn:hover{ filter:brightness(1.06); }
+.nextBtn:active{ transform:translateY(1px); }
+.nextBtn:disabled{
+  opacity: .5;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
-.selectBtn:hover{ filter:brightness(1.06); }
-.selectBtn:active{ transform:translateY(1px); }
-
 /* ================================
-   MENSAJES DE AYUDA (EN + ES + EN)
+   MENSAJES DE AYUDA
 ================================ */
 .selectHelp{
   text-align:center;
@@ -163,9 +196,12 @@
   font-weight:500;
 }
 
-
+/* ================================
+   RESPONSIVE
+================================ */
 @media (max-width:560px){
-  .selectArea{ grid-template-columns: 1fr; }
-  .selectSide{ margin-top:12px; }
-  .selectBtn{ width:100%; flex: 0 0 100%; }
+  .selectRow{ flex-wrap: wrap; }
+  .selectRow__btn{ width: 100%; }
+  .selectFooter{ flex-direction: column; align-items: stretch; }
+  .nextBtn{ width: 100%; }
 }
