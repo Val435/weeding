@@ -32,7 +32,7 @@
   background:#fff;
   display:grid;
   place-items:center;
-  padding:120px var(--page-side-px) 24px;
+  position: relative;
 }
 
 .selectBox{
@@ -204,4 +204,57 @@
   .selectRow__btn{ width: 100%; }
   .selectFooter{ flex-direction: column; align-items: stretch; }
   .nextBtn{ width: 100%; }
+}
+
+/* === Carrusel debajo de Select === */
+.select__carousel{
+  position: relative;
+  width: 392px;
+  height: 522px;
+  margin: 28px auto 0;      /* centrado y separado del bloque anterior */
+  border-radius: 16px;
+  overflow: hidden;
+  background: #d9d9d9;
+  box-shadow: 0 20px 60px rgba(0,0,0,.06);
+}
+
+.select__img{
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0; visibility: hidden;
+  transition: opacity .45s ease, visibility .45s ease, transform .6s ease;
+  transform: scale(1.02);
+}
+.select__img.is-active{
+  opacity: 1; visibility: visible;
+  transform: scale(1);       /* ligero “zoom in” al entrar */
+}
+
+/* Dots encima, centrados */
+.select__dots{
+  position: absolute;
+  bottom: 12px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 8px;
+  z-index: 2;
+}
+.select__dot{
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 0; padding: 0; cursor: pointer; outline: none;
+  background: #f3b6d0;                 /* inactivo rosado claro */
+  transition: background .2s ease, transform .2s ease;
+}
+.select__dot.is-active{
+  background: #c7007b;                 /* activo rosa fuerte */
+  transform: scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 480px){
+  .select__carousel{
+    width: min(392px, 92vw);
+    height: calc(522px * min(392px, 92vw) / 392);
+  }
 }

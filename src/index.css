@@ -78,6 +78,7 @@ body {
   font-family: Georgia, "Times New Roman", serif; /* fuente por defecto del sitio */
   background: #ffffff;           /* negro para que se note tu overlay */
   color: #000000;                /* texto blanco por defecto */
+  padding-top: var(--nav-h);
 }
 
 /* enlaces y botones sin estilos del template */
