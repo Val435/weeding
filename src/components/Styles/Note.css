@@ -17,7 +17,7 @@
 .note__title{
   margin: 0 0 6px 0;
   text-align: center;
-  color: var(--sp-accent);
+  color: #C7007B;
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 18px;
@@ -91,7 +91,7 @@
 }
 
 .noteBtn{
-  background: var(--sp-accent);
+  background:#C7007B;
   color:#FFF;
   border:0;
   border-radius: var(--btn-radius);
@@ -115,8 +115,8 @@
 /* Variante ghost (para Saltar) */
 .noteBtn--ghost{
   background: #fff;
-  color: var(--sp-accent);
-  border: 2px solid var(--sp-accent);
+  color: #C7007B;
+  border: 2px solid #C7007B;
   box-shadow: none;
 }
 

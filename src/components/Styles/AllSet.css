@@ -1,0 +1,104 @@
+/* ================================
+   ALL SET PAGE (match visual)
+================================ */
+.allset{
+  --brand:#D33800;
+  --ink:#141414;
+  --muted:#6b7280;
+  --card:#ffffff;
+  min-height: 72vh;
+  padding: 80px 20px;
+  display:grid; place-items:center;
+  background:#fff;
+}
+
+.allset__card{
+  position:relative;
+  width:min(720px, 92vw);
+  background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.95));
+  border:1px solid rgba(255,255,255,.7);
+  border-radius:28px;
+  box-shadow:0 30px 90px rgba(0,0,0,.18);
+  padding: 32px 24px 26px;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+/* Confetti sutil */
+.allset__confetti{ position:absolute; inset:0; pointer-events:none; }
+.confetti{
+  position:absolute; top:-8px; width:8px; height:14px; border-radius:2px;
+  background: var(--brand);
+  opacity:.9;
+  animation: drop linear forwards;
+}
+.confetti:nth-child(3n){ background:#ffb3a1; }
+.confetti:nth-child(4n){ background:#ffa372; }
+.confetti:nth-child(5n){ background:#ffd2c2; }
+
+@keyframes drop{
+  0%{ transform: translateY(-12px) rotate(0deg); opacity: 0; }
+  8%{ opacity: 1; }
+  100%{ transform: translateY(520px) rotate(260deg); opacity: 0; }
+}
+
+/* Titular y textos */
+.allset__title{
+  font-family:'Against-Regular','against',serif;
+  text-align:center;
+  color:var(--brand);
+  font-size:44px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  margin: 12px 0 10px;
+}
+.allset__lead{
+  color: var(--ink);
+  text-align:center;
+  margin:0 0 18px;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+/* Botones */
+.allset__actions{
+  display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+  margin: 6px 0 8px;
+}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  border-radius:999px; padding:10px 16px; font-weight:600; font-size:14px;
+  border:1px solid var(--brand); cursor:pointer; text-decoration:none;
+  transition: transform .12s ease, filter .2s ease, background .2s ease;
+}
+.btn--primary{ background:var(--brand); color:#fff; }
+.btn--ghost{ background:#fff; color:var(--brand); }
+.btn:hover{ transform: translateY(-1px); filter: brightness(.96); }
+
+/* Links de regalos */
+.allset__gifts{
+  display:grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin: 12px auto 8px; max-width: 520px;
+}
+.giftLink{
+  background:#fff; border-radius:18px; padding:10px 12px;
+  box-shadow:0 6px 22px rgba(0,0,0,.06);
+  display:grid; grid-template-columns: auto 1fr; align-items:center; gap:8px;
+}
+.giftLink img{
+  width:32px; height:32px; object-fit:contain; filter: grayscale(100%) opacity(.85);
+}
+.giftLink a{
+  color:var(--brand); font-weight:600; text-decoration:none;
+}
+
+.allset__hint{
+  text-align:center; color:var(--muted); margin: 8px 0 0;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width:560px){
+  .allset__title{ font-size: clamp(26px, 8vw, 36px); }
+  .allset__gifts{ grid-template-columns: 1fr; }
+}

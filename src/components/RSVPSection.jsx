@@ -1,11 +1,14 @@
 import "./Styles/RSVP.css";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import florIzq from "../assets/florIzq1.png";
+import florDer from "../assets/florDer1.png";
 
 export default function RSVPSection() {
   const [fullName, setFullName] = useState("");
   const navigate = useNavigate();
   const { pathname } = useLocation(); // <- saber dónde estamos
+  const showDecor = pathname !== "/"; // ocultar flores en la página principal
 
   const handleFind = () => {
     const q = fullName.trim();
@@ -18,7 +21,13 @@ export default function RSVPSection() {
   };
 
   return (
-    <section id="rsvp" className="rsvp">
+    <section id="rsvp" className={`rsvp ${pathname !== "/" ? "rsvp--center" : ""}`}>
+      {showDecor && (
+        <>
+          <img src={florIzq} alt="" aria-hidden="true" className="vestimenta__decor1 vestimenta__decor--left1" />
+          <img src={florDer} alt="" aria-hidden="true" className="vestimenta__decor1 vestimenta__decor--right1" />
+        </>
+      )}
       <div className="rsvp__card">
         <h3 className="rsvp__title">RSVP</h3>
 
@@ -48,7 +57,7 @@ export default function RSVPSection() {
           </button>
 
           {/* Mostrar Cancelar solo cuando NO estamos en la home */}
-          {pathname !== "/" && (
+          {showDecor && (
             <button
               type="button"
               className="rsvp__btn rsvp__btn--ghost"

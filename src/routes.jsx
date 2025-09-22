@@ -1,7 +1,7 @@
 // routes.js
 import Hero from "./components/Hero";
 import DetailsSection from "./components/DetailsSection";
-import GiftsSection from "./components/GiftsSection";
+
 import RSVPSection from "./components/RSVPSection";
 import SelectPersonPage from "./pages/SelectPersonPage";
 import MesaRegalo from "./pages/MesaRegalo";
@@ -9,6 +9,7 @@ import Vestimenta from "./pages/Vestimenta";
 import SendRSVP from "./components/SendRSVP";
 import AllSet from "./components/AllSet";
 import Note from "./components/Note";
+import Board from "./components/Board";
 
 export const appRoutes = (eventDate, countdown, goToRSVP) => [
   {
@@ -16,7 +17,7 @@ export const appRoutes = (eventDate, countdown, goToRSVP) => [
     element: (
       <>
         <Hero eventDate={eventDate} countdown={countdown} onOpenRSVP={goToRSVP} />
-        <DetailsSection eventDate={eventDate} />
+        <DetailsSection eventDate={eventDate} countdown={countdown} />
         <RSVPSection />
         {/* <GiftsSection /> */}
         {/* <MesaRegalo />
@@ -31,4 +32,5 @@ export const appRoutes = (eventDate, countdown, goToRSVP) => [
   { path: "/send-rsvp", element: <SendRSVP /> },
   { path: "/all-set", element: <AllSet /> },
   { path: "/note", element: <Note /> },
+  { path: "/board", element: <Board /> },
 ];

@@ -1,0 +1,65 @@
+:root {
+  --nav-h: 50px;
+}
+
+.boardPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fafafa;
+}
+
+/* Header con botón volver */
+.boardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+}
+
+.boardHeader h1 {
+  font-size: 20px;
+  color: #c7007b;
+  margin: 0;
+}
+
+.boardBackBtn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #c7007b;
+  cursor: pointer;
+  font-weight: 600;
+  transition: color .25s ease;
+}
+.boardBackBtn:hover { color: #a00063; }
+
+/* Contenedor del tablero */
+.boardMain {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .boardHeader h1 { font-size: 18px; }
+}
+
+@media (max-width: 480px) {
+  .boardHeader { padding: 10px 16px; }
+  .boardHeader h1 { font-size: 16px; }
+  .boardMain { padding: 12px; }
+}
+
+/* Responsive: ocupa ancho máximo, altura controlada */
+.boardMain a[data-pin-do="embedBoard"] {
+  max-width: 1200px;
+  width: 100%;
+  height: auto;         /* deja que Pinterest maneje el alto */
+}

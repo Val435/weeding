@@ -14,6 +14,7 @@
   align-items: center;             /* centra el contenido verticalmente */
 }
 
+
 /* Contenedor centrado */
 .nav__inner {
   max-width: 1100px;
@@ -57,5 +58,16 @@
 /* Opcional: para móviles reducir el gap */
 @media (max-width: 640px) {
   .nav__menu { gap: 24px; }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .nav__link { font-size: 15px; }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .nav__menu { gap: 16px; flex-wrap: wrap; }
+  .nav__link { font-size: 14px; padding-block: 10px; }
 }
 

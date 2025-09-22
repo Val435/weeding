@@ -1,0 +1,134 @@
+:root {
+  --nav-h: 50px;     /* altura navbar */
+  --footer-h: 0px;   /* si tu footer es fijo, pon por ej. 64px */
+}
+
+/* Sección principal: respeta navbar y footer, sin alargar la página */
+.vestimenta {
+  position: relative;
+  min-height: calc(100vh - var(--nav-h) - var(--footer-h));
+  padding-top: var(--nav-h);
+  padding-bottom: var(--footer-h);
+  overflow: hidden;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Decoraciones laterales */
+.vestimenta__decor {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 115%;
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 0;
+}
+.vestimenta__decor--left  { left: -24px; }
+.vestimenta__decor--right { right: -24px; }
+
+/* Contenido */
+.vestimenta__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* Contenedor del tablero: cabe en pantalla sin alargar */
+.boardShell {
+  position: relative;                     /* para ubicar la X */
+  width: min(1200px, 96vw);               /* ancho grande pero contenido */
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+  padding: 16px;
+  max-height: calc(100vh - var(--nav-h) - var(--footer-h) - 32px); /* ¡clave! */
+  overflow: hidden;                        /* evita scroll del contenedor */
+}
+
+/* Botón X de cierre (arriba, dentro del contenedor) */
+.boardClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  font-weight: bold;
+  color: #c7007b;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color .25s ease, transform .06s ease, opacity .2s ease;
+}
+.boardClose:hover { color: #a00063; }
+.boardClose:active { transform: translateY(1px); }
+
+/* Tipografías y textos */
+.vestimenta__title {
+  font-family: "Against", serif;
+  font-size: 36px;
+  color: #D33800;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+.vestimenta__subtitle {
+  font-family: "Futura", sans-serif;
+  color: #D33800;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  font-size: 26px;
+  font-weight: 400;
+}
+.vestimenta__text {
+  font-family: "Futura", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
+}
+
+/* Botón primario */
+.vestimenta__btn {
+  display: inline-block;
+  padding: 12px 24px;
+  
+  border: none;
+  border-radius: 10px;
+  background: #c7007b;
+  color: #fff;
+  font-size: 16px;
+font-style: normal;
+font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(199,0,123,.3);
+  transition: transform .06s ease, opacity .2s ease, box-shadow .2s ease, background .25s ease;
+}
+.vestimenta__btn:hover { filter: brightness(1.06); }
+.vestimenta__btn:active { transform: translateY(1px); }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .vestimenta__decor--left { left: -56px; }
+  .vestimenta__decor--right { right: -56px; }
+}
+
+@media (max-width: 768px) {
+  .vestimenta__inner { max-width: 100%; }
+  .boardShell { padding: 8px; border-radius: 10px; }
+  .vestimenta__decor--left { left: -72px; }
+  .vestimenta__decor--right { right: -72px; }
+}
+
+@media (max-width: 480px) {
+  .vestimenta__btn { width: 100%; }
+  .vestimenta__decor--left { left: -108px; }
+  .vestimenta__decor--right { right: -108px; }
+}

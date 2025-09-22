@@ -7,7 +7,7 @@
   --sp-blue-btn:  #2f4f7f;   /* azul del botón */
   --sp-rule:      #b9c4d6;   /* líneas */
   --sp-red:       #d12424;   /* rojo para el texto en español */
-  --sp-accent:    #C7007B;   /* acento/magenta (títulos, reglas y botón) */
+  --sp-accent:    #D33800;   /* acento/magenta (títulos, reglas y botón) */
 
   /* Fonts */
   --font-serif: Georgia, "Times New Roman", Times, serif;
@@ -53,6 +53,7 @@
   line-height:1;
   color: var(--sp-accent);
   width: 683px;
+  max-width: 100%;
 }
 
 .selectBox__line--en{
@@ -70,7 +71,24 @@
   line-height:1.5;
   margin:0 0 12px;
   font-family: var(--font-sans);
+  font-weight:400;
+  margin-bottom: 20px;
+}
+
+.selectBox__icon{
+  width: 42px;
+  height: 36px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.selectBox__line1--es{
+  color:#D33800;
+  font-size:36px;
+  line-height:1.5;
+  margin:0 0 12px;
+  font-family: "Against", serif;
   font-weight:500;
+   margin-bottom: 20px;
 }
 
 .selectBox__rule{
@@ -107,6 +125,11 @@
   color:#000;
 }
 
+.selectRow__buttons{
+  display: flex;
+  gap: 8px;
+}
+
 .selectRow__btn{
   background: var(--sp-accent);
   color:#FFF;
@@ -120,11 +143,33 @@
   transition: var(--btn-transition);
   box-shadow: var(--btn-shadow);
 }
+
+.selectRow__btn--yes{
+  background: var(--sp-accent);
+}
+
+.selectRow__btn--no{
+  background: var(--sp-accent);
+}
 .selectRow__btn:hover{ filter:brightness(1.06); }
 .selectRow__btn:active{ transform:translateY(1px); }
 
 /* Estado seleccionado: invertir estilo */
 .selectRow__btn.is-selected{
+  background: #fff;
+  color: var(--sp-accent);
+  border: 2px solid var(--sp-accent);
+  box-shadow: none;
+}
+
+.selectRow__btn--yes.is-selected{
+  background: #fff;
+  color: var(--sp-accent);
+  border: 2px solid var(--sp-accent);
+  box-shadow: none;
+}
+
+.selectRow__btn--no.is-selected{
   background: #fff;
   color: var(--sp-accent);
   border: 2px solid var(--sp-accent);
@@ -150,14 +195,15 @@
 }
 
 .nextBtn{
-  background: var(--sp-accent);
+  width: 336px;
+  height: 74px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: #D33800;
   color:#FFF;
   border:0;
-  border-radius: 14px;
   font-size: 14px;
   cursor:pointer;
-  padding: 10px 16px;
-  min-width: 130px;
   font-family: var(--font-sans);
   transition: var(--btn-transition);
   box-shadow: var(--btn-shadow);
@@ -206,11 +252,17 @@
   .nextBtn{ width: 100%; }
 }
 
+/* Phones narrower */
+@media (max-width:400px){
+  .selectBox{ padding: 12px 14px 18px; }
+  .selectRow{ gap: 8px; }
+}
+
 /* === Carrusel debajo de Select === */
 .select__carousel{
   position: relative;
-  width: 392px;
-  height: 522px;
+ width: min(var(--page-max-w), 96vw);
+  height: 480px;
   margin: 28px auto 0;      /* centrado y separado del bloque anterior */
   border-radius: 16px;
   overflow: hidden;
@@ -251,10 +303,35 @@
   transform: scale(1.2);
 }
 
+.vestimenta__decor2 {
+  position: absolute;
+  top: 0;
+  width: auto;
+  height: 118%;
+  object-fit: contain;               /* show whole image, no crop */
+  pointer-events: none;
+  transform: translateY(calc(-1 * var(--nav-h, 0px) - 40px)); /* keeps them out of the fixed nav */
+  z-index: 0;
+}
+
+.vestimenta__decor--left2  { left: -28px; }
+.vestimenta__decor--right2 { right: -28px; }
 /* Responsive */
+@media (max-width: 1024px){
+  .vestimenta__decor--left2 { left: -60px; }
+  .vestimenta__decor--right2 { right: -60px; }
+}
+
+@media (max-width: 640px){
+  .vestimenta__decor--left2 { left: -92px; }
+  .vestimenta__decor--right2 { right: -92px; }
+}
+
 @media (max-width: 480px){
   .select__carousel{
     width: min(392px, 92vw);
     height: calc(522px * min(392px, 92vw) / 392);
   }
+  .vestimenta__decor--left2 { left: -124px; }
+  .vestimenta__decor--right2 { right: -124px; }
 }

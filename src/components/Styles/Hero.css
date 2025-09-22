@@ -1,28 +1,51 @@
 /* ---------- HERO (puro CSS) ---------- */
 .hero {
   position: relative;
-  min-height: 100vh;              /* altura visible */
+  min-height: 100vh;
   display: grid;
-  place-items: center;           /* centra el contenido */
+  place-items: center;
   text-align: center;
-  color: #fff;                   /* color del texto */
+  color: #fff;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  overflow: hidden; /* evita que sobresalgan las flores */
 }
 
-/* Overlay #7F7F03 con 68% de opacidad */
+/* Overlay */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
   background: rgba(127, 127, 3, 0.68);
+  z-index: 0; /* debajo de las decoraciones y del contenido */
+}
+
+/* Decoraciones laterales */
+.hero__decor {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(320px, 28vw, 420px);  /* conserva tamaño base y limita extremos */
+  height: auto;
+  pointer-events: none;    /* no interfiere con clicks */
+  z-index: 1;              /* por encima del overlay */
+  opacity: 1;              /* ajusta si las quieres más sutiles */
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
+}
+
+.hero__decor--left {
+  left: -2vw;              /* saca un poco la flor hacia afuera */
+}
+
+.hero__decor--right {
+  right: -2vw;
 }
 
 /* Contenido por encima del overlay */
 .hero__inner {
   position: relative;
-  z-index: 1;
+  z-index: 1;  /* igual que las flores; sube a 2 si quieres que el texto pase sobre ellas */
   padding: 56px 16px;
   width: min(90vw, 1100px);
 }
@@ -45,18 +68,18 @@
   display: block;
   font-family: "Against", serif;
   color: #F4F058;
-   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin: 0.35em 0;
-   font-size: 96px;
-  font-weight:400;
+  font-size: 96px;
+  font-weight: 400;
 }
 
 /* Fecha debajo */
 .hero__date {
-    font-family: "Against", serif;
+  font-family: "Against", serif;
   margin-top: 20px;
   font-size: clamp(14px, 2.5vw, 20px);
-   color: #F4F058;
+  color: #F4F058;
   opacity: 0.95;
 }
 
@@ -68,7 +91,7 @@
   gap: 8px;
   padding: 8px 14px;
   border-radius: 999px;
-    color: #F4F058;
+  color: #F4F058;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.25);
@@ -95,3 +118,31 @@
 }
 .btn--primary { background: #fff; color: #111; }
 .btn--ghost   { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.5); }
+
+/* Responsivo */
+@media (max-width: 1024px) {
+  .hero__decor--left { left: -8vw; }
+  .hero__decor--right { right: -8vw; }
+}
+
+@media (max-width: 768px) {
+  .hero__decor--left { left: -12vw; }
+  .hero__decor--right { right: -12vw; }
+
+  .hero__names { font-size: 42px; }
+  .hero__amp { font-size: 72px; }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .hero__decor--left { left: -18vw; }
+  .hero__decor--right { right: -18vw; }
+  .hero__names { font-size: 34px; }
+  .hero__amp { font-size: 56px; }
+}
+
+/* Very large screens */
+@media (min-width: 1400px) {
+  .hero__names { font-size: 80px; }
+  .hero__amp { font-size: 120px; }
+}

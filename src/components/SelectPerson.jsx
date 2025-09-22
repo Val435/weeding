@@ -3,29 +3,48 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // 👉 importa tus imágenes (ajusta rutas si cambian)
-import img1 from "../assets/1.png";
-import img2 from "../assets/2.png";
-import img3 from "../assets/3.png";
-import img4 from "../assets/4.png";
-import img5 from "../assets/5.png";
+import img1 from "../assets/6.png";
+import img2 from "../assets/7.png";
+import img3 from "../assets/8.png";
+import img4 from "../assets/9.png";
+import img5 from "../assets/10.png";
+import florIzq from "../assets/florIzq2.png";
+import florDer from "../assets/florDer2.png";
+import calendarioSvg from "../assets/svg/calendario.svg";
+import etiquetaSvg from "../assets/svg/etiqueta.svg";
 
 export default function SelectPerson({ onProceed, query = "" }) {
   const navigate = useNavigate();
 
   // ---- Lógica de selección ----
   const results = ["VALERIA PORTILLO", "MARTÍN POCASANGRE"];
-  const [selected, setSelected] = useState(() => new Set());
-  const toggleSelect = (name) => {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      next.has(name) ? next.delete(name) : next.add(name);
+  const [responses, setResponses] = useState(() => new Map()); // Map para guardar respuesta de cada persona
+  
+  const setResponse = (name, willAttend) => {
+    setResponses((prev) => {
+      const next = new Map(prev);
+      next.set(name, willAttend);
       return next;
     });
   };
-  const isSelected = (name) => selected.has(name);
+  
+  const getResponse = (name) => responses.get(name); // true = asistirá, false = no asistirá, undefined = no ha respondido
+  
+  // Verificar si todas las personas han respondido
+  const allHaveResponded = () => {
+    return results.every(name => responses.has(name));
+  };
+  
+  // Contar cuántas personas han respondido
+  const respondedCount = responses.size;
+  const totalPeople = results.length;
+  
   const handleNext = () => {
-    const list = Array.from(selected);
-    onProceed?.(list);
+    // Solo incluir personas que respondieron "sí"
+    const attendees = Array.from(responses.entries())
+      .filter(([, willAttend]) => willAttend === true)
+      .map(([name]) => name);
+    onProceed?.(attendees);
     navigate(`/note${query ? `?q=${encodeURIComponent(query)}` : ""}`);
   };
 
@@ -41,61 +60,77 @@ export default function SelectPerson({ onProceed, query = "" }) {
   }, [images.length]);
 
   return (
+    
     <section className="select">
       <div className="selectBox">
+        <p className="selectBox__line selectBox__line1--es">
+CONFIRMA TU ASISTENCIA        </p>
         <p className="selectBox__line selectBox__line--es">
-          SELECCIONA TU INFORMACIÓN A CONTINUACIÓN O INTENTA BUSCAR DE NUEVO
+          <img src={calendarioSvg} alt="Calendario" className="selectBox__icon" />
+          VIERNES 9 DE ENERO 2026, A LAS 7:00 P.M.
+        </p>
+        <p className="selectBox__line selectBox__line--es">
+          <img src={etiquetaSvg} alt="Etiqueta" className="selectBox__icon" />
+          ETIQUETA (BLACK TIE)
         </p>
 
         <hr className="selectBox__rule" />
 
-        {/* Lista con botón por persona */}
+         <img src={florIzq} alt="" aria-hidden="true" className="vestimenta__decor2 vestimenta__decor--left2" />
+      <img src={florDer} alt="" aria-hidden="true" className="vestimenta__decor2 vestimenta__decor--right2" />
+
+
+        {/* Lista con dos botones por persona */}
         <div className="selectArea selectArea--perRowBtn">
           <ul className="selectList">
             {results.map((name) => (
               <li key={name} className="selectRow">
                 <span className="selectRow__name">{name}</span>
-                <button
-                  type="button"
-                  className={`selectRow__btn ${isSelected(name) ? "is-selected" : ""}`}
-                  onClick={() => toggleSelect(name)}
-                  aria-pressed={isSelected(name)}
-                >
-                  {isSelected(name) ? "QUITAR" : "SELECCIONAR"}
-                </button>
+                <div className="selectRow__buttons">
+                  <button
+                    type="button"
+                    className={`selectRow__btn selectRow__btn--yes ${getResponse(name) === true ? "is-selected" : ""}`}
+                    onClick={() => setResponse(name, true)}
+                    aria-pressed={getResponse(name) === true}
+                  >
+                    SÍ ASISTIRÉ
+                  </button>
+                  <button
+                    type="button"
+                    className={`selectRow__btn selectRow__btn--no ${getResponse(name) === false ? "is-selected" : ""}`}
+                    onClick={() => setResponse(name, false)}
+                    aria-pressed={getResponse(name) === false}
+                  >
+                    NO PODRÉ ASISTIR
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
         </div>
 
         {/* Footer: contador + Siguiente */}
+      
+
+        <hr className="selectBox__rule" />
+
+        
+      </div>
         <div className="selectFooter">
           <span className="selectFooter__count">
-            {selected.size > 0
-              ? `${selected.size} seleccionado${selected.size > 1 ? "s" : ""}`
-              : "Nadie seleccionado"}
+            
           </span>
 
           <button
             className="nextBtn"
             type="button"
             onClick={handleNext}
-            disabled={selected.size === 0}
-            title={selected.size === 0 ? "Selecciona al menos una persona" : "Continuar"}
+            disabled={!allHaveResponded()}
+            title={!allHaveResponded() ? `Faltan ${totalPeople - respondedCount} persona${totalPeople - respondedCount > 1 ? "s" : ""} por responder` : "Continuar"}
           >
-            SIGUIENTE
+            CONTINUAR
           </button>
         </div>
-
-        <hr className="selectBox__rule" />
-
-        <div className="selectHelp">
-          <p className="selectHelp__es">
-            SI NINGUNO DE ESTOS ES USTED, POR FAVOR COMUNÍQUESE CON LA PAREJA<br />
-            PARA VERIFICAR CÓMO INGRESARON SUS DATOS
-          </p>
-        </div>
-      </div>
 
       {/* === Carrusel debajo === */}
       <div className="select__carousel" role="region" aria-label="Galería">
