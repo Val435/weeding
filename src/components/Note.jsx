@@ -1,18 +1,24 @@
 import { useState } from "react";
-import "./Styles/Note.css"; // ⬅️ estilos debajo
-import { useNavigate, } from "react-router-dom";
-export default function Note({ onNext, onSkip, maxLength = 280 }) {
+import "./Styles/Note.css";
+import { useNavigate } from "react-router-dom";
+import { addNote } from "../api";
+import { useGuest } from "../GuestContext";
+
+export default function Note({ maxLength = 280 }) {
   const [note, setNote] = useState("");
- const navigate = useNavigate();
-  const handleNext = () => {
+  const { guest } = useGuest();
+  const navigate = useNavigate();
+
+  const handleNext = async () => {
     if (!note.trim()) return;
-    onNext?.(note.trim());
-    navigate(`/all-set`);
+    if (guest && guest.length > 0) {
+      await addNote(guest[0].id, note.trim());
+    }
+    navigate("/all-set");
   };
 
   const handleSkip = () => {
-    onSkip?.();
-    navigate(`/all-set`);
+    navigate("/all-set");
   };
 
   const remaining = maxLength - note.length;
@@ -21,13 +27,9 @@ export default function Note({ onNext, onSkip, maxLength = 280 }) {
     <section className="note">
       <div className="noteBox">
         <h3 className="note__title">DEJA UNA NOTA PARA LOS NOVIOS</h3>
-        <p className="note__desc">
-          Puedes escribir un mensaje corto con tus buenos deseos. ❤️
-        </p>
+        <p className="note__desc">Puedes escribir un mensaje corto con tus buenos deseos. ❤️</p>
 
-        <label htmlFor="wedding-note" className="note__label">
-          Tu mensaje
-        </label>
+        <label htmlFor="wedding-note" className="note__label">Tu mensaje</label>
         <textarea
           id="wedding-note"
           className="note__textarea"
@@ -41,32 +43,14 @@ export default function Note({ onNext, onSkip, maxLength = 280 }) {
         />
 
         <div className="note__footer">
-          <span
-            className={`note__counter ${
-              remaining <= 20 ? "note__counter--warn" : ""
-            }`}
-            aria-live="polite"
-          >
+          <span className={`note__counter ${remaining <= 20 ? "note__counter--warn" : ""}`} aria-live="polite">
             {remaining} caracteres restantes
           </span>
-
           <div className="note__actions">
-            <button
-              type="button"
-              className="noteBtn noteBtn--ghost"
-              onClick={handleSkip}
-              title="Omitir este paso"
-            >
+            <button type="button" className="noteBtn noteBtn--ghost" onClick={handleSkip}>
               Saltar
             </button>
-
-            <button
-              type="button"
-              className="noteBtn"
-              onClick={handleNext}
-              disabled={!note.trim()}
-              title={note.trim() ? "Continuar" : "Escribe un mensaje para continuar"}
-            >
+            <button type="button" className="noteBtn" onClick={handleNext} disabled={!note.trim()}>
               Siguiente
             </button>
           </div>
