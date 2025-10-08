@@ -1,4 +1,4 @@
-/* ---------- HERO (puro CSS) ---------- */
+/* ---------- HERO ---------- */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -9,7 +9,7 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  overflow: hidden; /* evita que sobresalgan las flores */
+  overflow: hidden;
 }
 
 /* Overlay */
@@ -18,36 +18,35 @@
   position: absolute;
   inset: 0;
   background: rgba(127, 127, 3, 0.68);
-  z-index: 0; /* debajo de las decoraciones y del contenido */
+  z-index: 0;
 }
 
-/* Decoraciones laterales */
+/* Decoraciones laterales (contenedor para el SVG) */
 .hero__decor {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: clamp(320px, 28vw, 420px);  /* conserva tamaño base y limita extremos */
+  width: clamp(280px, 28vw, 420px);
   height: auto;
-  pointer-events: none;    /* no interfiere con clicks */
-  z-index: 1;              /* por encima del overlay */
-  opacity: 1;              /* ajusta si las quieres más sutiles */
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;                   /* aparecerá con la animación */
+  filter: blur(2px);            /* y se quitará con la animación */
 }
+.hero__decor svg { width: 100%; height: auto; display: block; }
 
-.hero__decor--left {
-  left: -2vw;              /* saca un poco la flor hacia afuera */
-}
-
-.hero__decor--right {
-  right: -2vw;
-}
+.hero__decor--left { left: -2vw; }
+.hero__decor--right { right: -2vw; }
 
 /* Contenido por encima del overlay */
 .hero__inner {
   position: relative;
-  z-index: 1;  /* igual que las flores; sube a 2 si quieres que el texto pase sobre ellas */
-  padding: 56px 16px;
+  z-index: 2;
+  padding: 56px 20px;
   width: min(90vw, 1100px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(2px);
 }
 
 /* Nombres grandes */
@@ -60,30 +59,33 @@
   line-height: 1.1;
   margin: 0;
   font-weight: 400;
-  font-size: 64px;
+  font-size: clamp(32px, 7vw, 64px);
+  opacity: 0;                  /* para reveal */
+  transform: translateY(16px); /* para reveal */
 }
 
-/* Ampersand grande */
+/* Ampersand */
 .hero__amp {
   display: block;
   font-family: "Against", serif;
   color: #F4F058;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin: 0.35em 0;
-  font-size: 96px;
+  font-size: clamp(52px, 11vw, 96px);
   font-weight: 400;
+  opacity: 0; transform: translateY(12px);
 }
 
-/* Fecha debajo */
+/* Fecha */
 .hero__date {
   font-family: "Against", serif;
   margin-top: 20px;
   font-size: clamp(14px, 2.5vw, 20px);
   color: #F4F058;
-  opacity: 0.95;
+  opacity: 0; transform: translateY(10px);
 }
 
-/* Cintillo del countdown */
+/* Countdown (opcional) */
 .hero__belt {
   margin-top: 20px;
   display: inline-flex;
@@ -98,7 +100,16 @@
   font-size: 14px;
 }
 
-/* Botones */
+/* Hint de scroll */
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  opacity: .8;
+}
+
+/* Botones (si los usas aquí) */
 .cta-row {
   margin-top: 24px;
   display: flex;
@@ -106,43 +117,32 @@
   justify-content: center;
   flex-wrap: wrap;
 }
-.btn {
-  appearance: none;
-  border: none;
-  outline: 0;
-  cursor: pointer;
-  padding: 12px 22px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-}
-.btn--primary { background: #fff; color: #111; }
-.btn--ghost   { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.5); }
+.btn { /* ... tus estilos previos ... */ }
 
-/* Responsivo */
-@media (max-width: 1024px) {
-  .hero__decor--left { left: -8vw; }
-  .hero__decor--right { right: -8vw; }
-}
-
+/* Responsive */
 @media (max-width: 768px) {
-  .hero__decor--left { left: -12vw; }
-  .hero__decor--right { right: -12vw; }
-
-  .hero__names { font-size: 42px; }
-  .hero__amp { font-size: 72px; }
+  .hero__inner {
+    padding: 40px 16px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+  }
 }
-
-/* Phones */
 @media (max-width: 480px) {
-  .hero__decor--left { left: -18vw; }
-  .hero__decor--right { right: -18vw; }
-  .hero__names { font-size: 34px; }
-  .hero__amp { font-size: 56px; }
+  .hero__inner {
+    padding: 32px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+  }
+}
+@media (min-width: 1400px) {
+  .hero__decor { width: clamp(420px, 32vw, 500px); }
 }
 
-/* Very large screens */
-@media (min-width: 1400px) {
-  .hero__names { font-size: 80px; }
-  .hero__amp { font-size: 120px; }
+/* Respeto a reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }

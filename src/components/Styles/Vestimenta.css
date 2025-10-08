@@ -22,11 +22,12 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  height: 115%;
+  height: 115%;  /* tamaño completo */
   width: auto;
   object-fit: contain;
   pointer-events: none;
-  z-index: 0;
+  z-index: 0;  /* detrás del contenido siempre */
+  opacity: 1;  /* opacidad completa */
 }
 .vestimenta__decor--left  { left: -24px; }
 .vestimenta__decor--right { right: -24px; }
@@ -46,12 +47,14 @@
   position: relative;                     /* para ubicar la X */
   width: min(1200px, 96vw);               /* ancho grande pero contenido */
   margin: 0 auto;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);  /* fondo semi-transparente */
+  backdrop-filter: blur(8px);             /* efecto glassmorphism */
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0,0,0,.08);
   padding: 16px;
   max-height: calc(100vh - var(--nav-h) - var(--footer-h) - 32px); /* ¡clave! */
   overflow: hidden;                        /* evita scroll del contenedor */
+  z-index: 1;                             /* por encima de las flores */
 }
 
 /* Botón X de cierre (arriba, dentro del contenedor) */
@@ -75,7 +78,7 @@
 /* Tipografías y textos */
 .vestimenta__title {
   font-family: "Against", serif;
-  font-size: 36px;
+  font-size: clamp(24px, 6vw, 36px);  /* responsive font size */
   color: #D33800;
   font-weight: 400;
   margin-bottom: 16px;
@@ -85,12 +88,12 @@
   color: #D33800;
   margin-bottom: 16px;
   line-height: 1.5;
-  font-size: 26px;
+  font-size: clamp(18px, 4vw, 26px);  /* responsive font size */
   font-weight: 400;
 }
 .vestimenta__text {
   font-family: "Futura", sans-serif;
-  font-size: 20px;
+  font-size: clamp(16px, 3vw, 20px);  /* responsive font size */
   font-weight: 500;
   color: #000;
 }
@@ -114,21 +117,59 @@ font-weight: 500;
 .vestimenta__btn:hover { filter: brightness(1.06); }
 .vestimenta__btn:active { transform: translateY(1px); }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .vestimenta__decor--left { left: -56px; }
-  .vestimenta__decor--right { right: -56px; }
-}
-
+/* Responsive - Flores siempre grandes, contenido siempre legible */
 @media (max-width: 768px) {
-  .vestimenta__inner { max-width: 100%; }
-  .boardShell { padding: 8px; border-radius: 10px; }
-  .vestimenta__decor--left { left: -72px; }
-  .vestimenta__decor--right { right: -72px; }
+  .vestimenta__inner {
+    max-width: 100%;
+    padding: 0 12px;
+  }
+  .boardShell {
+    padding: 12px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.98);  /* más opaco en móviles */
+    backdrop-filter: blur(12px);
+  }
+
+  /* Adjust board close button for mobile */
+  .boardClose {
+    font-size: 24px;
+    top: 8px;
+    right: 8px;
+  }
 }
 
 @media (max-width: 480px) {
-  .vestimenta__btn { width: 100%; }
-  .vestimenta__decor--left { left: -108px; }
-  .vestimenta__decor--right { right: -108px; }
+  .vestimenta__inner {
+    padding: 0 8px;
+  }
+  .boardShell {
+    border-radius: 8px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.99);  /* casi opaco */
+    backdrop-filter: blur(16px);
+  }
+  .vestimenta__btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+
+  /* Very compact board close for small screens */
+  .boardClose {
+    font-size: 20px;
+    top: 6px;
+    right: 6px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+  .vestimenta__inner {
+    padding: 0 6px;
+  }
+  .boardShell {
+    border-radius: 6px;
+    padding: 6px;
+    background: #fff;  /* completamente opaco */
+  }
 }

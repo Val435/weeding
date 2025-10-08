@@ -25,7 +25,7 @@
   grid-template-columns: repeat(4, auto);
   justify-content: center;
   align-items: start;
-  column-gap: 28px;
+  column-gap: clamp(12px, 4vw, 28px);  /* gap responsive */
   position: relative;
 }
 
@@ -39,10 +39,10 @@
 .cd-group:not(:last-child)::after {
   content: ":";
   position: absolute;
-  right: -18px;
+  right: clamp(-12px, -2vw, -18px);  /* responsive positioning */
   top: 0.05em;
   font-family: against, serif;
-  font-size: 32px;
+  font-size: clamp(20px, 5vw, 32px);  /* responsive size */
   font-weight: 400;
   line-height: 1;
   color: #000;
@@ -51,7 +51,7 @@
 
 /* Números */
 .cd-value {
-  font-size: 32px;
+  font-size: clamp(20px, 5vw, 32px);  /* responsive */
   font-weight: 400;
   line-height: normal;
 }
@@ -60,7 +60,7 @@
 .cd-label {
   margin-top: 4px; /* menos espacio entre número y etiqueta */
   font-family: Futura, sans-serif;
-  font-size: 12px;
+  font-size: clamp(10px, 2vw, 12px);  /* responsive */
   font-weight: 500;
   line-height: normal;
   text-transform: uppercase;
@@ -210,8 +210,46 @@ position: center;
 @media (max-width: 768px) {
   .details { padding: 56px 12px; }
   .details__title { font-size: 28px; }
+
+  /* Countdown responsive en tablets */
+  .hero__countdown-title { font-size: 18px; margin-top: 32px; }
+  .cd-group { padding: 0 6px; }
 }
+
 @media (max-width: 480px) {
   .details { padding: 40px 10px; }
   .details__title { font-size: 24px; }
+
+  /* Countdown responsive en móviles */
+  .hero__countdown-title { font-size: 16px; margin-top: 24px; }
+  .cd-group { padding: 0 4px; }
+  .hero__countdown-grid { column-gap: 8px; }
+
+  /* Contenido de detalles más compacto */
+  .details__block { font-size: 18px; margin-top: 20px; }
+  .details__address { font-size: 16px; }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 360px) {
+  .details { padding: 32px 8px; }
+  .details__title { font-size: 20px; }
+
+  /* Countdown en móviles pequeños */
+  .hero__countdown-title { font-size: 14px; margin-top: 20px; }
+  .cd-group { padding: 0 2px; }
+  .hero__countdown-grid { column-gap: 6px; }
+
+  /* Contenido más compacto */
+  .details__block { font-size: 16px; margin-top: 16px; }
+  .details__place { font-size: 18px; }
+  .details__venue { font-size: 16px; }
+  .details__address { font-size: 14px; }
+
+  /* Botón del mapa más pequeño */
+  .map-link {
+    width: 130px;
+    height: 36px;
+    font-size: 13px;
+  }
 }

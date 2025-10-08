@@ -49,12 +49,28 @@
 /* Responsive */
 @media (max-width: 768px) {
   .boardHeader h1 { font-size: 18px; }
+  .boardBackBtn { font-size: 15px; }
 }
 
 @media (max-width: 480px) {
-  .boardHeader { padding: 10px 16px; }
+  .boardHeader {
+    padding: 10px 16px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
   .boardHeader h1 { font-size: 16px; }
-  .boardMain { padding: 12px; }
+  .boardBackBtn { font-size: 14px; }
+  .boardMain { padding: 8px; }
+}
+
+@media (max-width: 360px) {
+  .boardHeader {
+    padding: 8px 12px;
+  }
+  .boardHeader h1 { font-size: 15px; }
+  .boardBackBtn { font-size: 13px; }
+  .boardMain { padding: 6px; }
 }
 
 /* Responsive: ocupa ancho máximo, altura controlada */
