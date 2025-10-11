@@ -1,5 +1,9 @@
 /* Import responsive utilities */
 @import './styles/responsive-utilities.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 
 /* Global responsive base */
 * {

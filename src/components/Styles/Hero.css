@@ -1,4 +1,4 @@
-/* ---------- HERO ---------- */
+/* ---------- HERO (puro CSS) ---------- */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -9,7 +9,7 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  overflow: hidden;
+  overflow: hidden; /* evita que sobresalgan las flores */
 }
 
 /* Overlay */
@@ -18,35 +18,39 @@
   position: absolute;
   inset: 0;
   background: rgba(127, 127, 3, 0.68);
-  z-index: 0;
+  z-index: 0; /* debajo de las decoraciones y del contenido */
 }
 
-/* Decoraciones laterales (contenedor para el SVG) */
+/* Decoraciones laterales */
 .hero__decor {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: clamp(280px, 28vw, 420px);
+  width: clamp(350px, 30vw, 420px);  /* tamaño completo */
   height: auto;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0;                   /* aparecerá con la animación */
-  filter: blur(2px);            /* y se quitará con la animación */
+  pointer-events: none;    /* no interfiere con clicks */
+  z-index: 1;              /* por encima del overlay, debajo del contenido */
+  opacity: 1;              /* opacidad completa */
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
 }
-.hero__decor svg { width: 100%; height: auto; display: block; }
 
-.hero__decor--left { left: -2vw; }
-.hero__decor--right { right: -2vw; }
+.hero__decor--left {
+  left: -2vw;              /* posición original */
+}
+
+.hero__decor--right {
+  right: -2vw;             /* posición original */
+}
 
 /* Contenido por encima del overlay */
 .hero__inner {
   position: relative;
-  z-index: 2;
+  z-index: 2;  /* por encima de las flores para garantizar legibilidad */
   padding: 56px 20px;
-  width: min(90vw, 1100px);
-  background: rgba(255, 255, 255, 0.1);
+  width: min(90vw, 1100px);  /* ancho normal */
+  background: rgba(255, 255, 255, 0.1);  /* fondo sutil para separar del overlay */
   border-radius: 20px;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);  /* efecto glassmorphism sutil */
 }
 
 /* Nombres grandes */
@@ -59,33 +63,30 @@
   line-height: 1.1;
   margin: 0;
   font-weight: 400;
-  font-size: clamp(32px, 7vw, 64px);
-  opacity: 0;                  /* para reveal */
-  transform: translateY(16px); /* para reveal */
+  font-size: clamp(32px, 7vw, 64px);  /* tamaño normal responsive */
 }
 
-/* Ampersand */
+/* Ampersand grande */
 .hero__amp {
   display: block;
   font-family: "Against", serif;
   color: #F4F058;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  margin: 0.35em 0;
-  font-size: clamp(52px, 11vw, 96px);
+  margin: 0.35em 0;  /* margen original */
+  font-size: clamp(52px, 11vw, 96px);  /* tamaño normal responsive */
   font-weight: 400;
-  opacity: 0; transform: translateY(12px);
 }
 
-/* Fecha */
+/* Fecha debajo */
 .hero__date {
   font-family: "Against", serif;
   margin-top: 20px;
   font-size: clamp(14px, 2.5vw, 20px);
   color: #F4F058;
-  opacity: 0; transform: translateY(10px);
+  opacity: 0.95;
 }
 
-/* Countdown (opcional) */
+/* Cintillo del countdown */
 .hero__belt {
   margin-top: 20px;
   display: inline-flex;
@@ -100,16 +101,7 @@
   font-size: 14px;
 }
 
-/* Hint de scroll */
-.scroll-hint {
-  position: absolute;
-  left: 50%;
-  bottom: 12px;
-  transform: translateX(-50%);
-  opacity: .8;
-}
-
-/* Botones (si los usas aquí) */
+/* Botones */
 .cta-row {
   margin-top: 24px;
   display: flex;
@@ -117,32 +109,39 @@
   justify-content: center;
   flex-wrap: wrap;
 }
-.btn { /* ... tus estilos previos ... */ }
+.btn {
+  appearance: none;
+  border: none;
+  outline: 0;
+  cursor: pointer;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.btn--primary { background: #fff; color: #111; }
+.btn--ghost   { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.5); }
 
-/* Responsive */
+/* Responsive - Mantén las flores grandes, contenido siempre legible */
 @media (max-width: 768px) {
   .hero__inner {
     padding: 40px 16px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.15);  /* fondo más visible en móviles */
     backdrop-filter: blur(4px);
   }
 }
+
 @media (max-width: 480px) {
   .hero__inner {
     padding: 32px 12px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2);  /* fondo aún más visible */
     backdrop-filter: blur(6px);
   }
 }
-@media (min-width: 1400px) {
-  .hero__decor { width: clamp(420px, 32vw, 500px); }
-}
 
-/* Respeto a reduce motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
+/* Very large screens */
+@media (min-width: 1400px) {
+  .hero__decor {
+    width: clamp(420px, 32vw, 500px);  /* flores más grandes en pantallas grandes */
   }
 }

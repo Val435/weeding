@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @font-face {
   font-family: "Against";
@@ -74,6 +77,7 @@
 * { box-sizing: border-box; }
 html, body, #root { height: 100%; }
 body {
+   overflow-x: hidden;
   margin: 0;
   font-family: Georgia, "Times New Roman", serif; /* fuente por defecto del sitio */
   background: #ffffff;           /* negro para que se note tu overlay */
