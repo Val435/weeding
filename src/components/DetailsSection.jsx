@@ -1,5 +1,8 @@
-import { useState, useEffect, useMemo } from "react";
+import "./Styles/DetailsSection.css";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { createTimeline, stagger } from "animejs";
 
+// Imágenes del carrusel
 import img1 from "../assets/1.png";
 import img2 from "../assets/2.png";
 import img3 from "../assets/3.png";
@@ -8,10 +11,14 @@ import img5 from "../assets/5.png";
 
 export default function DetailsSection({ countdown }) {
   const images = useMemo(() => [img1, img2, img3, img4, img5], []);
-
   const [steps, setSteps] = useState(0);
-  const theta = 360 / images.length;
-  const angle = -(steps * theta);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  const countdownRef = useRef(null);
+  const carouselRef = useRef(null);
+  const titleRef = useRef(null);
+  const block1Ref = useRef(null);
+  const block2Ref = useRef(null);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -20,103 +27,173 @@ export default function DetailsSection({ countdown }) {
     return () => clearInterval(id);
   }, []);
 
+  // Intersection Observer para animaciones al hacer scroll (optimizado móvil/desktop)
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+
+            // Timeline de animaciones
+            const timeline = createTimeline({
+              defaults: {
+                ease: "out(3)"
+              }
+            });
+
+            // Anima el countdown con efecto flip (más dramático en móvil)
+            timeline.add(countdownRef.current, {
+              opacity: [0, 1],
+              translateY: isMobile ? [-80, 0] : [-50, 0],
+              scale: isMobile ? [0.8, 1] : [1, 1],
+              duration: isMobile ? 1100 : 1000
+            }, 0);
+
+            // Anima cada número del countdown (más grande en móvil)
+            timeline.add(countdownRef.current?.querySelectorAll(".cd-value"), {
+              scale: isMobile ? [0, 1.1, 1] : [0, 1],
+              opacity: [0, 1],
+              rotate: isMobile ? [180, 0] : [0, 0],
+              duration: isMobile ? 700 : 600,
+              delay: stagger(isMobile ? 80 : 100),
+              ease: "out(3)"
+            }, 200);
+
+            // Anima el carousel con zoom dramático en móvil
+            timeline.add(carouselRef.current, {
+              opacity: [0, 1],
+              scale: isMobile ? [0.5, 1] : [0.8, 1],
+              rotate: isMobile ? [10, 0] : [0, 0],
+              duration: isMobile ? 1200 : 1000,
+              ease: "out(3)"
+            }, isMobile ? 500 : 600);
+
+            // Anima el título (más movimiento en móvil)
+            timeline.add(titleRef.current, {
+              opacity: [0, 1],
+              translateX: isMobile ? [-150, 0] : [-100, 0],
+              scale: isMobile ? [0.9, 1] : [1, 1],
+              duration: isMobile ? 900 : 800
+            }, 400);
+
+            // Anima los bloques de detalles (más separados en móvil)
+            timeline.add([block1Ref.current, block2Ref.current], {
+              opacity: [0, 1],
+              translateY: isMobile ? [80, 0] : [50, 0],
+              scale: isMobile ? [0.9, 1] : [1, 1],
+              duration: isMobile ? 900 : 800,
+              delay: stagger(isMobile ? 250 : 200)
+            }, 600);
+          }
+        });
+      },
+      { threshold: isMobile ? 0.1 : 0.2 }
+    );
+
+    if (countdownRef.current) {
+      observer.observe(countdownRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated]);
+
+  const theta = 360 / images.length;
+  const angle = -(steps * theta);
+
   return (
-    <div className="px-4 md:px-8 lg:px-16 max-w-7xl mx-auto overflow-x-hidden">
-      {/* Countdown */}
-      <div className="text-center text-black mt-10">
-        <div className="text-lg font-light">YA SOLO FALTAN</div>
-        <div className="grid grid-cols-4 justify-center items-start gap-x-4 mt-4">
-          <div className="relative px-2">
-            <div className="text-2xl md:text-3xl font-light">{countdown.days}</div>
-            <div className="text-xs md:text-sm uppercase font-medium">DÍAS</div>
-            <span className="absolute right-0 top-0 hidden md:inline">:</span>
+    <>
+      <div
+        ref={countdownRef}
+        className="hero__countdown"
+        role="timer"
+        aria-live="polite"
+        style={{ opacity: 0 }}
+      >
+        <div className="hero__countdown-title">YA SOLO FALTAN</div>
+
+        <div className="hero__countdown-grid">
+          <div className="cd-group">
+            <div className="cd-value">{countdown.days}</div>
+            <div className="cd-label">DÍAS</div>
           </div>
-          <div className="relative px-2">
-            <div className="text-2xl md:text-3xl font-light">{countdown.hours}</div>
-            <div className="text-xs md:text-sm uppercase font-medium">HORAS</div>
-            <span className="absolute right-0 top-0 hidden md:inline">:</span>
+          <div className="cd-group">
+            <div className="cd-value">{countdown.hours}</div>
+            <div className="cd-label">HORAS</div>
           </div>
-          <div className="relative px-2">
-            <div className="text-2xl md:text-3xl font-light">{countdown.minutes}</div>
-            <div className="text-xs md:text-sm uppercase font-medium">MINUTOS</div>
-            <span className="absolute right-0 top-0 hidden md:inline">:</span>
+          <div className="cd-group">
+            <div className="cd-value">{countdown.minutes}</div>
+            <div className="cd-label">MINUTOS</div>
           </div>
-          <div className="px-2">
-            <div className="text-2xl md:text-3xl font-light">{countdown.seconds}</div>
-            <div className="text-xs md:text-sm uppercase font-medium">SEGUNDOS</div>
+          <div className="cd-group">
+            <div className="cd-value">{countdown.seconds}</div>
+            <div className="cd-label">SEGUNDOS</div>
           </div>
         </div>
       </div>
 
-      <section id="detalle" className="mt-12">
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          {/* Carrusel con Tailwind */}
-          <div className="w-full overflow-visible">
+      <section id="detalle" className="details">
+        <div className="details__grid">
+          <div className="details__carousel-mask">
             <div
-              className="relative w-full h-[400px] md:h-[522px] perspective-[1000px]"
+              ref={carouselRef}
+              className="details__carousel"
               style={{
                 "--count": images.length,
                 "--theta": `${theta}deg`,
                 "--rot": `${angle}deg`,
+                opacity: 0
               }}
             >
-              <div className="absolute inset-0 transform-style-preserve-3d transition-transform duration-900 ease-[cubic-bezier(.2,.6,.2,1)]"
-                   style={{
-                     transform: `translateZ(calc(-1 * var(--radius))) rotateY(var(--rot))`,
-                     '--radius': 'clamp(250px, 65vw, 420px)'
-                   }}
-              >
+              <div className="box">
                 {images.map((src, i) => (
-                  <span
-                    key={i}
-                    style={{ "--i": i }}
-                    className="absolute inset-0 transform-style-preserve-3d
-                               transition-none"
-                  >
-                    <img
-                      src={src}
-                      alt={`slide ${i + 1}`}
-                      className="absolute inset-0 w-full h-full object-cover rounded-lg shadow-xl"
-                      style={{
-                        transform: `rotateY(calc(var(--i) * var(--theta))) translateZ(var(--radius)) scale(0.85)`
-                      }}
-                    />
+                  <span key={i} style={{ "--i": i }}>
+                    <img src={src} alt={`slide ${i + 1}`} />
                   </span>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Contenido derecho */}
-          <div className="flex flex-col justify-center text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl font-serif text-pink-600 mb-4">DETALLES DE NUESTRA BODA</h2>
+          <div className="details__content">
+            <h2 ref={titleRef} className="details__title" style={{ opacity: 0 }}>
+              DETALLES DE NUESTRA BODA
+            </h2>
 
-            <div className="mt-6">
-              <div className="mb-8">
-                <div className="text-lg font-semibold uppercase text-pink-600">Ceremonia religiosa</div>
-                <div className="text-xl font-semibold text-pink-700 my-1">2:00 PM</div>
-                <div className="uppercase">Parroquia San Benito</div>
-                <div className="mt-1 text-base">Iglesia La Capilla, Avenida La Capilla 711, San Salvador</div>
+            <div ref={block1Ref} className="details__block" style={{ opacity: 0 }}>
+              <div className="details__place">CEREMONIA RELIGIOSA</div>
+              <div className="details__time">7:00 PM</div>
+              <div className="details__venue">PARROQUIA SAN BENITO</div>
+              <div className="details__address">
+                Iglesia La Capilla, Avenida La Capilla 711, San Salvador
+              </div>
+              <div className="map-button">
                 <a
                   href="https://www.waze.com/live-map/directions/sv/san-salvador/san-salvador/iglesia-la-capilla?to=place.ChIJkVhGdyUwY48RuEP3VmAiOCo"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block mt-4 px-6 py-2 bg-pink-600 text-white rounded-lg shadow hover:bg-pink-700 transition"
+                  className="map-link"
                 >
                   WAZE
                 </a>
               </div>
+            </div>
 
-              <div>
-                <div className="text-lg font-semibold uppercase text-pink-600">Recepción</div>
-                <div className="text-xl font-semibold text-pink-700 my-1">4:00 PM</div>
-                <div className="uppercase">Il Buongustaio</div>
-                <div className="mt-1 text-base">Bulevar Del Hipodromo 605, San Salvador</div>
+            <div ref={block2Ref} className="details__block" style={{ opacity: 0 }}>
+              <div className="details__place">RECEPCIÓN</div>
+              <div className="details__time">8:00 PM</div>
+              <div className="details__venue">IL BUONGUSTAIO</div>
+              <div className="details__address">
+                Bulevar Del Hipodromo 605, San Salvador
+              </div>
+              <div className="map-button">
                 <a
                   href="https://www.waze.com/live-map/directions/sv/la-libertad-department/san-salvador/il-buongustaio?to=place.ChIJrXiJ9CgwY48R6YoBn-pWz_0"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block mt-4 px-6 py-2 bg-pink-600 text-white rounded-lg shadow hover:bg-pink-700 transition"
+                  className="map-link"
                 >
                   WAZE
                 </a>
@@ -125,6 +202,6 @@ export default function DetailsSection({ countdown }) {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }

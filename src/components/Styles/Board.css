@@ -6,7 +6,19 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: #fafafa;
+  background: linear-gradient(180deg, #faf9f7 0%, #f5f3f0 50%, #faf9f7 100%);
+  position: relative;
+}
+
+/* Patrón sutil de fondo */
+.boardPage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(211, 56, 0, 0.02) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(211, 56, 0, 0.02) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 /* Header con botón volver */
@@ -14,28 +26,61 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 24px;
-  background: #fff;
-  border-bottom: 1px solid #eee;
-  box-shadow: 0 2px 6px rgba(0,0,0,.05);
+  padding: 20px 32px;
+  background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0.98) 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 4px 16px rgba(0, 0, 0, 0.06);
+  position: relative;
+  z-index: 10;
 }
 
 .boardHeader h1 {
-  font-size: 20px;
-  color: #c7007b;
+  font-family: "Against", serif;
+  font-size: 28px;
+  color: #2c2c2c;
   margin: 0;
+  font-weight: 400;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
 
 .boardBackBtn {
-  background: none;
-  border: none;
-  font-size: 16px;
-  color: #c7007b;
+  background: transparent;
+  border: 2px solid #D33800;
+  border-radius: 10px;
+  padding: 10px 24px;
+  font-size: 14px;
+  color: #D33800;
   cursor: pointer;
   font-weight: 600;
-  transition: color .25s ease;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
-.boardBackBtn:hover { color: #a00063; }
+
+.boardBackBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #D33800;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.boardBackBtn:hover {
+  color: #ffffff;
+  transform: translateX(-2px);
+}
+
+.boardBackBtn:hover::before {
+  transform: scaleX(1);
+}
 
 /* Contenedor del tablero */
 .boardMain {
@@ -43,39 +88,100 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Contenedor del Pinterest board */
+.boardMain a[data-pin-do="embedBoard"] {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 4px;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .boardHeader h1 { font-size: 18px; }
-  .boardBackBtn { font-size: 15px; }
+  .boardHeader {
+    padding: 16px 20px;
+  }
+
+  .boardHeader h1 {
+    font-size: 20px;
+  }
+
+  .boardBackBtn {
+    font-size: 13px;
+    padding: 10px 20px;
+  }
+
+  .boardMain {
+    padding: 20px 16px;
+  }
+
+  .boardMain a[data-pin-do="embedBoard"] {
+    padding: 16px;
+  }
 }
 
 @media (max-width: 480px) {
   .boardHeader {
-    padding: 10px 16px;
+    padding: 14px 16px;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     text-align: center;
   }
-  .boardHeader h1 { font-size: 16px; }
-  .boardBackBtn { font-size: 14px; }
-  .boardMain { padding: 8px; }
+
+  .boardHeader h1 {
+    font-size: 18px;
+  }
+
+  .boardBackBtn {
+    font-size: 12px;
+    padding: 10px 24px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .boardMain {
+    padding: 16px 12px;
+  }
+
+  .boardMain a[data-pin-do="embedBoard"] {
+    padding: 12px;
+  }
 }
 
 @media (max-width: 360px) {
   .boardHeader {
-    padding: 8px 12px;
+    padding: 12px;
   }
-  .boardHeader h1 { font-size: 15px; }
-  .boardBackBtn { font-size: 13px; }
-  .boardMain { padding: 6px; }
+
+  .boardHeader h1 {
+    font-size: 16px;
+  }
+
+  .boardBackBtn {
+    font-size: 11px;
+    padding: 8px 20px;
+  }
+
+  .boardMain {
+    padding: 12px 8px;
+  }
+
+  .boardMain a[data-pin-do="embedBoard"] {
+    padding: 8px;
+  }
 }
 
 /* Responsive: ocupa ancho máximo, altura controlada */
 .boardMain a[data-pin-do="embedBoard"] {
   max-width: 1200px;
   width: 100%;
-  height: auto;         /* deja que Pinterest maneje el alto */
+  height: auto;
 }

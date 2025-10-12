@@ -1,5 +1,6 @@
 // src/sections/GiftsSection.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { animate, createTimeline, stagger } from "animejs";
 import "../components/Styles/Gifts.css";
 import simanImg from "../assets/siman.png";
 import porticoImg from "../assets/portico.png";
@@ -14,18 +15,74 @@ function Modal({
   children,
   actions = [],    // [{label, onClick, variant:'primary'|'ghost', href}]
 }) {
+  const backdropRef = useRef(null);
+  const cardRef = useRef(null);
+  const headerRef = useRef(null);
+  const bodyRef = useRef(null);
+  const footerRef = useRef(null);
+
   useEffect(() => {
     function onEsc(e) { if (e.key === "Escape") onClose?.(); }
     if (open) document.addEventListener("keydown", onEsc);
     return () => document.removeEventListener("keydown", onEsc);
   }, [open, onClose]);
 
+  // Animación de entrada del modal
+  useEffect(() => {
+    if (open && cardRef.current) {
+      const timeline = createTimeline({
+        defaults: {
+          ease: "out(3)"
+        }
+      });
+
+      // Anima el backdrop
+      timeline.add(backdropRef.current, {
+        opacity: [0, 1],
+        duration: 300
+      }, 0);
+
+      // Anima la card con efecto dramático
+      timeline.add(cardRef.current, {
+        opacity: [0, 1],
+        scale: [0.7, 1],
+        rotateX: [90, 0],
+        duration: 600,
+        ease: "out(4)"
+      }, 100);
+
+      // Anima el header
+      timeline.add(headerRef.current, {
+        opacity: [0, 1],
+        translateY: [-30, 0],
+        duration: 500
+      }, 400);
+
+      // Anima el body
+      timeline.add(bodyRef.current, {
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 500
+      }, 500);
+
+      // Anima el footer si existe
+      if (footerRef.current) {
+        timeline.add(footerRef.current?.querySelectorAll(".modalX__btn"), {
+          opacity: [0, 1],
+          scale: [0.8, 1],
+          duration: 400,
+          delay: stagger(100)
+        }, 600);
+      }
+    }
+  }, [open]);
+
   if (!open) return null;
   return (
-    <div className="modalX__backdrop" role="dialog" aria-modal="true" onClick={onClose}>
-      <div className="modalX__card" role="document" onClick={(e) => e.stopPropagation()}>
+    <div ref={backdropRef} className="modalX__backdrop" role="dialog" aria-modal="true" onClick={onClose} style={{ opacity: 0 }}>
+      <div ref={cardRef} className="modalX__card" role="document" onClick={(e) => e.stopPropagation()} style={{ opacity: 0 }}>
         <div className="modalX__glow" aria-hidden="true" />
-        <header className="modalX__header">
+        <header ref={headerRef} className="modalX__header" style={{ opacity: 0 }}>
           {logo && <img src={logo} alt="" className="modalX__logo" />}
           <div className="modalX__titles">
             <h3 className="modalX__title">{title}</h3>
@@ -33,9 +90,9 @@ function Modal({
           </div>
           <button className="modalX__close" onClick={onClose} aria-label="Cerrar">×</button>
         </header>
-        <div className="modalX__body">{children}</div>
+        <div ref={bodyRef} className="modalX__body" style={{ opacity: 0 }}>{children}</div>
         {actions.length > 0 && (
-          <footer className="modalX__footer">
+          <footer ref={footerRef} className="modalX__footer">
             {actions.map((a, i) =>
               a.href ? (
                 <a
@@ -44,6 +101,7 @@ function Modal({
                   href={a.href}
                   target="_blank"
                   rel="noreferrer"
+                  style={{ opacity: 0 }}
                 >
                   {a.label}
                 </a>
@@ -52,6 +110,7 @@ function Modal({
                   key={i}
                   className={`modalX__btn ${a.variant === "ghost" ? "is-ghost" : ""}`}
                   onClick={a.onClick}
+                  style={{ opacity: 0 }}
                 >
                   {a.label}
                 </button>
@@ -85,6 +144,12 @@ function CopyRow({ value, label }) {
 
 export default function GiftsSection() {
   const [openModal, setOpenModal] = useState(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  const titleRef = useRef(null);
+  const card1Ref = useRef(null);
+  const card2Ref = useRef(null);
+  const card3Ref = useRef(null);
 
   // Links reales / placeholders
   const SIMAN_URL = "https://simangiftregistry.web.app/table/10016317";
@@ -99,36 +164,186 @@ export default function GiftsSection() {
     reference: "Boda Pocasangre Portillo",
   };
 
+  // Intersection Observer para animaciones épicas optimizadas para móvil
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated) {
+            setHasAnimated(true);
+
+            const timeline = createTimeline({
+              defaults: {
+                ease: "out(4)"
+              }
+            });
+
+            // Anima el título con efecto de letras (más rápido en móvil)
+            const titleChars = titleRef.current.textContent.split('');
+            titleRef.current.innerHTML = titleChars.map(char =>
+              `<span class="char" style="display:inline-block;opacity:0">${char === ' ' ? '&nbsp;' : char}</span>`
+            ).join('');
+
+            timeline.add(titleRef.current.querySelectorAll('.char'), {
+              opacity: [0, 1],
+              translateY: isMobile ? [-30, 0] : [-50, 0],
+              rotateX: [90, 0],
+              duration: isMobile ? 600 : 800,
+              delay: stagger(isMobile ? 30 : 50),
+              ease: "out(3)"
+            }, 0);
+
+            // Anima las tarjetas con efectos 3D espectaculares (más dramáticas en móvil)
+            timeline.add(card1Ref.current, {
+              opacity: [0, 1],
+              translateY: isMobile ? [150, 0] : [100, 0],
+              rotateY: [-90, 0],
+              scale: [0.3, 1],
+              duration: isMobile ? 900 : 1000,
+              ease: "out(4)"
+            }, isMobile ? 300 : 400);
+
+            timeline.add(card2Ref.current, {
+              opacity: [0, 1],
+              translateY: isMobile ? [150, 0] : [100, 0],
+              rotateY: [90, 0],
+              scale: [0.3, 1],
+              duration: isMobile ? 900 : 1000,
+              ease: "out(4)"
+            }, isMobile ? 450 : 600);
+
+            timeline.add(card3Ref.current, {
+              opacity: [0, 1],
+              translateY: isMobile ? [150, 0] : [100, 0],
+              rotateX: [90, 0],
+              scale: [0.3, 1],
+              duration: isMobile ? 900 : 1000,
+              ease: "out(4)"
+            }, isMobile ? 600 : 800);
+
+            // Anima los logos con efecto de brillo y rotación dramática
+            timeline.add(card1Ref.current.querySelector('.gifts__logo'), {
+              opacity: [0, 1],
+              scale: [0.3, 1],
+              rotate: isMobile ? [360, 0] : [180, 0],
+              duration: isMobile ? 1000 : 800,
+              ease: "out(3)"
+            }, isMobile ? 800 : 1000);
+
+            timeline.add(card2Ref.current.querySelector('.gifts__logo'), {
+              opacity: [0, 1],
+              scale: [0.3, 1],
+              rotate: isMobile ? [-360, 0] : [-180, 0],
+              duration: isMobile ? 1000 : 800,
+              ease: "out(3)"
+            }, isMobile ? 900 : 1100);
+
+            // Anima los textos dentro de las tarjetas
+            [card1Ref, card2Ref, card3Ref].forEach((cardRef, index) => {
+              timeline.add(cardRef.current.querySelectorAll('.gifts__hl'), {
+                opacity: [0, 1],
+                translateX: isMobile ? [-50, 0] : [-30, 0],
+                duration: 500,
+                delay: stagger(100)
+              }, 1200 + (index * 100));
+
+              timeline.add(cardRef.current.querySelector('.gifts__button'), {
+                opacity: [0, 1],
+                scale: [0, 1],
+                duration: 700,
+                ease: "out(4)"
+              }, 1400 + (index * 100));
+            });
+
+            // Efectos continuos de hover/pulse en las tarjetas (más visibles en móvil)
+            setTimeout(() => {
+              [card1Ref, card2Ref, card3Ref].forEach((cardRef, index) => {
+                // Efecto de elevación sutil más pronunciado en móvil
+                animate(cardRef.current, {
+                  translateY: isMobile ? [-8, 0, -8] : [-5, 0, -5],
+                  duration: isMobile ? 2500 : 3000,
+                  delay: index * 400,
+                  loop: true,
+                  ease: "inOut(2)"
+                });
+
+                // Efecto de brillo en el logo más intenso
+                const logo = cardRef.current.querySelector('.gifts__logo');
+                if (logo) {
+                  animate(logo, {
+                    scale: [1, 1.05, 1],
+                    filter: [
+                      'drop-shadow(0 2px 8px rgba(0,0,0,0.08))',
+                      'brightness(1.1) drop-shadow(0 4px 20px rgba(211,56,0,0.3))',
+                      'drop-shadow(0 2px 8px rgba(0,0,0,0.08))'
+                    ],
+                    duration: isMobile ? 3000 : 4000,
+                    delay: index * 600,
+                    loop: true,
+                    ease: "inOut(2)"
+                  });
+                }
+
+                // Efecto de pulse en el botón más visible
+                animate(cardRef.current.querySelector('.gifts__button'), {
+                  scale: isMobile ? [1, 1.08, 1] : [1, 1.05, 1],
+                  boxShadow: [
+                    '0 4px 12px rgba(0,0,0,0.15)',
+                    '0 8px 28px rgba(0,0,0,0.25)',
+                    '0 4px 12px rgba(0,0,0,0.15)'
+                  ],
+                  duration: 2000,
+                  delay: index * 500,
+                  loop: true,
+                  ease: "inOut(2)"
+                });
+              });
+            }, 2000);
+          }
+        });
+      },
+      { threshold: isMobile ? 0.1 : 0.2 }
+    );
+
+    if (titleRef.current) {
+      observer.observe(titleRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated]);
+
   return (
     <section id="regalos" className="gifts">
       {/* Título superior */}
-      <h2 className="gifts__title">MUESTRA DE CARIÑO</h2>
+      <h2 ref={titleRef} className="gifts__title">MUESTRA DE CARIÑO</h2>
 
       <div className="gifts__stack">
         {/* SIMAN */}
-        <div className="gifts__card">
-          <img src={simanImg} alt="Siman" className="gifts__logo" />
-          <p className="gifts__hl">Pocasangre Portillo</p>
-          <p className="gifts__hl">10016317</p>
-          <button className="gifts__button" onClick={() => setOpenModal("siman")}>
+        <div ref={card1Ref} className="gifts__card" style={{ opacity: 0 }}>
+          <img src={simanImg} alt="Siman" className="gifts__logo" style={{ opacity: 0 }} />
+          <p className="gifts__hl" style={{ opacity: 0 }}>Pocasangre Portillo</p>
+          <p className="gifts__hl" style={{ opacity: 0 }}>10016317</p>
+          <button className="gifts__button" onClick={() => setOpenModal("siman")} style={{ opacity: 0 }}>
             VER MESA
           </button>
         </div>
 
         {/* PÓRTICO REAL */}
-        <div className="gifts__card">
-          <img src={porticoImg} alt="Pórtico Real" className="gifts__logo" />
-          <p className="gifts__hl">Boda Pocasangre Portillo</p>
-          <button className="gifts__button" onClick={() => setOpenModal("portico")}>
+        <div ref={card2Ref} className="gifts__card" style={{ opacity: 0 }}>
+          <img src={porticoImg} alt="Pórtico Real" className="gifts__logo" style={{ opacity: 0 }} />
+          <p className="gifts__hl" style={{ opacity: 0 }}>Boda Pocasangre Portillo</p>
+          <button className="gifts__button" onClick={() => setOpenModal("portico")} style={{ opacity: 0 }}>
             VER MESA
           </button>
         </div>
 
         {/* BANCO AGRÍCOLA */}
-        <div className="gifts__card gifts__card--bank">
-          <p className="gifts__hl">Banco Agrícola</p>
-          <p className="gifts__hl">n° de cuenta</p>
-          <button className="gifts__button" onClick={() => setOpenModal("bank")}>
+        <div ref={card3Ref} className="gifts__card gifts__card--bank" style={{ opacity: 0 }}>
+          <p className="gifts__hl" style={{ opacity: 0 }}>Banco Agrícola</p>
+          <p className="gifts__hl" style={{ opacity: 0 }}>n° de cuenta</p>
+          <button className="gifts__button" onClick={() => setOpenModal("bank")} style={{ opacity: 0 }}>
             Ver detalles
           </button>
         </div>

@@ -1,6 +1,7 @@
 import "./Styles/SelectPerson.css";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { animate, createTimeline, stagger } from "animejs";
 import { confirmGuest } from "../api";
 import { useGuest } from "../GuestContext";
 
@@ -18,8 +19,18 @@ export default function SelectPerson() {
   const { guest } = useGuest();
   const [responses, setResponses] = useState(new Map());
   const navigate = useNavigate();
-    const images = [img1, img2, img3, img4, img5];
+  const images = [img1, img2, img3, img4, img5];
   const [index, ] = useState(0);
+
+  const boxRef = useRef(null);
+  const line1Ref = useRef(null);
+  const line2Ref = useRef(null);
+  const line3Ref = useRef(null);
+  const leftDecorRef = useRef(null);
+  const rightDecorRef = useRef(null);
+  const listRef = useRef(null);
+  const footerRef = useRef(null);
+  const carouselRef = useRef(null);
 
   if (!guest) {
     return <p>No se encontró invitado. Volvé al inicio.</p>;
@@ -49,27 +60,130 @@ export default function SelectPerson() {
     navigate("/note");
   };
 
-  
+  // Animaciones épicas al montar
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+
+    const timeline = createTimeline({
+      defaults: {
+        ease: "out(3)"
+      }
+    });
+
+    // Anima el box principal
+    timeline.add(boxRef.current, {
+      opacity: [0, 1],
+      translateY: isMobile ? [100, 0] : [80, 0],
+      scale: isMobile ? [0.9, 1] : [0.95, 1],
+      duration: isMobile ? 1000 : 900
+    }, 0);
+
+    // Anima las líneas de texto con stagger
+    timeline.add([line1Ref.current, line2Ref.current, line3Ref.current], {
+      opacity: [0, 1],
+      translateX: isMobile ? [-60, 0] : [-40, 0],
+      duration: isMobile ? 700 : 600,
+      delay: stagger(isMobile ? 150 : 100)
+    }, 400);
+
+    // Anima las flores laterales
+    animate(leftDecorRef.current, {
+      opacity: [0, 1],
+      translateX: isMobile ? [-200, 0] : [-150, 0],
+      rotate: isMobile ? [-30, 0] : [-15, 0],
+      scale: isMobile ? [0.7, 1] : [0.8, 1],
+      duration: isMobile ? 1200 : 1000,
+      ease: "out(3)"
+    });
+
+    animate(rightDecorRef.current, {
+      opacity: [0, 1],
+      translateX: isMobile ? [200, 0] : [150, 0],
+      rotate: isMobile ? [30, 0] : [15, 0],
+      scale: isMobile ? [0.7, 1] : [0.8, 1],
+      duration: isMobile ? 1200 : 1000,
+      ease: "out(3)"
+    });
+
+    // Anima cada fila de la lista con stagger espectacular
+    timeline.add(listRef.current?.querySelectorAll(".selectRow"), {
+      opacity: [0, 1],
+      translateY: isMobile ? [60, 0] : [40, 0],
+      scale: isMobile ? [0.9, 1] : [0.95, 1],
+      duration: isMobile ? 700 : 600,
+      delay: stagger(isMobile ? 120 : 100)
+    }, 600);
+
+    // Anima el footer
+    timeline.add(footerRef.current, {
+      opacity: [0, 1],
+      translateY: isMobile ? [50, 0] : [30, 0],
+      duration: isMobile ? 800 : 700
+    }, 900);
+
+    // Anima el carousel de fotos
+    timeline.add(carouselRef.current, {
+      opacity: [0, 1],
+      scale: isMobile ? [0.8, 1] : [0.9, 1],
+      duration: isMobile ? 1000 : 800
+    }, 700);
+
+    // Efecto de pulse en el botón continuar (solo móvil)
+    if (isMobile) {
+      setTimeout(() => {
+        const btn = footerRef.current?.querySelector('.nextBtn');
+        if (btn && !btn.disabled) {
+          animate(btn, {
+            scale: [1, 1.05, 1],
+            boxShadow: [
+              '0 4px 12px rgba(0,0,0,0.15)',
+              '0 8px 24px rgba(0,0,0,0.25)',
+              '0 4px 12px rgba(0,0,0,0.15)'
+            ],
+            duration: 2000,
+            loop: true,
+            ease: "inOut(2)"
+          });
+        }
+      }, 2000);
+    }
+  }, []);
 
   return (
     <section className="select">
-      <div className="selectBox">
-        <p className="selectBox__line selectBox__line1--es">CONFIRMA TU ASISTENCIA</p>
-        <p className="selectBox__line selectBox__line--es">
+      <div ref={boxRef} className="selectBox" style={{ opacity: 0 }}>
+        <p ref={line1Ref} className="selectBox__line selectBox__line1--es" style={{ opacity: 0 }}>
+          CONFIRMA TU ASISTENCIA
+        </p>
+        <p ref={line2Ref} className="selectBox__line selectBox__line--es" style={{ opacity: 0 }}>
           <img src={calendarioSvg} alt="Calendario" className="selectBox__icon" />
           VIERNES 9 DE ENERO 2026, A LAS 7:00 P.M.
         </p>
-        <p className="selectBox__line selectBox__line--es">
+        <p ref={line3Ref} className="selectBox__line selectBox__line--es" style={{ opacity: 0 }}>
           <img src={etiquetaSvg} alt="Etiqueta" className="selectBox__icon" />
           ETIQUETA (BLACK TIE)
         </p>
 
         <hr className="selectBox__rule" />
-        <img src={florIzq} alt="" aria-hidden="true" className="vestimenta__decor2 vestimenta__decor--left2" />
-        <img src={florDer} alt="" aria-hidden="true" className="vestimenta__decor2 vestimenta__decor--right2" />
+        <img
+          ref={leftDecorRef}
+          src={florIzq}
+          alt=""
+          aria-hidden="true"
+          className="vestimenta__decor2 vestimenta__decor--left2"
+          style={{ opacity: 0 }}
+        />
+        <img
+          ref={rightDecorRef}
+          src={florDer}
+          alt=""
+          aria-hidden="true"
+          className="vestimenta__decor2 vestimenta__decor--right2"
+          style={{ opacity: 0 }}
+        />
 
         <div className="selectArea selectArea--perRowBtn">
-          <ul className="selectList">
+          <ul ref={listRef} className="selectList">
             {guest.map((g) => (
               <li key={g.id} className="selectRow">
                 <span className="selectRow__name">{g.fullName}</span>
@@ -99,7 +213,7 @@ export default function SelectPerson() {
         <hr className="selectBox__rule" />
       </div>
 
-      <div className="selectFooter">
+      <div ref={footerRef} className="selectFooter" style={{ opacity: 0 }}>
         <span className="selectFooter__count"></span>
         <button
           className="nextBtn"
@@ -116,7 +230,7 @@ export default function SelectPerson() {
         </button>
       </div>
 
-      <div className="select__carousel" role="region" aria-label="Galería">
+      <div ref={carouselRef} className="select__carousel" role="region" aria-label="Galería" style={{ opacity: 0 }}>
         {images.map((src, i) => (
           <img
             key={i}

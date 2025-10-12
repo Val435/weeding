@@ -10,6 +10,8 @@
   background-size: cover;
   background-repeat: no-repeat;
   overflow: hidden; /* evita que sobresalgan las flores */
+
+   backdrop-filter: blur(2px);  /* efecto glassmorphism sutil */
 }
 
 /* Overlay */
@@ -47,10 +49,8 @@
   position: relative;
   z-index: 2;  /* por encima de las flores para garantizar legibilidad */
   padding: 56px 20px;
-  width: min(90vw, 1100px);  /* ancho normal */
-  background: rgba(255, 255, 255, 0.1);  /* fondo sutil para separar del overlay */
-  border-radius: 20px;
-  backdrop-filter: blur(2px);  /* efecto glassmorphism sutil */
+  
+
 }
 
 /* Nombres grandes */
