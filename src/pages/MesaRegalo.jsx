@@ -255,50 +255,6 @@ export default function GiftsSection() {
               }, 1400 + (index * 100));
             });
 
-            // Efectos continuos de hover/pulse en las tarjetas (más visibles en móvil)
-            setTimeout(() => {
-              [card1Ref, card2Ref, card3Ref].forEach((cardRef, index) => {
-                // Efecto de elevación sutil más pronunciado en móvil
-                animate(cardRef.current, {
-                  translateY: isMobile ? [-8, 0, -8] : [-5, 0, -5],
-                  duration: isMobile ? 2500 : 3000,
-                  delay: index * 400,
-                  loop: true,
-                  ease: "inOut(2)"
-                });
-
-                // Efecto de brillo en el logo más intenso
-                const logo = cardRef.current.querySelector('.gifts__logo');
-                if (logo) {
-                  animate(logo, {
-                    scale: [1, 1.05, 1],
-                    filter: [
-                      'drop-shadow(0 2px 8px rgba(0,0,0,0.08))',
-                      'brightness(1.1) drop-shadow(0 4px 20px rgba(211,56,0,0.3))',
-                      'drop-shadow(0 2px 8px rgba(0,0,0,0.08))'
-                    ],
-                    duration: isMobile ? 3000 : 4000,
-                    delay: index * 600,
-                    loop: true,
-                    ease: "inOut(2)"
-                  });
-                }
-
-                // Efecto de pulse en el botón más visible
-                animate(cardRef.current.querySelector('.gifts__button'), {
-                  scale: isMobile ? [1, 1.08, 1] : [1, 1.05, 1],
-                  boxShadow: [
-                    '0 4px 12px rgba(0,0,0,0.15)',
-                    '0 8px 28px rgba(0,0,0,0.25)',
-                    '0 4px 12px rgba(0,0,0,0.15)'
-                  ],
-                  duration: 2000,
-                  delay: index * 500,
-                  loop: true,
-                  ease: "inOut(2)"
-                });
-              });
-            }, 2000);
           }
         });
       },

@@ -71,15 +71,33 @@
 }
 /* (si quieres, agrega Medium=500, Demi=600, etc. igual que arriba) */
 
-* { box-sizing: border-box; }
-html, body, #root { height: 100%; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
+}
+
 body {
-   overflow-x: hidden;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
   margin: 0;
   font-family: Georgia, "Times New Roman", serif; /* fuente por defecto del sitio */
   background: #ffffff;           /* negro para que se note tu overlay */
   color: #000000;                /* texto blanco por defecto */
   padding-top: var(--nav-h);
+}
+
+#root {
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 /* enlaces y botones sin estilos del template */

@@ -26,10 +26,11 @@
 /* Decoraciones laterales */
 .hero__decor {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: clamp(350px, 30vw, 420px);  /* tamaño completo */
-  height: auto;
+  top: 0;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  object-position: top;
   pointer-events: none;    /* no interfiere con clicks */
   z-index: 1;              /* por encima del overlay, debajo del contenido */
   opacity: 1;              /* opacidad completa */
@@ -37,11 +38,11 @@
 }
 
 .hero__decor--left {
-  left: -2vw;              /* posición original */
+  left: 0vw;
 }
 
 .hero__decor--right {
-  right: -2vw;             /* posición original */
+  right: 0vw;
 }
 
 /* Contenido por encima del overlay */
@@ -49,8 +50,6 @@
   position: relative;
   z-index: 2;  /* por encima de las flores para garantizar legibilidad */
   padding: 56px 20px;
-  
-
 }
 
 /* Nombres grandes */
@@ -124,44 +123,25 @@
 
 /* Responsive - Mantén las flores grandes, contenido siempre legible */
 @media (max-width: 768px) {
-  .hero__decor {
-    width: clamp(280px, 35vw, 350px);
-    top: 45%;
-  }
   .hero__decor--left {
-    left: -5vw;
+    left: 0;
   }
   .hero__decor--right {
-    right: -5vw;
+    right: 0;
   }
   .hero__inner {
     padding: 40px 16px;
-    background: rgba(255, 255, 255, 0.15);  /* fondo más visible en móviles */
-    backdrop-filter: blur(4px);
   }
 }
 
 @media (max-width: 480px) {
-  .hero__decor {
-    width: clamp(220px, 40vw, 280px);
-    top: 40%;
-  }
   .hero__decor--left {
-    left: -8vw;
+    left: 0;
   }
   .hero__decor--right {
-    right: -8vw;
+    right: 0;
   }
   .hero__inner {
     padding: 32px 12px;
-    background: rgba(255, 255, 255, 0.2);  /* fondo aún más visible */
-    backdrop-filter: blur(6px);
-  }
-}
-
-/* Very large screens */
-@media (min-width: 1400px) {
-  .hero__decor {
-    width: clamp(420px, 32vw, 500px);  /* flores más grandes en pantallas grandes */
   }
 }

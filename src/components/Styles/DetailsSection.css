@@ -85,8 +85,9 @@
 .details__content { display: flex; flex-direction: column; justify-content: center; height: 100%; }
 .details__title { color: #c7007b; text-align: center; font-family: "Against", serif; font-size: 36px; font-weight: 400; margin: 0 0 12px 0; }
 .details__block { color: #000; text-align: center; font-family: "Futura PT","Futura","Trebuchet MS", Arial, sans-serif; font-size: 20px; font-weight: 400; line-height: normal; margin-top: 28px; }
-.details__time { color:#A30052; font-weight:600; letter-spacing:.02em; margin-bottom:8px; }
-.details__place { color:#A30052; text-transform:uppercase; margin-bottom:2px; font-weight: 400; font-size: 20px; font-family: "Against", serif; }
+.details__time { color:#A30052; font-weight:400; letter-spacing:.02em; margin-bottom:8px; }
+.details__place { color:#A30052; text-transform:uppercase; margin-bottom:2px; font-weight: 600; font-size: 20px; font-family: "Against", serif; }
+.no-bold { font-weight:400; }
 .details__venue { text-transform:uppercase; margin-bottom:6px; }
 .details__address { font-size:18px; line-height:1.35; }
 

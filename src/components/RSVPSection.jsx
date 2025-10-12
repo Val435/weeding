@@ -150,39 +150,6 @@ export default function RSVPSection() {
               });
             }
 
-            // Efecto hover continuo en el card (más pronunciado en móvil)
-            animate(cardRef.current, {
-              boxShadow: isMobile
-                ? [
-                    "0 10px 30px rgba(0,0,0,0.1)",
-                    "0 20px 50px rgba(0,0,0,0.2)",
-                    "0 10px 30px rgba(0,0,0,0.1)"
-                  ]
-                : [
-                    "0 10px 30px rgba(0,0,0,0.1)",
-                    "0 15px 40px rgba(0,0,0,0.15)",
-                    "0 10px 30px rgba(0,0,0,0.1)"
-                  ],
-              duration: isMobile ? 1800 : 2000,
-              delay: 1500,
-              loop: true,
-              ease: "inOut(2)"
-            });
-
-            // Efecto de pulse en el botón principal (solo móvil)
-            if (isMobile) {
-              setTimeout(() => {
-                const primaryBtn = actionsRef.current?.querySelector(".rsvp__btn--primary");
-                if (primaryBtn) {
-                  animate(primaryBtn, {
-                    scale: [1, 1.05, 1],
-                    duration: 2000,
-                    loop: true,
-                    ease: "inOut(2)"
-                  });
-                }
-              }, 2000);
-            }
           }
         });
       },

@@ -130,7 +130,7 @@ export default function AllSet() {
           </div>
           <div className="giftLink" style={{ opacity: 0 }}>
             <img src={porticoImg} alt="Pórtico Real" />
-            <a href={PORTICO_URL} target="_blank" rel="noreferrer">Mesa Pórtico</a>
+            <a href={PORTICO_URL} target="_blank" rel="noreferrer">Mesa P<span className="no-bold">ó</span>rtico</a>
           </div>
         </div>
 

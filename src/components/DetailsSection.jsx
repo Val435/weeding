@@ -182,7 +182,7 @@ export default function DetailsSection({ countdown }) {
             </div>
 
             <div ref={block2Ref} className="details__block" style={{ opacity: 0 }}>
-              <div className="details__place">RECEPCIÓN</div>
+              <div className="details__place">RECEPC<span className="no-bold">I</span>ÓN</div>
               <div className="details__time">8:00 PM</div>
               <div className="details__venue">IL BUONGUSTAIO</div>
               <div className="details__address">

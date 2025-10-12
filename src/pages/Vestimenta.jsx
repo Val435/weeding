@@ -11,6 +11,7 @@ export default function Vestimenta() {
 
   const leftDecorRef = useRef(null);
   const rightDecorRef = useRef(null);
+  const cardRef = useRef(null);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
   const textRef = useRef(null);
@@ -31,6 +32,15 @@ export default function Vestimenta() {
                 ease: "out(3)"
               }
             });
+
+            // Anima el card con efecto de elevación
+            timeline.add(cardRef.current, {
+              opacity: [0, 1],
+              translateY: isMobile ? [150, 0] : [100, 0],
+              scale: isMobile ? [0.7, 1] : [0.9, 1],
+              duration: isMobile ? 1400 : 1200,
+              ease: "out(3)"
+            }, 0);
 
             // Anima las flores laterales con rotación dramática
             animate(leftDecorRef.current, {
@@ -88,35 +98,14 @@ export default function Vestimenta() {
               duration: isMobile ? 800 : 700,
               ease: "out(4)"
             }, isMobile ? 1000 : 1100);
-
-            // Efecto de pulse continuo en el botón (más visible en móvil)
-            setTimeout(() => {
-              animate(btnRef.current, {
-                scale: isMobile ? [1, 1.08, 1] : [1, 1.05, 1],
-                boxShadow: isMobile
-                  ? [
-                      '0 6px 16px rgba(199, 0, 123, .3)',
-                      '0 12px 32px rgba(199, 0, 123, .5)',
-                      '0 6px 16px rgba(199, 0, 123, .3)'
-                    ]
-                  : [
-                      '0 6px 16px rgba(199, 0, 123, .3)',
-                      '0 10px 24px rgba(199, 0, 123, .4)',
-                      '0 6px 16px rgba(199, 0, 123, .3)'
-                    ],
-                duration: 2000,
-                loop: true,
-                ease: "inOut(2)"
-              });
-            }, 2000);
           }
         });
       },
       { threshold: isMobile ? 0.2 : 0.3 }
     );
 
-    if (titleRef.current) {
-      observer.observe(titleRef.current);
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
     }
 
     return () => observer.disconnect();
@@ -141,28 +130,30 @@ export default function Vestimenta() {
         style={{ opacity: 0 }}
       />
 
-      <div className="vestimenta__inner">
-        <h2 ref={titleRef} className="vestimenta__title" style={{ opacity: 0 }}>
-          VESTIMENTA
-        </h2>
-        <p ref={subtitleRef} className="vestimenta__subtitle" style={{ opacity: 0 }}>
-          <strong>ETIQUETA (BLACK TIE)</strong><br />
+      <div ref={cardRef} className="vestimenta__card" style={{ opacity: 0 }}>
+        <div className="vestimenta__inner">
+          <h2 ref={titleRef} className="vestimenta__title" style={{ opacity: 0 }}>
+            VESTIMENTA
+          </h2>
+          <p ref={subtitleRef} className="vestimenta__subtitle" style={{ opacity: 0 }}>
+            ETIQUETA (BLACK TIE)<br />
 
-        </p>
-        <p ref={textRef} className="vestimenta__text" style={{ opacity: 0 }}>
-          INVITADAS: AGRADECEMOS EVITAR VESTIDOS<br /> COLOR NEGRO
-          <br />
-           <br />
-          PARA INSPIRARSE, LES DEJAMOS<br />ALGUNAS OPCIONES AQUÍ:
-        </p>
-        <button
-          ref={btnRef}
-          className="vestimenta__btn"
-          onClick={() => navigate("/board")}
-          style={{ opacity: 0 }}
-        >
-          IDEAS DE VESTIMENTA
-        </button>
+          </p>
+          <p ref={textRef} className="vestimenta__text" style={{ opacity: 0 }}>
+            INVITADAS: AGRADECEMOS EVITAR VESTIDOS<br /> COLOR NEGRO
+            <br />
+             <br />
+            PARA INSPIRARSE, LES DEJAMOS<br />ALGUNAS OPCIONES AQUÍ:
+          </p>
+          <button
+            ref={btnRef}
+            className="vestimenta__btn"
+            onClick={() => navigate("/board")}
+            style={{ opacity: 0 }}
+          >
+            IDEAS DE VESTIMENTA
+          </button>
+        </div>
       </div>
     </section>
   );
