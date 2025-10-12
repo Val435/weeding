@@ -30,9 +30,12 @@
 ================================ */
 .select{
   background:#fff;
-  display:grid;
-  place-items:center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
+  min-height: 100vh;
+  padding: 40px var(--page-side-px) 60px;
 }
 
 .selectBox{
@@ -41,6 +44,7 @@
   padding:16px 20px 22px;
   color:var(--sp-blue);
   font-family: var(--font-serif);
+  position: relative;
 }
 
 /* ================================
@@ -305,12 +309,11 @@
 
 .vestimenta__decor2 {
   position: absolute;
-  top: 0;
+  top: var(--nav-h, 50px);
   width: auto;
-  height: 118%;
-  object-fit: contain;               /* show whole image, no crop */
+  height: calc(100vh - var(--nav-h, 50px));
+  object-fit: contain;
   pointer-events: none;
-  transform: translateY(calc(-1 * var(--nav-h, 0px) - 40px)); /* keeps them out of the fixed nav */
   z-index: 0;
 }
 

@@ -32,8 +32,27 @@ export default function SelectPerson() {
   const footerRef = useRef(null);
   const carouselRef = useRef(null);
 
-  if (!guest) {
-    return <p>No se encontró invitado. Volvé al inicio.</p>;
+  if (!guest || guest.length === 0) {
+    return (
+      <section className="select">
+        <div className="selectBox" style={{ textAlign: 'center', padding: '60px 20px' }}>
+          <h3 className="selectBox__line1--es" style={{ marginBottom: '20px' }}>
+            NO SE ENCONTRÓ INVITACIÓN
+          </h3>
+          <p className="selectBox__line--es" style={{ marginBottom: '30px' }}>
+            Por favor, vuelve al inicio y busca tu invitación nuevamente.
+          </p>
+          <button
+            className="nextBtn"
+            type="button"
+            onClick={() => navigate("/")}
+            style={{ margin: '0 auto' }}
+          >
+            VOLVER AL INICIO
+          </button>
+        </div>
+      </section>
+    );
   }
 
   const setResponse = (id, willAttend) => {
@@ -151,6 +170,23 @@ export default function SelectPerson() {
 
   return (
     <section className="select">
+      <img
+        ref={leftDecorRef}
+        src={florIzq}
+        alt=""
+        aria-hidden="true"
+        className="vestimenta__decor2 vestimenta__decor--left2"
+        style={{ opacity: 0 }}
+      />
+      <img
+        ref={rightDecorRef}
+        src={florDer}
+        alt=""
+        aria-hidden="true"
+        className="vestimenta__decor2 vestimenta__decor--right2"
+        style={{ opacity: 0 }}
+      />
+
       <div ref={boxRef} className="selectBox" style={{ opacity: 0 }}>
         <p ref={line1Ref} className="selectBox__line selectBox__line1--es" style={{ opacity: 0 }}>
           CONFIRMA TU ASISTENCIA
@@ -165,22 +201,6 @@ export default function SelectPerson() {
         </p>
 
         <hr className="selectBox__rule" />
-        <img
-          ref={leftDecorRef}
-          src={florIzq}
-          alt=""
-          aria-hidden="true"
-          className="vestimenta__decor2 vestimenta__decor--left2"
-          style={{ opacity: 0 }}
-        />
-        <img
-          ref={rightDecorRef}
-          src={florDer}
-          alt=""
-          aria-hidden="true"
-          className="vestimenta__decor2 vestimenta__decor--right2"
-          style={{ opacity: 0 }}
-        />
 
         <div className="selectArea selectArea--perRowBtn">
           <ul ref={listRef} className="selectList">

@@ -125,12 +125,11 @@
 }
 .vestimenta__decor1 {
   position: absolute;
-  top: 0;
+  top: var(--nav-h, 120px);
   width: auto;
-  height: 118%;
+  height: calc(100vh - var(--nav-h, 120px));
   object-fit: contain;
   pointer-events: none;
-  transform: translateY(calc(-1 * var(--nav-h, 0px) - 24px));
   z-index: 0;
 }
 

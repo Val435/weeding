@@ -6,10 +6,14 @@ import florIzq from "../assets/florIzq1.png";
 import florDer from "../assets/florDer1.png";
 import { fetchGuests } from "../api";
 import { useGuest } from "../GuestContext";
+import Loading from "./Loading";
+import ErrorModal from "./ErrorModal";
 
 export default function RSVPSection() {
   const [fullName, setFullName] = useState("");
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const showDecor = pathname !== "/";
@@ -26,14 +30,37 @@ export default function RSVPSection() {
 
   const handleFind = async () => {
     if (!fullName.trim()) return;
-    const guests = await fetchGuests(fullName);
 
-    if (guests.length > 0) {
-      setGuest(guests); // 👈 guardamos el array completo en contexto
-      navigate("/select");
-    } else {
-      alert("No se encontraron invitados con ese nombre.");
+    setIsLoading(true);
+    const startTime = Date.now();
+
+    try {
+      const guests = await fetchGuests(fullName);
+
+      // Calcular tiempo transcurrido
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 2000 - elapsedTime);
+
+      // Esperar el tiempo restante para completar mínimo 2 segundos
+      await new Promise(resolve => setTimeout(resolve, remainingTime));
+
+      setIsLoading(false);
+
+      if (guests.length > 0) {
+        setGuest(guests);
+        navigate("/select");
+      } else {
+        setShowError(true);
+      }
+    } catch (error) {
+      console.error("Error fetching guests:", error);
+      setIsLoading(false);
+      setShowError(true);
     }
+  };
+
+  const handleCloseError = () => {
+    setShowError(false);
   };
 
   const handleCancel = () => {
@@ -170,10 +197,13 @@ export default function RSVPSection() {
   }, [hasAnimated, showDecor]);
 
   return (
-    <section
-      id="rsvp"
-      className={`rsvp ${pathname !== "/" ? "rsvp--center" : ""}`}
-    >
+    <>
+      {isLoading && <Loading />}
+      {showError && <ErrorModal onClose={handleCloseError} />}
+      <section
+        id="rsvp"
+        className={`rsvp ${pathname !== "/" ? "rsvp--center" : ""}`}
+      >
       {showDecor && (
         <>
           <img
@@ -246,5 +276,6 @@ export default function RSVPSection() {
         </div>
       </div>
     </section>
+    </>
   );
 }

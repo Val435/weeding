@@ -1,6 +1,7 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import NavBar from "./components/NavBar";
+import ScrollToTop from "./components/ScrollToTop";
 import { useCountdown } from "./utils/useCountdown";
 import { appRoutes } from "./routes";
 
@@ -14,6 +15,7 @@ export default function App() {
 
   return (
     <>
+      <ScrollToTop />
       <NavBar />
       <Routes>
         {appRoutes(eventDate, countdown, goToRSVP).map(({ path, element }) => (

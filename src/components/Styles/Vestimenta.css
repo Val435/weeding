@@ -32,9 +32,8 @@
 /* Decoraciones laterales */
 .vestimenta__decor {
   position: absolute;
-  top: 40%;
-  transform: translateY(-50%);
-  height: 100%;
+  top: var(--nav-h, 50px);
+  height: calc(100vh - var(--nav-h, 50px));
   width: auto;
   object-fit: contain;
   pointer-events: none;

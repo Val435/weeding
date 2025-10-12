@@ -1,0 +1,306 @@
+/* ================================
+   ERROR MODAL
+================================ */
+.errorModal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.errorModal__card {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  border-radius: 20px;
+  padding: 40px 32px;
+  max-width: 560px;
+  width: 100%;
+  box-shadow:
+    0 10px 40px rgba(211, 56, 0, 0.15),
+    0 30px 80px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border: 2px solid rgba(211, 56, 0, 0.1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Icono de error */
+.errorModal__icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+  animation: iconPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.2s backwards;
+}
+
+@keyframes iconPop {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.errorModal__icon svg {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Título */
+.errorModal__title {
+  font-family: 'Against-Regular', 'against', serif;
+  font-size: 32px;
+  color: #D33800;
+  text-align: center;
+  margin: 0 0 16px;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+}
+
+/* Mensaje principal */
+.errorModal__message {
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+  margin: 0 0 28px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* Sugerencias */
+.errorModal__suggestions {
+  background: linear-gradient(135deg, #fff5f0 0%, #fff8f5 100%);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(211, 56, 0, 0.1);
+}
+
+.errorModal__subtitle {
+  font-family: 'Futura PT', 'Futura', sans-serif;
+  font-size: 16px;
+  color: #D33800;
+  margin: 0 0 16px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.errorModal__list {
+  margin: 0;
+  padding-left: 20px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.errorModal__list li {
+  position: relative;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.5;
+  padding-left: 8px;
+}
+
+.errorModal__list li::before {
+  content: '•';
+  position: absolute;
+  left: -12px;
+  color: #D33800;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Contacto */
+.errorModal__contact {
+  background: #ffffff;
+  border: 2px solid rgba(211, 56, 0, 0.15);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.errorModal__contact p {
+  margin: 0;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.errorModal__contact strong {
+  color: #D33800;
+  font-weight: 600;
+}
+
+/* Botón */
+.errorModal__btn {
+  width: 100%;
+  background: #D33800;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-family: 'Futura PT', 'Futura', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 4px 12px rgba(211, 56, 0, 0.3),
+    0 8px 24px rgba(211, 56, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.errorModal__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.errorModal__btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 24px rgba(211, 56, 0, 0.4),
+    0 12px 36px rgba(211, 56, 0, 0.2);
+}
+
+.errorModal__btn:hover::before {
+  opacity: 1;
+}
+
+.errorModal__btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .errorModal__card {
+    padding: 32px 24px;
+  }
+
+  .errorModal__title {
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+
+  .errorModal__message {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  .errorModal__suggestions {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .errorModal__subtitle {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  .errorModal__list {
+    gap: 10px;
+  }
+
+  .errorModal__list li {
+    font-size: 14px;
+  }
+
+  .errorModal__contact {
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .errorModal__contact p {
+    font-size: 14px;
+  }
+
+  .errorModal__btn {
+    padding: 14px 28px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .errorModal__backdrop {
+    padding: 16px;
+  }
+
+  .errorModal__card {
+    padding: 28px 20px;
+  }
+
+  .errorModal__icon svg {
+    width: 56px;
+    height: 56px;
+  }
+
+  .errorModal__title {
+    font-size: 24px;
+  }
+
+  .errorModal__message {
+    font-size: 15px;
+  }
+
+  .errorModal__suggestions {
+    padding: 16px;
+  }
+
+  .errorModal__subtitle {
+    font-size: 14px;
+  }
+
+  .errorModal__list li {
+    font-size: 13px;
+  }
+
+  .errorModal__contact p {
+    font-size: 13px;
+  }
+}
