@@ -6,14 +6,13 @@
 /* Sección principal: respeta navbar y footer, sin alargar la página */
 .vestimenta {
   position: relative;
-  min-height: calc(100vh - var(--nav-h) - var(--footer-h));
+  min-height: calc(100vh - var(--nav-h));
   padding-top: var(--nav-h);
-  padding-bottom: var(--footer-h);
+  padding-bottom: 0;
   overflow: hidden;
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   text-align: center;
   background: linear-gradient(180deg, #faf9f7 0%, #f5f3f0 50%, #faf9f7 100%);
 }
@@ -31,9 +30,9 @@
 
 /* Decoraciones laterales */
 .vestimenta__decor {
-  position: absolute;
-  top: var(--nav-h, 50px);
-  height: calc(100vh - var(--nav-h, 50px));
+  position: fixed;
+  top: 50px;
+  height: calc(100vh - 50px);
   width: auto;
   object-fit: contain;
   pointer-events: none;

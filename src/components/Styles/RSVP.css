@@ -1,5 +1,5 @@
 :root {
-  --nav-h: 120px;
+  --nav-h: 50px;
 
   --accent: #C7007B;
   --accent-dark: #D33800;
@@ -124,10 +124,10 @@
   font-size:14px; padding:0 18px;
 }
 .vestimenta__decor1 {
-  position: absolute;
-  top: var(--nav-h, 120px);
+  position: fixed;
+  top: 50px;
   width: auto;
-  height: calc(100vh - var(--nav-h, 120px));
+  height: calc(100vh - 50px);
   object-fit: contain;
   pointer-events: none;
   z-index: 0;

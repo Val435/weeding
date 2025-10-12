@@ -146,26 +146,6 @@ export default function SelectPerson() {
       scale: isMobile ? [0.8, 1] : [0.9, 1],
       duration: isMobile ? 1000 : 800
     }, 700);
-
-    // Efecto de pulse en el botón continuar (solo móvil)
-    if (isMobile) {
-      setTimeout(() => {
-        const btn = footerRef.current?.querySelector('.nextBtn');
-        if (btn && !btn.disabled) {
-          animate(btn, {
-            scale: [1, 1.05, 1],
-            boxShadow: [
-              '0 4px 12px rgba(0,0,0,0.15)',
-              '0 8px 24px rgba(0,0,0,0.25)',
-              '0 4px 12px rgba(0,0,0,0.15)'
-            ],
-            duration: 2000,
-            loop: true,
-            ease: "inOut(2)"
-          });
-        }
-      }, 2000);
-    }
   }, []);
 
   return (

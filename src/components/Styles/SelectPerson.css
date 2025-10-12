@@ -249,17 +249,115 @@
 /* ================================
    RESPONSIVE
 ================================ */
+@media (max-width:768px){
+  .select {
+    padding: 30px 14px 50px;
+  }
+  .selectBox {
+    padding: 14px 18px 20px;
+  }
+  .selectBox__line1--es {
+    font-size: 32px;
+  }
+  .selectBox__icon {
+    width: 38px;
+    height: 32px;
+  }
+  .select__carousel {
+    height: 420px;
+    margin-top: 24px;
+  }
+}
+
 @media (max-width:560px){
-  .selectRow{ flex-wrap: wrap; }
-  .selectRow__btn{ width: 100%; }
-  .selectFooter{ flex-direction: column; align-items: stretch; }
-  .nextBtn{ width: 100%; }
+  .select {
+    padding: 24px 12px 40px;
+  }
+  .selectBox {
+    padding: 12px 16px 18px;
+  }
+  .selectBox__line1--es {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+  .selectBox__line--es {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .selectBox__icon {
+    width: 34px;
+    height: 28px;
+    margin-right: 6px;
+  }
+  .selectRow {
+    flex-wrap: wrap;
+    padding: 12px 0;
+  }
+  .selectRow__name {
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .selectRow__buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .selectRow__btn{
+    width: 100%;
+    min-width: unset;
+    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+  .selectFooter{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .nextBtn{
+    width: 100%;
+    height: 64px;
+    font-size: 13px;
+  }
+  .select__carousel {
+    height: 380px;
+    margin-top: 20px;
+  }
 }
 
 /* Phones narrower */
 @media (max-width:400px){
-  .selectBox{ padding: 12px 14px 18px; }
-  .selectRow{ gap: 8px; }
+  .select {
+    padding: 20px 10px 32px;
+  }
+  .selectBox {
+    padding: 10px 14px 16px;
+  }
+  .selectBox__line1--es {
+    font-size: 24px;
+  }
+  .selectBox__line--es {
+    font-size: 13px;
+  }
+  .selectRow {
+    gap: 8px;
+    padding: 10px 0;
+  }
+  .selectRow__name {
+    font-size: 13px;
+  }
+  .selectRow__btn {
+    font-size: 12px;
+    padding: 9px 10px;
+  }
+  .nextBtn {
+    height: 56px;
+    font-size: 12px;
+  }
+  .select__carousel {
+    height: 340px;
+  }
 }
 
 /* === Carrusel debajo de Select === */
@@ -308,10 +406,10 @@
 }
 
 .vestimenta__decor2 {
-  position: absolute;
-  top: var(--nav-h, 50px);
+  position: fixed;
+  top: 50px;
   width: auto;
-  height: calc(100vh - var(--nav-h, 50px));
+  height: calc(100vh - 50px);
   object-fit: contain;
   pointer-events: none;
   z-index: 0;

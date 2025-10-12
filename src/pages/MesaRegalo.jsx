@@ -223,20 +223,18 @@ export default function GiftsSection() {
               ease: "out(4)"
             }, isMobile ? 600 : 800);
 
-            // Anima los logos con efecto de brillo y rotación dramática
+            // Anima los logos con efecto de fade in
             timeline.add(card1Ref.current.querySelector('.gifts__logo'), {
               opacity: [0, 1],
-              scale: [0.3, 1],
-              rotate: isMobile ? [360, 0] : [180, 0],
-              duration: isMobile ? 1000 : 800,
+              scale: [0.8, 1],
+              duration: isMobile ? 800 : 700,
               ease: "out(3)"
             }, isMobile ? 800 : 1000);
 
             timeline.add(card2Ref.current.querySelector('.gifts__logo'), {
               opacity: [0, 1],
-              scale: [0.3, 1],
-              rotate: isMobile ? [-360, 0] : [-180, 0],
-              duration: isMobile ? 1000 : 800,
+              scale: [0.8, 1],
+              duration: isMobile ? 800 : 700,
               ease: "out(3)"
             }, isMobile ? 900 : 1100);
 

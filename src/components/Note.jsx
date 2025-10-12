@@ -98,20 +98,6 @@ export default function Note({ maxLength = 280 }) {
       delay: stagger(isMobile ? 150 : 120),
       ease: "out(2)"
     }, isMobile ? 1200 : 1100);
-
-    // Continuous pulse on buttons for mobile
-    if (isMobile) {
-      const pulseButtons = () => {
-        animate(footerRef.current?.querySelectorAll('.noteBtn'), {
-          scale: [1, 1.05, 1],
-          duration: 1500,
-          ease: "inOut(2)"
-        }).finished.then(() => {
-          setTimeout(pulseButtons, 2000);
-        });
-      };
-      setTimeout(pulseButtons, 2000);
-    }
   }, []);
 
   return (

@@ -81,12 +81,11 @@ export default function Vestimenta() {
               duration: isMobile ? 800 : 700
             }, isMobile ? 800 : 900);
 
-            // Anima el botón con efecto dramático
+            // Anima el botón con fade in
             timeline.add(btnRef.current, {
               opacity: [0, 1],
-              scale: isMobile ? [0, 1.1, 1] : [0, 1],
-              rotate: isMobile ? [180, 0] : [0, 0],
-              duration: isMobile ? 1000 : 800,
+              scale: [0.9, 1],
+              duration: isMobile ? 800 : 700,
               ease: "out(4)"
             }, isMobile ? 1000 : 1100);
 
