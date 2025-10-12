@@ -70,37 +70,6 @@ export default function Hero() {
         rotate: isMobile ? [180, 0] : [0, 0],
         duration: isMobile ? 1000 : 800
       }, isMobile ? 1200 : 1300);
-
-    // Efecto de brillo más intenso en móvil
-    animate(innerRef.current, {
-      boxShadow: isMobile
-        ? [
-            "0 0 0px rgba(255,255,255,0)",
-            "0 0 50px rgba(255,255,255,0.5)",
-            "0 0 0px rgba(255,255,255,0)"
-          ]
-        : [
-            "0 0 0px rgba(255,255,255,0)",
-            "0 0 30px rgba(255,255,255,0.3)",
-            "0 0 0px rgba(255,255,255,0)"
-          ],
-      duration: isMobile ? 2500 : 3000,
-      delay: 2000,
-      loop: true,
-      ease: "inOut(2)"
-    });
-
-    // Efecto de pulse en los nombres (solo móvil)
-    if (isMobile) {
-      setTimeout(() => {
-        animate([name1Ref.current, name2Ref.current], {
-          scale: [1, 1.02, 1],
-          duration: 3000,
-          loop: true,
-          ease: "inOut(2)"
-        });
-      }, 2500);
-    }
   }, []);
 
   return (

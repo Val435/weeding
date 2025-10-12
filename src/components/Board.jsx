@@ -77,18 +77,6 @@ export default function Board() {
       scale: isMobile ? [0.9, 1] : [0.95, 1],
       duration: isMobile ? 900 : 800
     }, 400);
-
-    // Efecto de hover continuo en el botón (solo móvil)
-    if (isMobile) {
-      setTimeout(() => {
-        animate(btnRef.current, {
-          scale: [1, 1.05, 1],
-          duration: 2000,
-          loop: true,
-          ease: "inOut(2)"
-        });
-      }, 1500);
-    }
   }, []);
 
   return (

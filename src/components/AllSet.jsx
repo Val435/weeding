@@ -86,20 +86,6 @@ export default function AllSet() {
       opacity: [0, 1],
       duration: 800
     }, 1400);
-
-    // Efecto continuo en el card
-    setTimeout(() => {
-      animate(cardRef.current, {
-        boxShadow: [
-          '0 20px 60px rgba(0,0,0,0.15)',
-          '0 30px 80px rgba(0,0,0,0.25)',
-          '0 20px 60px rgba(0,0,0,0.15)'
-        ],
-        duration: 3000,
-        loop: true,
-        ease: "inOut(2)"
-      });
-    }, 2000);
   }, []);
 
   const SIMAN_URL = "https://simangiftregistry.web.app/table/10016317";
