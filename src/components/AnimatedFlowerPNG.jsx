@@ -1,50 +1,47 @@
 // src/components/AnimatedFlowerPNG.jsx
+// VERSIÓN DEBUG SIMPLIFICADA
 import { useEffect, useRef } from 'react';
 import florIzq from "../assets/florIzq.png";
 import florDer from "../assets/florDer.png";
 import './Styles/AnimatedFlowerPNG.css';
 
-export default function AnimatedFlowerPNG({ side = 'left', className = '' }) {
+export default function AnimatedFlowerPNG({ side = 'left' }) {
   const flowerRef = useRef(null);
 
   useEffect(() => {
+    console.log(`🌸 Flor ${side} montada`);
+    
     if (flowerRef.current) {
-      // Inicia la animación después de un pequeño delay
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         flowerRef.current.classList.add('animated');
+        console.log(`✨ Animación iniciada en flor ${side}`);
       }, 500);
-
-      return () => clearTimeout(timer);
     }
-  }, []);
+  }, [side]);
 
   const imgSrc = side === 'left' ? florIzq : florDer;
-  const positionClass = side === 'left' ? 'animated-flower-png--left' : 'animated-flower-png--right';
 
   return (
     <div 
       ref={flowerRef}
-      className={`animated-flower-png ${positionClass} ${className}`}
-      style={{ 
+      className={`animated-flower-png animated-flower-png--${side}`}
+      style={{
         position: 'absolute',
         top: 0,
-        [side]: side === 'left' ? 0 : 0,
+        [side]: 0,
         height: '100%',
         width: 'auto',
+        maxWidth: '400px', // Limita el ancho para que no sea gigante
         zIndex: 1,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        border: '2px solid red' // 🔴 TEMPORAL: borde rojo para ver dónde está
       }}
     >
-      {/* Capa 1: Aparece de abajo hacia arriba */}
       <img 
         src={imgSrc} 
         alt="" 
         className="flower-layer flower-layer-1"
-        aria-hidden="true"
         style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
           width: '100%',
           height: '100%',
           objectFit: 'contain',
@@ -52,39 +49,20 @@ export default function AnimatedFlowerPNG({ side = 'left', className = '' }) {
         }}
       />
       
-      {/* Capa 2: Aparece con fade desde el centro */}
-      <img 
-        src={imgSrc} 
-        alt="" 
-        className="flower-layer flower-layer-2"
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'contain',
-          objectPosition: 'top'
-        }}
-      />
-      
-      {/* Capa 3: Aparece de arriba hacia abajo */}
-      <img 
-        src={imgSrc} 
-        alt="" 
-        className="flower-layer flower-layer-3"
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'contain',
-          objectPosition: 'top'
-        }}
-      />
+      {/* Indicador visual que está funcionando */}
+      <div style={{
+        position: 'absolute',
+        top: '10px',
+        left: '10px',
+        background: 'rgba(255, 0, 0, 0.8)',
+        color: 'white',
+        padding: '5px 10px',
+        fontSize: '12px',
+        borderRadius: '4px',
+        zIndex: 1000
+      }}>
+        Flor {side}
+      </div>
     </div>
   );
 }
