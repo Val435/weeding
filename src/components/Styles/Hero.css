@@ -20,9 +20,14 @@
   position: absolute;
   inset: 0;
   background: rgba(127, 127, 3, 0.68);
-  z-index: 0; /* debajo de las decoraciones y del contenido */
+  z-index: 0;
+  pointer-events: none; /* Permite que las flores se vean */
 }
 
+/* Las flores deben estar ENCIMA del overlay */
+.hero > div[class*="animated-flower"] {
+  z-index: 1 !important;
+}
 /* Decoraciones laterales */
 /* Decoraciones laterales - VERSIÓN ACTUALIZADA */
 .hero__decor {
@@ -47,7 +52,7 @@
 /* Contenido por encima del overlay */
 .hero__inner {
   position: relative;
-  z-index: 2;  /* por encima de las flores para garantizar legibilidad */
+  z-index: 10;  /* 👈 Muy alto para estar por encima de todo */
   padding: 56px 20px;
 }
 

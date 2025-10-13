@@ -1,5 +1,4 @@
 // src/components/AnimatedFlowerPNG.jsx
-// VERSIÓN DEBUG SIMPLIFICADA
 import { useEffect, useRef } from 'react';
 import florIzq from "../assets/florIzq.png";
 import florDer from "../assets/florDer.png";
@@ -31,10 +30,10 @@ export default function AnimatedFlowerPNG({ side = 'left' }) {
         [side]: 0,
         height: '100%',
         width: 'auto',
-        maxWidth: '400px', // Limita el ancho para que no sea gigante
-        zIndex: 1,
+        maxWidth: '450px',
+        zIndex: 2, // 👈 AUMENTADO: por encima del overlay (0) pero debajo del texto (2)
         pointerEvents: 'none',
-        border: '2px solid red' // 🔴 TEMPORAL: borde rojo para ver dónde está
+        mixBlendMode: 'screen' // 👈 NUEVO: hace que se vea sobre el fondo verde
       }}
     >
       <img 
@@ -48,21 +47,6 @@ export default function AnimatedFlowerPNG({ side = 'left' }) {
           objectPosition: 'top'
         }}
       />
-      
-      {/* Indicador visual que está funcionando */}
-      <div style={{
-        position: 'absolute',
-        top: '10px',
-        left: '10px',
-        background: 'rgba(255, 0, 0, 0.8)',
-        color: 'white',
-        padding: '5px 10px',
-        fontSize: '12px',
-        borderRadius: '4px',
-        zIndex: 1000
-      }}>
-        Flor {side}
-      </div>
     </div>
   );
 }

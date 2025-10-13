@@ -6,7 +6,8 @@
   width: auto;
   height: 100vh;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2; /* Por encima del overlay */
+  mix-blend-mode: screen; /* Se mezcla con el fondo */
 }
 
 .animated-flower-png--left {
@@ -17,7 +18,6 @@
   right: 0;
 }
 
-/* Contenedor para las capas */
 .flower-layer {
   position: absolute;
   top: 0;
@@ -28,96 +28,49 @@
   object-position: top;
 }
 
-/* ========================================
-   EFECTO MUY VISIBLE: Pulso + Brillo
-======================================== */
-
-/* Capa 1: Pulsa y brilla */
 .flower-layer-1 {
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
   opacity: 0;
 }
 
-/* Capa 2: Se oculta */
-.flower-layer-2 {
-  display: none;
-}
-
-/* Capa 3: Se oculta */
+.flower-layer-2,
 .flower-layer-3 {
   display: none;
 }
 
-/* Cuando se activa la animación: EFECTO MUY VISIBLE */
+/* Animación muy visible */
 .animated .flower-layer-1 {
   animation: 
     pulsateGlow 4s ease-in-out infinite,
     fadeInOut 4s ease-in-out infinite;
 }
 
-/* Animación 1: Pulso de tamaño */
 @keyframes pulsateGlow {
-  0% {
+  0%, 100% {
     transform: scale(1);
     filter: 
       drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25))
       drop-shadow(0 0 20px rgba(244, 240, 88, 0.0));
-  }
-  25% {
-    transform: scale(1.05);
-    filter: 
-      drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25))
-      drop-shadow(0 0 40px rgba(244, 240, 88, 0.8));
   }
   50% {
-    transform: scale(1);
+    transform: scale(1.08);
     filter: 
       drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25))
-      drop-shadow(0 0 20px rgba(244, 240, 88, 0.0));
-  }
-  75% {
-    transform: scale(1.05);
-    filter: 
-      drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25))
-      drop-shadow(0 0 40px rgba(244, 240, 88, 0.8));
-  }
-  100% {
-    transform: scale(1);
-    filter: 
-      drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25))
-      drop-shadow(0 0 20px rgba(244, 240, 88, 0.0));
+      drop-shadow(0 0 50px rgba(244, 240, 88, 1));
   }
 }
 
-/* Animación 2: Aparece y desaparece */
 @keyframes fadeInOut {
-  0% {
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
-/* Responsive: más rápido en móvil */
 @media (max-width: 768px) {
   .animated .flower-layer-1 {
     animation: 
       pulsateGlow 3s ease-in-out infinite,
       fadeInOut 3s ease-in-out infinite;
-  }
-}
-
-@media (max-width: 480px) {
-  .animated .flower-layer-1 {
-    animation: 
-      pulsateGlow 2.5s ease-in-out infinite,
-      fadeInOut 2.5s ease-in-out infinite;
   }
 }
