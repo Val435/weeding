@@ -72,13 +72,11 @@
 }
 
 .rsvp__input {
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:block;
   width:783px;
   max-width:100%;
   height: var(--btn-h);
-  margin: 0 auto 20px;     /* antes: 28px */
+  margin: 0 auto 20px;
   border-radius: var(--btn-radius);
   border:1px solid var(--accent);
   background: var(--bg);
@@ -87,6 +85,7 @@
   font-family: var(--font-sans);
   font-size:16px;
   font-weight:400;
+  padding: 0 20px;
   line-height: var(--btn-h);
   outline:none;
 }
@@ -94,7 +93,6 @@
   color: var(--text);
   text-transform: uppercase;
   letter-spacing:.03em;
-  line-height: normal;
 }
 
 /* Botones */

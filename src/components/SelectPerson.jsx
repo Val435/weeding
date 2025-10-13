@@ -18,9 +18,10 @@ import etiquetaSvg from "../assets/svg/etiqueta.svg";
 export default function SelectPerson() {
   const { guest } = useGuest();
   const [responses, setResponses] = useState(new Map());
+  const [hasAnimated, setHasAnimated] = useState(false);
   const navigate = useNavigate();
   const images = [img1, img2, img3, img4, img5];
-  const [index, ] = useState(0);
+  const [index, setIndex] = useState(0);
 
   const boxRef = useRef(null);
   const line1Ref = useRef(null);
@@ -81,6 +82,8 @@ export default function SelectPerson() {
 
   // Animaciones épicas al montar
   useEffect(() => {
+    if (hasAnimated) return;
+
     const isMobile = window.innerWidth < 768;
 
     const timeline = createTimeline({
@@ -146,7 +149,17 @@ export default function SelectPerson() {
       scale: isMobile ? [0.8, 1] : [0.9, 1],
       duration: isMobile ? 1000 : 800
     }, 700);
-  }, []);
+
+    setHasAnimated(true);
+  }, [hasAnimated]);
+
+  // Carrusel automático
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   return (
     <section className="select">

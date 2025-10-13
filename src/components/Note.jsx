@@ -7,6 +7,7 @@ import { animate, createTimeline, stagger } from "animejs";
 
 export default function Note({ maxLength = 280 }) {
   const [note, setNote] = useState("");
+  const [hasAnimated, setHasAnimated] = useState(false);
   const { guest } = useGuest();
   const navigate = useNavigate();
 
@@ -32,6 +33,8 @@ export default function Note({ maxLength = 280 }) {
   const remaining = maxLength - note.length;
 
   useEffect(() => {
+    if (hasAnimated) return;
+
     const isMobile = window.innerWidth < 768;
 
     const timeline = createTimeline();
@@ -98,7 +101,9 @@ export default function Note({ maxLength = 280 }) {
       delay: stagger(isMobile ? 150 : 120),
       ease: "out(2)"
     }, isMobile ? 1200 : 1100);
-  }, []);
+
+    setHasAnimated(true);
+  }, [hasAnimated]);
 
   return (
     <section className="note">

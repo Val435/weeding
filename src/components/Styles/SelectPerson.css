@@ -117,7 +117,6 @@
   justify-content: space-between;
   gap: 12px;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(0,0,0,.06);
 }
 
 .selectRow__name{
@@ -271,89 +270,126 @@
 
 @media (max-width:560px){
   .select {
-    padding: 24px 12px 40px;
+    padding: 24px 16px 40px;
   }
   .selectBox {
-    padding: 12px 16px 18px;
+    padding: 20px 20px 24px;
+    width: 100%;
   }
   .selectBox__line1--es {
-    font-size: 28px;
+    font-size: 30px;
     margin-bottom: 16px;
+    text-align: center;
+  }
+  .selectBox__line--en {
+    font-size: 14px;
+    text-align: center;
   }
   .selectBox__line--es {
     font-size: 14px;
     margin-bottom: 16px;
+    text-align: center;
   }
   .selectBox__icon {
-    width: 34px;
-    height: 28px;
+    width: 36px;
+    height: 32px;
     margin-right: 6px;
   }
   .selectRow {
-    flex-wrap: wrap;
-    padding: 12px 0;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px 0;
+    gap: 12px;
   }
   .selectRow__name {
-    font-size: 14px;
+    font-size: 15px;
     width: 100%;
-    margin-bottom: 10px;
+    text-align: center;
+    font-weight: 600;
   }
   .selectRow__buttons {
     width: 100%;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   .selectRow__btn{
     width: 100%;
     min-width: unset;
-    font-size: 13px;
-    padding: 10px 12px;
-    border-radius: 12px;
+    font-size: 14px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-weight: 500;
   }
   .selectFooter{
     flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    margin-top: 18px;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .selectFooter__count {
+    text-align: center;
+    font-size: 13px;
   }
   .nextBtn{
     width: 100%;
     height: 64px;
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 500;
   }
   .select__carousel {
     height: 380px;
-    margin-top: 20px;
+    margin-top: 24px;
   }
 }
 
 /* Phones narrower */
 @media (max-width:400px){
   .select {
-    padding: 20px 10px 32px;
+    padding: 20px 12px 32px;
   }
   .selectBox {
-    padding: 10px 14px 16px;
+    padding: 18px 16px 20px;
   }
   .selectBox__line1--es {
-    font-size: 24px;
+    font-size: 26px;
+    text-align: center;
+  }
+  .selectBox__line--en {
+    font-size: 13px;
+    text-align: center;
   }
   .selectBox__line--es {
     font-size: 13px;
+    text-align: center;
+  }
+  .selectBox__icon {
+    width: 32px;
+    height: 28px;
   }
   .selectRow {
-    gap: 8px;
-    padding: 10px 0;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 0;
   }
   .selectRow__name {
-    font-size: 13px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+  }
+  .selectRow__buttons {
+    flex-direction: column;
+    gap: 8px;
   }
   .selectRow__btn {
-    font-size: 12px;
-    padding: 9px 10px;
+    font-size: 13px;
+    padding: 12px 14px;
+    font-weight: 500;
   }
   .nextBtn {
-    height: 56px;
-    font-size: 12px;
+    height: 60px;
+    font-size: 13px;
+    font-weight: 500;
   }
   .select__carousel {
     height: 340px;

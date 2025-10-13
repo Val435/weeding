@@ -56,7 +56,8 @@
 .hero__names {
   font-family: "Against", serif;
   letter-spacing: 0.06em;
-  color: #F4F058;
+  /*color: #F4F058;*/
+  color: #FFFFFF;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   text-transform: uppercase;
   line-height: 1.1;
@@ -69,7 +70,8 @@
 .hero__amp {
   display: block;
   font-family: "Against", serif;
-  color: #F4F058;
+  /*color: #F4F058;*/
+  color: #FFFFFF;
   text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin: 0.35em 0;  /* margen original */
   font-size: clamp(52px, 11vw, 96px);  /* tamaño normal responsive */
@@ -81,7 +83,8 @@
   font-family: "Against", serif;
   margin-top: 20px;
   font-size: clamp(14px, 2.5vw, 20px);
-  color: #F4F058;
+  /*color: #F4F058;*/
+  color: #FFFFFF;
   opacity: 0.95;
 }
 
