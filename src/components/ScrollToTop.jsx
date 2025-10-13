@@ -6,11 +6,9 @@ export default function ScrollToTop() {
 
   useEffect(() => {
     // Scroll al tope inmediatamente en cada cambio de ruta
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: 'instant'
-    });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [pathname]);
 
   return null;
