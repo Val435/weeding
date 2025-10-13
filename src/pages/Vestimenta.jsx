@@ -140,7 +140,7 @@ export default function Vestimenta() {
 
           </p>
           <p ref={textRef} className="vestimenta__text" style={{ opacity: 0 }}>
-            INVITADAS: AGRADECEMOS EVITAR VESTIDOS<br /> <span className="vestimenta__highlight">COLOR NEGRO</span>
+            INVITADAS: <span className="vestimenta__highlight">AGRADECEMOS EVITAR VESTIDOS COLOR NEGRO</span>
             <br />
              <br />
             PARA INSPIRARSE, LES DEJAMOS<br />ALGUNAS OPCIONES AQUÍ:

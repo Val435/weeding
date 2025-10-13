@@ -24,6 +24,7 @@
 }
 
 /* Decoraciones laterales */
+/* Decoraciones laterales - VERSIÓN ACTUALIZADA */
 .hero__decor {
   position: absolute;
   top: 0;
@@ -31,20 +32,18 @@
   height: 100%;
   object-fit: contain;
   object-position: top;
-  pointer-events: none;    /* no interfiere con clicks */
-  z-index: 1;              /* por encima del overlay, debajo del contenido */
-  opacity: 1;              /* opacidad completa */
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,.25));
+  pointer-events: none;
+  z-index: 1;
+  /* NO agregues opacity ni transform aquí */
 }
 
 .hero__decor--left {
-  left: 0vw;
+  left: 0;
 }
 
 .hero__decor--right {
-  right: 0vw;
+  right: 0;
 }
-
 /* Contenido por encima del overlay */
 .hero__inner {
   position: relative;

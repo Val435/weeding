@@ -1,0 +1,185 @@
+/* src/components/AnimatedFlowerPNG.css */
+
+.animated-flower-png {
+  position: absolute;
+  top: 0;
+  width: auto;
+  height: 100vh; /* Altura completa de viewport */
+  pointer-events: none;
+  z-index: 1;
+  opacity: 1; /* Cambiado a 1 para que sea visible siempre */
+}
+
+.animated-flower-png--left {
+  left: -32px; /* Pegada al borde izquierdo */
+}
+
+.animated-flower-png--right {
+  right: -32px; /* Pegada al borde derecho */
+}
+
+/* Las capas se superponen exactamente */
+.flower-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top;
+}
+
+/* IMPORTANTE: Cada capa tiene su propio filtro */
+.flower-layer-1 {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+  clip-path: inset(100% 0 0 0);
+}
+
+.flower-layer-2 {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+  opacity: 0;
+}
+
+.flower-layer-3 {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
+  clip-path: inset(0 0 100% 0);
+}
+
+/* Cuando se activa la animación */
+.animated .flower-layer-1 {
+  animation: revealBottom 8s ease-in-out infinite;
+}
+
+.animated .flower-layer-2 {
+  animation: fadeScale 8s ease-in-out infinite 2.6s;
+}
+
+.animated .flower-layer-3 {
+  animation: revealTop 8s ease-in-out infinite 5.3s;
+}
+
+/* Animación: aparece de abajo hacia arriba */
+@keyframes revealBottom {
+  0% {
+    clip-path: inset(100% 0 0 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  30% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  50% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  90% {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0.2;
+  }
+  100% {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+  }
+}
+
+/* Animación: aparece de arriba hacia abajo */
+@keyframes revealTop {
+  0% {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  30% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  50% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+  90% {
+    clip-path: inset(100% 0 0 0);
+    opacity: 0.2;
+  }
+  100% {
+    clip-path: inset(100% 0 0 0);
+    opacity: 0;
+  }
+}
+
+/* Animación: fade con escala desde el centro */
+@keyframes fadeScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .animated-flower-png--left {
+    left: -60px;
+  }
+  .animated-flower-png--right {
+    right: -60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .animated-flower-png--left {
+    left: -80px;
+  }
+  .animated-flower-png--right {
+    right: -80px;
+  }
+  
+  .animated .flower-layer-1 {
+    animation-duration: 6s;
+  }
+  .animated .flower-layer-2 {
+    animation: fadeScale 6s ease-in-out infinite 2s;
+  }
+  .animated .flower-layer-3 {
+    animation: revealTop 6s ease-in-out infinite 4s;
+  }
+}
+
+@media (max-width: 480px) {
+  .animated-flower-png--left {
+    left: -120px;
+  }
+  .animated-flower-png--right {
+    right: -120px;
+  }
+  
+  .animated .flower-layer-1 {
+    animation-duration: 5s;
+  }
+  .animated .flower-layer-2 {
+    animation: fadeScale 5s ease-in-out infinite 1.6s;
+  }
+  .animated .flower-layer-3 {
+    animation: revealTop 5s ease-in-out infinite 3.3s;
+  }
+}

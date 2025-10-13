@@ -156,26 +156,14 @@
   margin-right: auto;
 }
 
-/* Resaltar "COLOR NEGRO" con animación */
+/* Resaltar texto de vestidos negro */
 .vestimenta__highlight {
-  font-weight: 700;
-  color: #000;
-  background: linear-gradient(120deg, #fff 0%, #fff 50%, #ffeb3b 50%, #ffeb3b 100%);
-  background-size: 200% 100%;
-  background-position: 100% 0;
-  padding: 2px 8px;
-  border-radius: 4px;
-  animation: highlight-sweep 2s ease-in-out 1s infinite;
-  display: inline-block;
-}
-
-@keyframes highlight-sweep {
-  0%, 100% {
-    background-position: 100% 0;
-  }
-  50% {
-    background-position: 0% 0;
-  }
+  font-weight: 600;
+  color: #D33800;
+  text-decoration: underline;
+  text-decoration-color: #D33800;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 
 /* Botón elegante con efecto de inversión */

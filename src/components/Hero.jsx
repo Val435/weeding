@@ -1,13 +1,11 @@
+// src/components/Hero.jsx
 import { useEffect, useRef } from "react";
 import { animate, createTimeline } from "animejs";
 import bg from "../assets/portada.png";
-import florIzq from "../assets/florIzq.png";
-import florDer from "../assets/florDer.png";
+import AnimatedFlowerPNG from "./AnimatedFlowerPNG";
 import "./Styles/Hero.css";
 
 export default function Hero() {
-  const leftDecorRef = useRef(null);
-  const rightDecorRef = useRef(null);
   const innerRef = useRef(null);
   const name1Ref = useRef(null);
   const ampRef = useRef(null);
@@ -17,28 +15,6 @@ export default function Hero() {
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
 
-    // Animación de las flores laterales entrando (más dramáticas en móvil)
-    animate(leftDecorRef.current, {
-      translateX: isMobile ? [-300, 0] : [-200, 0],
-      opacity: [0, 1],
-      rotate: isMobile ? [-45, 0] : [0, 0],
-      scale: isMobile ? [0.5, 1] : [1, 1],
-      duration: isMobile ? 1400 : 1200,
-      ease: "out(3)",
-      delay: 300
-    });
-
-    animate(rightDecorRef.current, {
-      translateX: isMobile ? [300, 0] : [200, 0],
-      opacity: [0, 1],
-      rotate: isMobile ? [45, 0] : [0, 0],
-      scale: isMobile ? [0.5, 1] : [1, 1],
-      duration: isMobile ? 1400 : 1200,
-      ease: "out(3)",
-      delay: 300
-    });
-
-    // Animación escalonada de los nombres (más impactante en móvil)
     const timeline = createTimeline({
       defaults: {
         ease: "out(3)"
@@ -78,23 +54,9 @@ export default function Hero() {
       className="hero"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      {/* Decoraciones laterales */}
-      <img
-        ref={leftDecorRef}
-        src={florIzq}
-        alt=""
-        aria-hidden="true"
-        className="hero__decor hero__decor--left"
-        style={{ opacity: 0 }}
-      />
-      <img
-        ref={rightDecorRef}
-        src={florDer}
-        alt=""
-        aria-hidden="true"
-        className="hero__decor hero__decor--right"
-        style={{ opacity: 0 }}
-      />
+      {/* Flores animadas - SIN la clase hero__decor */}
+      <AnimatedFlowerPNG side="left" />
+      <AnimatedFlowerPNG side="right" />
 
       <div ref={innerRef} className="hero__inner">
         <h1 ref={name1Ref} className="hero__names" style={{ opacity: 0 }}>
