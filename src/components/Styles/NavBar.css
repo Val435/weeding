@@ -19,6 +19,14 @@
   background: #FFFC82;
 }
 
+.nav--home .nav__link {
+  color: #5B6500;
+}
+
+.nav--home .nav__toggle span {
+  background: #5B6500;
+}
+
 .nav__inner {
   max-width: 1100px;
   margin: 0 auto;

@@ -64,13 +64,13 @@
 /* Fecha debajo - estilo Futura según especificaciones */
 .hero__date {
   font-family: "Futura PT", "Futura", sans-serif;
-  margin-top: 0;
   font-size: 36px;
   color: #FFF;
   text-shadow: none;
   font-weight: 450;
   font-style: normal;
-  line-height: 120px;
+  line-height: 50px;
+  margin-top: -10px;
   letter-spacing: normal;
 }
 
@@ -164,7 +164,8 @@
   }
   .hero__date {
     font-size: clamp(24px, 4vw, 36px);
-    line-height: clamp(80px, 12vw, 120px);
+    line-height: 50px;
+    margin-top: -8px;
   }
   .hero__inner {
     padding: 40px;
@@ -193,7 +194,8 @@
   }
   .hero__date {
     font-size: clamp(20px, 5vw, 28px);
-    line-height: clamp(60px, 10vw, 80px);
+    line-height: 40px;
+    margin-top: -5px;
   }
   .cta-row {
     justify-content: center;
@@ -219,6 +221,7 @@
   }
   .hero__date {
     font-size: clamp(16px, 4.5vw, 22px);
-    line-height: clamp(40px, 8vw, 60px);
+    line-height: 35px;
+    margin-top: -3px;
   }
 }
