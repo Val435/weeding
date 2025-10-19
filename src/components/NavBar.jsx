@@ -32,7 +32,7 @@ export default function NavBar() {
   }, [isOpen]);
 
   return (
-    <header className="nav">
+    <header className={`nav${pathname === "/" ? " nav--home" : ""}`}>
       <nav className="nav__inner">
         <button
           type="button"

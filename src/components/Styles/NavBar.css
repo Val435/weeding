@@ -15,6 +15,10 @@
   align-items: center;
 }
 
+.nav--home {
+  background: #FFFC82;
+}
+
 .nav__inner {
   max-width: 1100px;
   margin: 0 auto;

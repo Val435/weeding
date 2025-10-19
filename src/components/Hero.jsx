@@ -1,8 +1,7 @@
 // src/components/Hero.jsx
 import { useEffect, useRef } from "react";
-import { animate, createTimeline } from "animejs";
+import { createTimeline } from "animejs";
 import bg from "../assets/portada.png";
-import AnimatedFlowerPNG from "./AnimatedFlowerPNG";
 import "./Styles/Hero.css";
 
 export default function Hero() {
@@ -54,19 +53,12 @@ export default function Hero() {
       className="hero"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      {/* Flores animadas - SIN la clase hero__decor */}
-      <AnimatedFlowerPNG side="left" />
-      <AnimatedFlowerPNG side="right" />
-
       <div ref={innerRef} className="hero__inner">
         <h1 ref={name1Ref} className="hero__names" style={{ opacity: 0 }}>
-          MARTÍN POCASANGRE
+          VALERIA PORTILLO <span ref={ampRef} className="hero__amp" style={{ opacity: 0 }}>&amp;</span>
         </h1>
-        <span ref={ampRef} className="hero__amp" style={{ opacity: 0 }}>
-          &amp;
-        </span>
         <h1 ref={name2Ref} className="hero__names" style={{ opacity: 0 }}>
-          VALERIA PORTILLO
+          MARTÍN POCASANGRE
         </h1>
 
         <p ref={dateRef} className="hero__date" style={{ opacity: 0 }}>

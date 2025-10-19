@@ -2,106 +2,76 @@
 .hero {
   position: relative;
   min-height: 100vh;
-  display: grid;
-  place-items: center;
-  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  text-align: left;
   color: #fff;
-  background-position: center;
+  background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
-  overflow: hidden; /* evita que sobresalgan las flores */
-
-   backdrop-filter: blur(2px);  /* efecto glassmorphism sutil */
+  background-color: lightgray;
+  overflow: hidden;
 }
 
-/* Overlay */
+/* Overlay con gradiente */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(127, 127, 3, 0.60);
-  z-index: 0;
-  pointer-events: none; /* Permite que las flores se vean */
-}
-
-/* Las flores deben estar ENCIMA del overlay */
-.hero > div[class*="animated-flower"] {
-  z-index: 1 !important;
-}
-/* Decoraciones laterales */
-/* Decoraciones laterales - VERSIÓN ACTUALIZADA */
-.hero__decor {
-  position: absolute;
-  top: 0;
-  width: auto;
-  height: 100%;
-  object-fit: contain;
-  object-position: top;
-  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 2.28%, rgba(190, 193, 170, 0.00) 34.23%, rgba(60, 67, 0, 0.74) 68.75%);
   z-index: 1;
-  /* NO agregues opacity ni transform aquí */
+  pointer-events: none;
 }
 
-.hero__decor--left {
-  left: 0;
-}
-
-.hero__decor--right {
-  right: 0;
-}
-/* Contenido por encima del overlay */
+/* Contenido del hero - alineado a la derecha y abajo */
 .hero__inner {
   position: relative;
-  z-index: 10;  /* 👈 Muy alto para estar por encima de todo */
-  padding: 56px 20px;
+  z-index: 10;
+  padding: 60px;
+  padding-bottom: 100px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: right;
 }
 
-/* Nombres grandes */
+/* Nombres grandes - estilo según imagen */
 .hero__names {
   font-family: "Against", serif;
   letter-spacing: 0.06em;
   color: #FFFFFF;
-  text-shadow:
-    0 0 15px rgba(255, 255, 255, 1),
-    0 0 30px rgba(255, 255, 255, 0.8),
-    0 0 45px rgba(255, 255, 255, 0.6),
-    0 0 60px rgba(255, 255, 255, 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.5);
+  text-shadow: none;
   text-transform: uppercase;
-  line-height: 1.1;
+  line-height: 78px;
   margin: 0;
   font-weight: 400;
-  font-size: clamp(32px, 7vw, 64px);  /* tamaño normal responsive */
+  font-size: 48px;
+  font-style: normal;
 }
 
-/* Ampersand grande */
+/* Ampersand grande - inline con el nombre */
 .hero__amp {
-  display: block;
+  display: inline;
   font-family: "Against", serif;
   color: #FFFFFF;
-  text-shadow:
-    0 0 15px rgba(255, 255, 255, 1),
-    0 0 30px rgba(255, 255, 255, 0.8),
-    0 0 45px rgba(255, 255, 255, 0.6),
-    0 0 60px rgba(255, 255, 255, 0.4),
-    0 4px 8px rgba(0, 0, 0, 0.5);
-  margin: 0.35em 0;  /* margen original */
-  font-size: clamp(52px, 11vw, 96px);  /* tamaño normal responsive */
+  text-shadow: none;
+  margin: 0;
+  font-size: 48px;
   font-weight: 400;
+  font-style: normal;
 }
 
-/* Fecha debajo */
+/* Fecha debajo - estilo Futura según especificaciones */
 .hero__date {
-  font-family: "Against", serif;
-  margin-top: 20px;
-  font-size: clamp(14px, 2.5vw, 20px);
-  color: #FFFFFF;
-  opacity: 0.95;
-  text-shadow:
-    0 0 10px rgba(255, 255, 255, 0.9),
-    0 0 20px rgba(255, 255, 255, 0.7),
-    0 0 30px rgba(255, 255, 255, 0.5),
-    0 2px 6px rgba(0, 0, 0, 0.4);
+  font-family: "Futura PT", "Futura", sans-serif;
+  margin-top: 0;
+  font-size: 36px;
+  color: #FFF;
+  text-shadow: none;
+  font-weight: 450;
+  font-style: normal;
+  line-height: 120px;
+  letter-spacing: normal;
 }
 
 /* Cintillo del countdown */
@@ -124,7 +94,7 @@
   margin-top: 24px;
   display: flex;
   gap: 12px;
-  justify-content: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
 }
 .btn {
@@ -185,27 +155,70 @@
   transform: translateY(0);
 }
 
-/* Responsive - Mantén las flores grandes, contenido siempre legible */
-@media (max-width: 768px) {
-  .hero__decor--left {
-    left: 0;
+/* Responsive */
+@media (max-width: 1200px) {
+  .hero__names,
+  .hero__amp {
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: clamp(50px, 8vw, 78px);
   }
-  .hero__decor--right {
-    right: 0;
+  .hero__date {
+    font-size: clamp(24px, 4vw, 36px);
+    line-height: clamp(80px, 12vw, 120px);
   }
   .hero__inner {
-    padding: 40px 16px;
+    padding: 40px;
+    padding-bottom: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    align-items: flex-end;
+    background-position: center center;
+    background-size: cover;
+  }
+  .hero::after {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 2.28%, rgba(190, 193, 170, 0.00) 34.23%, rgba(60, 67, 0, 0.74) 68.75%);
+  }
+  .hero__inner {
+    padding: 40px 24px;
+    padding-bottom: 80px;
+    text-align: center;
+  }
+  .hero__names,
+  .hero__amp {
+    font-size: clamp(28px, 6vw, 40px);
+    line-height: clamp(40px, 8vw, 60px);
+  }
+  .hero__date {
+    font-size: clamp(20px, 5vw, 28px);
+    line-height: clamp(60px, 10vw, 80px);
+  }
+  .cta-row {
+    justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
-  .hero__decor--left {
-    left: 0;
+  .hero {
+    background-position: center center;
+    background-size: cover;
   }
-  .hero__decor--right {
-    right: 0;
+  .hero::after {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 2.28%, rgba(190, 193, 170, 0.00) 34.23%, rgba(60, 67, 0, 0.74) 68.75%);
   }
   .hero__inner {
-    padding: 32px 12px;
+    padding: 32px 16px;
+    padding-bottom: 60px;
+  }
+  .hero__names,
+  .hero__amp {
+    font-size: clamp(24px, 7vw, 36px);
+    line-height: clamp(36px, 9vw, 50px);
+  }
+  .hero__date {
+    font-size: clamp(18px, 6vw, 24px);
+    line-height: clamp(50px, 10vw, 70px);
   }
 }
