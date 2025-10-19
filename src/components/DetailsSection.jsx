@@ -3,17 +3,15 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { createTimeline, stagger } from "animejs";
 
 // Imágenes del carrusel
-import img1 from "../assets/1.png";
 import img2 from "../assets/2.png";
-import img3 from "../assets/3.png";
-import img4 from "../assets/4.png";
 import img5 from "../assets/5.png";
 import img11 from "../assets/11.png";
 import img12 from "../assets/12.png";
+import img13 from "../assets/13.png";
 
 
 export default function DetailsSection({ countdown }) {
-  const images = useMemo(() => [img1, img2, img3, img4, img5, img11, img12], []);
+  const images = useMemo(() => [img11, img12, img2, img5, img13], []);
   const [steps, setSteps] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
 

@@ -1,7 +1,7 @@
 // src/components/Hero.jsx
 import { useEffect, useRef } from "react";
 import { createTimeline } from "animejs";
-import bg from "../assets/portada.png";
+import bg from "../assets/portada.jpg";
 import "./Styles/Hero.css";
 
 export default function Hero() {
