@@ -175,7 +175,7 @@
 @media (max-width: 768px) {
   .hero {
     align-items: flex-end;
-    background-position: center center;
+    background-position: 37% center;
     background-size: cover;
   }
   .hero::after {
@@ -202,7 +202,7 @@
 
 @media (max-width: 480px) {
   .hero {
-    background-position: center center;
+    background-position: 32% center;
     background-size: cover;
   }
   .hero::after {
@@ -214,11 +214,11 @@
   }
   .hero__names,
   .hero__amp {
-    font-size: clamp(24px, 7vw, 36px);
-    line-height: clamp(36px, 9vw, 50px);
+    font-size: clamp(20px, 5.5vw, 30px);
+    line-height: clamp(32px, 7.5vw, 45px);
   }
   .hero__date {
-    font-size: clamp(18px, 6vw, 24px);
-    line-height: clamp(50px, 10vw, 70px);
+    font-size: clamp(16px, 4.5vw, 22px);
+    line-height: clamp(40px, 8vw, 60px);
   }
 }

@@ -62,7 +62,7 @@ export default function Hero() {
         </h1>
 
         <p ref={dateRef} className="hero__date" style={{ opacity: 0 }}>
-          Viernes 9 de Enero 2026
+          VIERNES 9 DE ENERO DE 2026
         </p>
       </div>
     </section>

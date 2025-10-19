@@ -295,7 +295,7 @@ export default function GiftsSection() {
 
         {/* BANCO AGRÍCOLA */}
         <div ref={card3Ref} className="gifts__card gifts__card--bank" style={{ opacity: 0 }}>
-          <p className="gifts__hl" style={{ opacity: 0 }}>Honeymoon Found</p>
+          <p className="gifts__hl" style={{ opacity: 0 }}>Honeymoon Fund</p>
           <p className="gifts__hl" style={{ opacity: 0 }}>0000000000</p>
           <button className="gifts__button" onClick={() => setOpenModal("bank")} style={{ opacity: 0 }}>
             Ver detalles
