@@ -17,10 +17,7 @@
 /* =============== RSVP =============== */
 .rsvp {
   padding: 24px 16px 8px;
-  background:
-    radial-gradient(1000px 700px at -10% 0%, rgba(199, 0, 123, .05), transparent 60%),
-    radial-gradient(1000px 700px at 110% 5%, rgba(211, 56, 0, .05), transparent 60%),
-    linear-gradient(180deg, #ffffff, #fbfaf8);
+  background: #ffffff;
   padding-bottom: 90px;
 }
 
@@ -31,6 +28,10 @@
   display: grid;
   place-items: center;
   padding-top: var(--nav-h); /* avoid overlap with fixed navbar */
+  background:
+    radial-gradient(1000px 700px at -10% 0%, rgba(199, 0, 123, .05), transparent 60%),
+    radial-gradient(1000px 700px at 110% 5%, rgba(211, 56, 0, .05), transparent 60%),
+    linear-gradient(180deg, #ffffff, #fbfaf8);
 }
 
 
