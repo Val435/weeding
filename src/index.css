@@ -66,10 +66,24 @@
 }
 @font-face {
   font-family: "Futura PT";
+  src: url("/fonts/FuturaCyrillicMedium.ttf") format("truetype");
+  font-weight: 450; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Futura PT";
+  src: url("/fonts/FuturaCyrillicMedium.ttf") format("truetype");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Futura PT";
+  src: url("/fonts/FuturaCyrillicDemi.ttf") format("truetype");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Futura PT";
   src: url("/fonts/FuturaCyrillicBold.ttf") format("truetype");
   font-weight: 700; font-style: normal; font-display: swap;
 }
-/* (si quieres, agrega Medium=500, Demi=600, etc. igual que arriba) */
 
 * {
   box-sizing: border-box;

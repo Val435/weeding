@@ -27,7 +27,6 @@ export default function SelectPerson() {
   const line1Ref = useRef(null);
   const line2Ref = useRef(null);
   const line3Ref = useRef(null);
-  const line4Ref = useRef(null);
   const leftDecorRef = useRef(null);
   const rightDecorRef = useRef(null);
   const listRef = useRef(null);
@@ -102,7 +101,7 @@ export default function SelectPerson() {
     }, 0);
 
     // Anima las líneas de texto con stagger
-    timeline.add([line1Ref.current, line2Ref.current, line3Ref.current, line4Ref.current], {
+    timeline.add([line1Ref.current, line2Ref.current, line3Ref.current], {
       opacity: [0, 1],
       translateX: isMobile ? [-60, 0] : [-40, 0],
       duration: isMobile ? 700 : 600,
@@ -182,22 +181,19 @@ export default function SelectPerson() {
       />
 
       <div ref={boxRef} className="selectBox" style={{ opacity: 0 }}>
-        <p ref={line1Ref} className="selectBox__line selectBox__line1--es" style={{ opacity: 0 }}>
+        <p ref={line1Ref} className="selectBox__line1--es" style={{ opacity: 0 }}>
           CONFIRMA TU ASISTENCIA
         </p>
-        <p ref={line2Ref} className="selectBox__line selectBox__line--es" style={{ opacity: 0 }}>
-          <img src={calendarioSvg} alt="Calendario" className="selectBox__icon" />
-          VIERNES 9 DE ENERO 2026, A LAS 7:00 P.M.
-        </p>
-        <p ref={line3Ref} className="selectBox__line selectBox__line--es" style={{ opacity: 0 }}>
-          <img src={etiquetaSvg} alt="Etiqueta" className="selectBox__icon" />
-          ETIQUETA (BLACK TIE)
-        </p>
-        <p ref={line4Ref} className="selectBox__line selectBox__line--note" style={{ opacity: 0 }}>
-          INVITADAS: <span className="selectBox__highlight">AGRADECEMOS EVITAR VESTIDOS COLOR NEGRO</span>
-        </p>
 
-        <hr className="selectBox__rule" />
+        <div ref={line2Ref} className="selectBox__info" style={{ opacity: 0 }}>
+          <img src={calendarioSvg} alt="Calendario" className="selectBox__icon-large" />
+          <p className="selectBox__text">VIERNES 9 DE ENERO DE 2026,<br />PARROQUIA SAN BENITO 7:00 P.M.</p>
+        </div>
+
+        <div ref={line3Ref} className="selectBox__info" style={{ opacity: 0 }}>
+          <img src={etiquetaSvg} alt="Etiqueta" className="selectBox__icon-large" />
+          <p className="selectBox__text">ETIQUETA (BLACK TIE)<br />INVITADAS: AGRADECEMOS EVITAR<br />VESTIDOS COLOR NEGRO</p>
+        </div>
 
         <div className="selectArea selectArea--perRowBtn">
           <ul ref={listRef} className="selectList">
@@ -226,8 +222,6 @@ export default function SelectPerson() {
             ))}
           </ul>
         </div>
-
-        <hr className="selectBox__rule" />
       </div>
 
       <div ref={footerRef} className="selectFooter" style={{ opacity: 0 }}>

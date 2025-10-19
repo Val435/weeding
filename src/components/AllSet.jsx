@@ -4,6 +4,7 @@ import { animate, createTimeline, stagger } from "animejs";
 import "../components/Styles/AllSet.css";
 import simanImg from "../assets/siman.png";
 import porticoImg from "../assets/portico.png";
+import avionImg from "../assets/avion.png";
 
 export default function AllSet() {
   const [confetti, setConfetti] = useState([]);
@@ -90,6 +91,7 @@ export default function AllSet() {
 
   const SIMAN_URL = "https://simangiftregistry.web.app/table/10016317";
   const PORTICO_URL = "https://www.porticoreal.com.sv/boda-pocasangre-portillo-martin-valeria-te-15-de-noviembre-de-2025";
+  const HONEYMOON_URL = "#"; // URL para Honeymoon Fund
   const HOME_URL = "/"; // ajusta según tu router
 
 
@@ -131,6 +133,10 @@ export default function AllSet() {
           <div className="giftLink" style={{ opacity: 0 }}>
             <img src={porticoImg} alt="Pórtico Real" />
             <a href={PORTICO_URL} target="_blank" rel="noreferrer">Mesa P<span className="no-bold">ó</span>rtico</a>
+          </div>
+          <div className="giftLink" style={{ opacity: 0 }}>
+            <img src={avionImg} alt="Honeymoon Fund" />
+            <a href={HONEYMOON_URL} target="_blank" rel="noreferrer">Honeymoon Fund</a>
           </div>
         </div>
 

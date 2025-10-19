@@ -1,0 +1,110 @@
+/* Footer - Solo en página de inicio */
+.footer {
+  background: #C7007B;
+  padding: 24px 20px;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 -4px 20px rgba(199, 0, 123, 0.15);
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.footer__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer__label {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: "Futura PT", "Futura", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.footer__name {
+  color: #FFFFFF;
+  font-family: "Against", serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  margin: 0;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer__email {
+  color: rgba(255, 255, 255, 0.95);
+  font-family: "Futura PT", "Futura", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.footer__email:hover {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.footer__email:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .footer {
+    padding: 20px 16px;
+  }
+
+  .footer__label {
+    font-size: 10px;
+  }
+
+  .footer__name {
+    font-size: 18px;
+  }
+
+  .footer__email {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 18px 12px;
+  }
+
+  .footer__name {
+    font-size: 16px;
+  }
+
+  .footer__email {
+    font-size: 10px;
+  }
+}

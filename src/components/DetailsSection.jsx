@@ -187,7 +187,7 @@ export default function DetailsSection({ countdown }) {
               <div className="details__time">8:00 PM</div>
               <div className="details__venue">IL BUONGUSTAIO</div>
               <div className="details__address">
-                Bulevar Del Hipodromo 605, San Salvador
+                Bulevar Del Hipódromo 605, San Salvador
               </div>
               <div className="map-button">
                 <a

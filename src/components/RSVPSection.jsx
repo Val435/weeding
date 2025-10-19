@@ -197,9 +197,7 @@ export default function RSVPSection() {
           RSVP
         </h3>
         <p ref={descRef} className="rsvp__desc" style={{ opacity: 0 }}>
-          Por favor, ingresa el nombre y apellido de uno de los miembros de tu grupo a continuación.
-          Si estás respondiendo por ti y un acompañante (o tu familia), podrás confirmar la asistencia
-          de todo tu grupo en la siguiente página.
+          Por favor ingresa el nombre y apellido de uno de los miembros de tu grupo a continuación.
         </p>
 
         <label
