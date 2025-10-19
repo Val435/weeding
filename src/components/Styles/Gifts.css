@@ -7,23 +7,15 @@
   --ink: #1a1a1a;
   --muted: #6b7280;
   --cream: #faf9f7;
-  background: linear-gradient(180deg, #faf9f7 0%, #f5f3f0 50%, #faf9f7 100%);
+  background:
+    radial-gradient(1000px 700px at -10% 0%, rgba(211, 56, 0, .05), transparent 60%),
+    radial-gradient(1000px 700px at 110% 5%, rgba(199, 0, 123, .05), transparent 60%),
+    linear-gradient(180deg, #ffffff, #fbfaf8);
   padding: 80px 20px 100px;
   display: grid;
   place-items: center;
   position: relative;
   overflow: hidden;
-}
-
-/* Patrón sutil de damasco en el fondo */
-.gifts::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 50%, rgba(211, 56, 0, 0.02) 0%, transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(211, 56, 0, 0.02) 0%, transparent 50%);
-  pointer-events: none;
 }
 
 .gifts__title {

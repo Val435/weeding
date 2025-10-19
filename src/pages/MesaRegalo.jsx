@@ -4,6 +4,7 @@ import { animate, createTimeline, stagger } from "animejs";
 import "../components/Styles/Gifts.css";
 import simanImg from "../assets/siman.png";
 import porticoImg from "../assets/portico.png";
+import avionImg from "../assets/avion.png";
 
 /* ========= Modal elegante ========= */
 function Modal({
@@ -238,6 +239,13 @@ export default function GiftsSection() {
               ease: "out(3)"
             }, isMobile ? 900 : 1100);
 
+            timeline.add(card3Ref.current.querySelector('.gifts__logo'), {
+              opacity: [0, 1],
+              scale: [0.8, 1],
+              duration: isMobile ? 800 : 700,
+              ease: "out(3)"
+            }, isMobile ? 1000 : 1200);
+
             // Anima los textos dentro de las tarjetas
             [card1Ref, card2Ref, card3Ref].forEach((cardRef, index) => {
               timeline.add(cardRef.current.querySelectorAll('.gifts__hl'), {
@@ -293,8 +301,9 @@ export default function GiftsSection() {
           </button>
         </div>
 
-        {/* BANCO AGRÍCOLA */}
-        <div ref={card3Ref} className="gifts__card gifts__card--bank" style={{ opacity: 0 }}>
+        {/* HONEYMOON FUND */}
+        <div ref={card3Ref} className="gifts__card" style={{ opacity: 0 }}>
+          <img src={avionImg} alt="Honeymoon Fund" className="gifts__logo" style={{ opacity: 0 }} />
           <p className="gifts__hl" style={{ opacity: 0 }}>Honeymoon Fund</p>
           <p className="gifts__hl" style={{ opacity: 0 }}>0000000000</p>
           <button className="gifts__button" onClick={() => setOpenModal("bank")} style={{ opacity: 0 }}>

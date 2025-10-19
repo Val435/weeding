@@ -23,6 +23,21 @@ export default function SelectPerson() {
   const images = [img1, img2, img3, img4, img5];
   const [index, setIndex] = useState(0);
 
+  // Agrupar invitados por groupId
+  const groupedGuests = guest?.reduce((acc, g) => {
+    const groupId = g.groupId || `individual-${g.id}`;
+    if (!acc[groupId]) {
+      acc[groupId] = [];
+    }
+    acc[groupId].push(g);
+    return acc;
+  }, {}) || {};
+
+  const groups = Object.values(groupedGuests);
+
+  console.log("👥 Invitados recibidos:", guest);
+  console.log("🔢 Grupos organizados:", groups);
+
   const boxRef = useRef(null);
   const line1Ref = useRef(null);
   const line2Ref = useRef(null);
@@ -196,31 +211,45 @@ export default function SelectPerson() {
         </div>
 
         <div className="selectArea selectArea--perRowBtn">
-          <ul ref={listRef} className="selectList">
-            {guest.map((g) => (
-              <li key={g.id} className="selectRow">
-                <span className="selectRow__name">{g.fullName}</span>
-                <div className="selectRow__buttons">
-                  <button
-                    type="button"
-                    className={`selectRow__btn selectRow__btn--yes ${getResponse(g.id) === true ? "is-selected" : ""}`}
-                    onClick={() => setResponse(g.id, true)}
-                    aria-pressed={getResponse(g.id) === true}
-                  >
-                    SÍ ASISTIRÉ
-                  </button>
-                  <button
-                    type="button"
-                    className={`selectRow__btn selectRow__btn--no ${getResponse(g.id) === false ? "is-selected" : ""}`}
-                    onClick={() => setResponse(g.id, false)}
-                    aria-pressed={getResponse(g.id) === false}
-                  >
-                    NO PODRÉ ASISTIR
-                  </button>
+          {groups.map((group, groupIndex) => (
+            <div key={groupIndex} className="selectGroup">
+              {groups.length > 1 && (
+                <div className="selectGroup__header">
+                  <span className="selectGroup__label">
+                    {group[0].groupId ? `Grupo ${groupIndex + 1}` : 'Invitado individual'}
+                  </span>
+                  <span className="selectGroup__count">
+                    {group.length} {group.length === 1 ? 'persona' : 'personas'}
+                  </span>
                 </div>
-              </li>
-            ))}
-          </ul>
+              )}
+              <ul ref={groupIndex === 0 ? listRef : null} className="selectList">
+                {group.map((g) => (
+                  <li key={g.id} className="selectRow">
+                    <span className="selectRow__name">{g.fullName}</span>
+                    <div className="selectRow__buttons">
+                      <button
+                        type="button"
+                        className={`selectRow__btn selectRow__btn--yes ${getResponse(g.id) === true ? "is-selected" : ""}`}
+                        onClick={() => setResponse(g.id, true)}
+                        aria-pressed={getResponse(g.id) === true}
+                      >
+                        SÍ ASISTIRÉ
+                      </button>
+                      <button
+                        type="button"
+                        className={`selectRow__btn selectRow__btn--no ${getResponse(g.id) === false ? "is-selected" : ""}`}
+                        onClick={() => setResponse(g.id, false)}
+                        aria-pressed={getResponse(g.id) === false}
+                      >
+                        NO PODRÉ ASISTIR
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
 

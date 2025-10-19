@@ -571,3 +571,87 @@
   .vestimenta__decor--left2 { left: -124px; }
   .vestimenta__decor--right2 { right: -124px; }
 }
+
+/* ================================
+   GRUPOS MÚLTIPLES
+================================ */
+.selectGroup {
+  margin-bottom: 32px;
+}
+
+.selectGroup:last-child {
+  margin-bottom: 0;
+}
+
+.selectGroup__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #C7007B 0%, #D33800 100%);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(199, 0, 123, 0.2);
+}
+
+.selectGroup__label {
+  font-family: "Futura PT", "Futura", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.selectGroup__count {
+  font-family: "Futura PT", "Futura", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+@media (max-width: 768px) {
+  .selectGroup {
+    margin-bottom: 24px;
+  }
+
+  .selectGroup__header {
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+  }
+
+  .selectGroup__label {
+    font-size: 16px;
+  }
+
+  .selectGroup__count {
+    font-size: 13px;
+    padding: 3px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .selectGroup {
+    margin-bottom: 20px;
+  }
+
+  .selectGroup__header {
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .selectGroup__label {
+    font-size: 15px;
+  }
+
+  .selectGroup__count {
+    font-size: 12px;
+  }
+}

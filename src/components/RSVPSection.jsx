@@ -37,6 +37,10 @@ export default function RSVPSection() {
     try {
       const guests = await fetchGuests(fullName);
 
+      console.log("🔍 Búsqueda:", fullName);
+      console.log("📦 Invitados encontrados:", guests);
+      console.log("👥 Total de invitados:", guests.length);
+
       // Calcular tiempo transcurrido
       const elapsedTime = Date.now() - startTime;
       const remainingTime = Math.max(0, 2000 - elapsedTime);
