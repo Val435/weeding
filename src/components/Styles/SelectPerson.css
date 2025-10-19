@@ -78,6 +78,21 @@
   margin-bottom: 20px;
 }
 
+.selectBox__line--note{
+  color:#000;
+  font-size:15px;
+  line-height:1.5;
+  margin:0 0 20px;
+  font-family: var(--font-sans);
+  font-weight:400;
+  text-align: center;
+}
+
+.selectBox__highlight {
+  color: #D33800;
+  font-weight:500;
+}
+
 .selectBox__icon{
   width: 42px;
   height: 36px;

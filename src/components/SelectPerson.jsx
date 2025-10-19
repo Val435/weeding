@@ -27,6 +27,7 @@ export default function SelectPerson() {
   const line1Ref = useRef(null);
   const line2Ref = useRef(null);
   const line3Ref = useRef(null);
+  const line4Ref = useRef(null);
   const leftDecorRef = useRef(null);
   const rightDecorRef = useRef(null);
   const listRef = useRef(null);
@@ -101,7 +102,7 @@ export default function SelectPerson() {
     }, 0);
 
     // Anima las líneas de texto con stagger
-    timeline.add([line1Ref.current, line2Ref.current, line3Ref.current], {
+    timeline.add([line1Ref.current, line2Ref.current, line3Ref.current, line4Ref.current], {
       opacity: [0, 1],
       translateX: isMobile ? [-60, 0] : [-40, 0],
       duration: isMobile ? 700 : 600,
@@ -191,6 +192,9 @@ export default function SelectPerson() {
         <p ref={line3Ref} className="selectBox__line selectBox__line--es" style={{ opacity: 0 }}>
           <img src={etiquetaSvg} alt="Etiqueta" className="selectBox__icon" />
           ETIQUETA (BLACK TIE)
+        </p>
+        <p ref={line4Ref} className="selectBox__line selectBox__line--note" style={{ opacity: 0 }}>
+          INVITADAS: <span className="selectBox__highlight">AGRADECEMOS EVITAR VESTIDOS COLOR NEGRO</span>
         </p>
 
         <hr className="selectBox__rule" />

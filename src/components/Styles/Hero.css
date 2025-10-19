@@ -19,7 +19,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(127, 127, 3, 0.68);
+  background: rgba(127, 127, 3, 0.60);
   z-index: 0;
   pointer-events: none; /* Permite que las flores se vean */
 }
@@ -60,9 +60,13 @@
 .hero__names {
   font-family: "Against", serif;
   letter-spacing: 0.06em;
-  /*color: #F4F058;*/
   color: #FFFFFF;
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  text-shadow:
+    0 0 15px rgba(255, 255, 255, 1),
+    0 0 30px rgba(255, 255, 255, 0.8),
+    0 0 45px rgba(255, 255, 255, 0.6),
+    0 0 60px rgba(255, 255, 255, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.5);
   text-transform: uppercase;
   line-height: 1.1;
   margin: 0;
@@ -74,9 +78,13 @@
 .hero__amp {
   display: block;
   font-family: "Against", serif;
-  /*color: #F4F058;*/
   color: #FFFFFF;
-  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  text-shadow:
+    0 0 15px rgba(255, 255, 255, 1),
+    0 0 30px rgba(255, 255, 255, 0.8),
+    0 0 45px rgba(255, 255, 255, 0.6),
+    0 0 60px rgba(255, 255, 255, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.5);
   margin: 0.35em 0;  /* margen original */
   font-size: clamp(52px, 11vw, 96px);  /* tamaño normal responsive */
   font-weight: 400;
@@ -87,9 +95,13 @@
   font-family: "Against", serif;
   margin-top: 20px;
   font-size: clamp(14px, 2.5vw, 20px);
-  /*color: #F4F058;*/
   color: #FFFFFF;
   opacity: 0.95;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.9),
+    0 0 20px rgba(255, 255, 255, 0.7),
+    0 0 30px rgba(255, 255, 255, 0.5),
+    0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 /* Cintillo del countdown */

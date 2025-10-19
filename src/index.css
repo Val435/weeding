@@ -80,24 +80,28 @@
 html {
   overflow-x: hidden;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
   overflow-x: hidden;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   font-family: Georgia, "Times New Roman", serif; /* fuente por defecto del sitio */
-  background: #ffffff;           /* negro para que se note tu overlay */
-  color: #000000;                /* texto blanco por defecto */
+  background: #ffffff;
+  color: #000000;
   padding-top: var(--nav-h);
+  position: relative;
 }
 
 #root {
   overflow-x: hidden;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  position: relative;
 }
 
 /* enlaces y botones sin estilos del template */
