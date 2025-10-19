@@ -230,16 +230,7 @@ export default function RSVPSection() {
           >
             ENCUENTRA TUS INVITACIONES
           </button>
-          {showDecor && (
-            <button
-              type="button"
-              className="rsvp__btn rsvp__btn--ghost"
-              onClick={handleCancel}
-              style={{ opacity: 0 }}
-            >
-              Cancelar
-            </button>
-          )}
+       
         </div>
       </div>
     </section>

@@ -158,7 +158,7 @@
   border:2px solid var(--brand);
   cursor:pointer;
   text-decoration:none;
-  transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
@@ -166,33 +166,42 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity .3s ease;
-}
-.btn:hover::before {
-  opacity: 1;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
 }
 .btn--primary{
   background:var(--brand);
   color:#fff;
-  box-shadow:
-    0 4px 12px rgba(211, 56, 0, 0.3),
-    0 8px 24px rgba(211, 56, 0, 0.15);
 }
 .btn--ghost{
   background:#fff;
   color:var(--brand);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 .btn:hover{
-  transform: translateY(-3px) scale(1.02);
-  box-shadow:
-    0 8px 24px rgba(211, 56, 0, 0.35),
-    0 12px 36px rgba(211, 56, 0, 0.2);
+  transform: translateY(-2px);
+}
+.btn--primary:hover {
+  color: var(--brand);
+}
+.btn--primary:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.btn--ghost::before {
+  background: var(--brand);
+}
+.btn--ghost:hover {
+  color: #fff;
+}
+.btn--ghost:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 .btn:active{
-  transform: translateY(-1px) scale(0.98);
+  transform: translateY(0);
 }
 
 /* Links de regalos mejorados */

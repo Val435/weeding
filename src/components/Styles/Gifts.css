@@ -168,7 +168,6 @@
   transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .gifts__button::before {
@@ -185,7 +184,6 @@
 .gifts__button:hover {
   color: #D33800;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .gifts__button:hover::before {
@@ -368,7 +366,6 @@
   letter-spacing: .06em;
   text-transform: uppercase;
   transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   position: relative;
   overflow: hidden;
 }
@@ -387,7 +384,6 @@
 .modalX__btn:hover {
   color: var(--brand);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .modalX__btn:hover::before {
@@ -399,13 +395,20 @@
   background: #ffffff;
   border: 2px solid rgba(211, 56, 0, 0.3);
   color: var(--brand);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.modalX__btn.is-ghost::before {
+  background: var(--brand);
 }
 
 .modalX__btn.is-ghost:hover {
-  background: #ffffff;
+  color: #ffffff;
   border-color: var(--brand);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.modalX__btn.is-ghost:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 /* Lista bancaria elegante */
@@ -500,15 +503,30 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .05em;
-  transition: all .3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.chip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #D33800;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
 }
 
 .chip:hover {
-  background: #D33800;
   color: #ffffff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.chip:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .chip.is-ok {

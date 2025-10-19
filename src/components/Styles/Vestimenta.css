@@ -181,7 +181,6 @@
   letter-spacing: .08em;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 6px 16px rgba(199, 0, 123, .3);
   transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
@@ -201,7 +200,6 @@
 .vestimenta__btn:hover {
   color: #c7007b;
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(199, 0, 123, .4);
 }
 
 .vestimenta__btn:hover::before {

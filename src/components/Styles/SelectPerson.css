@@ -21,8 +21,7 @@
   --btn-h: 74px;
   --btn-w: 336px;
   --btn-radius: 20px;
-  --btn-shadow: 0 6px 16px rgba(199,0,123,.3);
-  --btn-transition: transform .06s ease, opacity .2s ease, box-shadow .2s ease;
+  --btn-transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ================================
@@ -136,15 +135,27 @@
 .selectRow__btn{
   background: var(--sp-accent);
   color:#FFF;
-  border:0;
+  border: 2px solid var(--sp-accent);
   border-radius: 14px;
   font-size: 14px;
   cursor:pointer;
   padding: 10px 16px;
   min-width: 130px;
   font-family: var(--font-sans);
-  transition: var(--btn-transition);
-  box-shadow: var(--btn-shadow);
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.selectRow__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
 }
 
 .selectRow__btn--yes{
@@ -154,8 +165,17 @@
 .selectRow__btn--no{
   background: var(--sp-accent);
 }
-.selectRow__btn:hover{ filter:brightness(1.06); }
-.selectRow__btn:active{ transform:translateY(1px); }
+.selectRow__btn:hover {
+  color: var(--sp-accent);
+  transform: translateY(-2px);
+}
+.selectRow__btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.selectRow__btn:active{
+  transform:translateY(0);
+}
 
 /* Estado seleccionado: invertir estilo */
 .selectRow__btn.is-selected{
@@ -204,19 +224,41 @@
   border-radius: 20px;
   background: #D33800;
   color:#FFF;
-  border:0;
+  border: 2px solid #D33800;
   font-size: 14px;
   cursor:pointer;
   font-family: var(--font-sans);
-  transition: var(--btn-transition);
-  box-shadow: var(--btn-shadow);
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
-.nextBtn:hover{ filter:brightness(1.06); }
-.nextBtn:active{ transform:translateY(1px); }
+.nextBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+.nextBtn:hover {
+  color: #D33800;
+  transform: translateY(-2px);
+}
+.nextBtn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.nextBtn:active{
+  transform:translateY(0);
+}
 .nextBtn:disabled{
   opacity: .5;
   cursor: not-allowed;
-  box-shadow: none;
+}
+.nextBtn:disabled:hover {
+  transform: none;
 }
 
 /* ================================

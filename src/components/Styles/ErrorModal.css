@@ -176,7 +176,7 @@
   width: 100%;
   background: #D33800;
   color: #ffffff;
-  border: none;
+  border: 2px solid #D33800;
   border-radius: 12px;
   padding: 16px 32px;
   font-family: 'Futura PT', 'Futura', sans-serif;
@@ -185,10 +185,7 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow:
-    0 4px 12px rgba(211, 56, 0, 0.3),
-    0 8px 24px rgba(211, 56, 0, 0.15);
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
@@ -197,20 +194,21 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
 }
 
 .errorModal__btn:hover {
+  color: #D33800;
   transform: translateY(-2px);
-  box-shadow:
-    0 8px 24px rgba(211, 56, 0, 0.4),
-    0 12px 36px rgba(211, 56, 0, 0.2);
 }
 
 .errorModal__btn:hover::before {
-  opacity: 1;
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .errorModal__btn:active {

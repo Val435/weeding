@@ -93,23 +93,50 @@
 .noteBtn{
   background:#C7007B;
   color:#FFF;
-  border:0;
+  border: 2px solid #C7007B;
   border-radius: var(--btn-radius);
   font-size: 15px;
   cursor:pointer;
   height: 48px;
   padding: 0 18px;
   font-family: var(--font-sans);
-  transition: var(--btn-transition);
-  box-shadow: var(--btn-shadow);
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-.noteBtn:hover{ filter: brightness(1.06); }
-.noteBtn:active{ transform: translateY(1px); }
+.noteBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.noteBtn:hover {
+  color: #C7007B;
+  transform: translateY(-2px);
+}
+
+.noteBtn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.noteBtn:active {
+  transform: translateY(0);
+}
+
 .noteBtn:disabled{
   opacity: .5;
   cursor: not-allowed;
-  box-shadow: none;
+}
+
+.noteBtn:disabled:hover {
+  transform: none;
 }
 
 /* Variante ghost (para Saltar) */
@@ -117,7 +144,19 @@
   background: #fff;
   color: #C7007B;
   border: 2px solid #C7007B;
-  box-shadow: none;
+}
+
+.noteBtn--ghost::before {
+  background: #C7007B;
+}
+
+.noteBtn--ghost:hover {
+  color: #fff;
+}
+
+.noteBtn--ghost:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 @media (max-width:560px){
