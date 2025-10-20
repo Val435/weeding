@@ -17,7 +17,7 @@ export default function RSVPSection() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const showDecor = pathname !== "/";
-  const { setGuest } = useGuest();
+  const { setGuest, setAllGroups } = useGuest();
 
   const cardRef = useRef(null);
   const titleRef = useRef(null);
@@ -52,6 +52,7 @@ export default function RSVPSection() {
 
       if (guests.length > 0) {
         setGuest(guests);
+        setAllGroups(guests); // Guardar TODOS los grupos encontrados
 
         // Agrupar por groupId para determinar cuántos grupos diferentes hay
         const groupedGuests = guests.reduce((acc, g) => {

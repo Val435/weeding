@@ -7,8 +7,9 @@ import florIzq from "../assets/florIzq1.png";
 import florDer from "../assets/florDer1.png";
 
 export default function SelectGroup() {
-  const { guest, setGuest } = useGuest();
+  const { guest, setGuest, allGroups } = useGuest();
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState(null);
   const navigate = useNavigate();
 
   const cardRef = useRef(null);
@@ -18,8 +19,11 @@ export default function SelectGroup() {
   const leftDecorRef = useRef(null);
   const rightDecorRef = useRef(null);
 
+  // Usar allGroups si existe, sino usar guest
+  const guestsToShow = allGroups || guest;
+
   // Agrupar invitados por groupId
-  const groupedGuests = guest?.reduce((acc, g) => {
+  const groupedGuests = guestsToShow?.reduce((acc, g) => {
     const groupId = g.groupId || `individual-${g.id}`;
     if (!acc[groupId]) {
       acc[groupId] = [];
@@ -34,9 +38,16 @@ export default function SelectGroup() {
   console.log("📦 Datos de grupos:", groups);
 
   const handleSelectGroup = (groupGuests) => {
-    console.log("✅ Grupo seleccionado:", groupGuests);
-    setGuest(groupGuests);
-    navigate("/select");
+    console.log("✅ Grupo seleccionado temporalmente:", groupGuests);
+    setSelectedGroup(groupGuests);
+  };
+
+  const handleConfirm = () => {
+    if (selectedGroup) {
+      console.log("✅ Confirmando grupo:", selectedGroup);
+      setGuest(selectedGroup);
+      navigate("/select");
+    }
   };
 
   const handleSearchAgain = () => {
@@ -109,7 +120,7 @@ export default function SelectGroup() {
   }, [hasAnimated]);
 
   // Validación de invitados (después de todos los hooks)
-  if (!guest || guest.length === 0) {
+  if (!guestsToShow || guestsToShow.length === 0) {
     return (
       <section className="selectGroup">
         <div className="selectGroup__card" style={{ textAlign: 'center', padding: '60px 20px' }}>
@@ -188,6 +199,14 @@ export default function SelectGroup() {
           <button
             type="button"
             className="selectGroup__btn selectGroup__btn--primary"
+            onClick={handleConfirm}
+            disabled={!selectedGroup}
+          >
+            CONTINUAR
+          </button>
+          <button
+            type="button"
+            className="selectGroup__btn selectGroup__btn--secondary"
             onClick={handleSearchAgain}
           >
             BUSCAR NUEVAMENTE

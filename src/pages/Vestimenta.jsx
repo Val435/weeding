@@ -7,6 +7,11 @@ import "../components/Styles/Vestimenta.css";
 export default function Vestimenta() {
   const [pinterestReady, setPinterestReady] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [boardDims, setBoardDims] = useState({
+    width: 960,
+    scaleWidth: 180,
+    scaleHeight: 240
+  });
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
   const ruleRef = useRef(null);
@@ -35,6 +40,98 @@ export default function Vestimenta() {
   useEffect(() => {
     if (pinterestReady && window.PinUtils?.build) window.PinUtils.build();
   }, [pinterestReady]);
+
+  // Calcular dimensiones responsivas del board para mostrar más columnas
+  useEffect(() => {
+    const calculateBoardDimensions = () => {
+      const vw = window.innerWidth || 0;
+      const maxWidth = 1800;
+      const minWidth = 640;
+      const horizontalGutter =
+        vw >= 1600 ? 180 :
+        vw >= 1366 ? 140 :
+        vw >= 1024 ? 120 :
+        vw >= 768 ? 100 :
+        64;
+
+      const width = Math.round(Math.min(maxWidth, Math.max(minWidth, vw - horizontalGutter)));
+      const targetColumns =
+        vw >= 1800 ? 8 :
+        vw >= 1600 ? 7 :
+        vw >= 1200 ? 6 :
+        vw >= 900 ? 4 :
+        vw >= 640 ? 3 : 2;
+
+      const scaleWidth = Math.max(90, Math.round(width / targetColumns));
+      const targetRatio = vw >= 1024 ? 2.5 : 1.8;
+      const scaleHeight = Math.round(Math.min(1800, Math.max(400, scaleWidth * targetRatio)));
+
+      setBoardDims((prev) => {
+        if (
+          prev.width === width &&
+          prev.scaleWidth === scaleWidth &&
+          prev.scaleHeight === scaleHeight
+        ) {
+          return prev;
+        }
+        return {
+          width,
+          scaleWidth,
+          scaleHeight
+        };
+      });
+    };
+
+    calculateBoardDimensions();
+    window.addEventListener("resize", calculateBoardDimensions);
+    return () => window.removeEventListener("resize", calculateBoardDimensions);
+  }, []);
+
+  // Fuerza al embed de Pinterest a ocupar todo el ancho disponible
+  useEffect(() => {
+    if (!pinterestReady) return;
+
+    const ensureFullWidth = () => {
+      const host = cardRef.current;
+      if (!host) return;
+
+      const pinterestWrappers = host.querySelectorAll("div, iframe");
+      pinterestWrappers.forEach((element) => {
+        element.style.width = "100%";
+        element.style.maxWidth = "100%";
+        element.removeAttribute("width");
+      });
+    };
+
+    let observer;
+
+    if (typeof MutationObserver !== "undefined" && cardRef.current) {
+      observer = new MutationObserver(ensureFullWidth);
+      observer.observe(cardRef.current, { childList: true, subtree: true });
+    }
+
+    ensureFullWidth();
+    window.addEventListener("resize", ensureFullWidth);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", ensureFullWidth);
+    };
+  }, [pinterestReady]);
+
+  // Reconstruir embed cuando cambian las dimensiones
+  useEffect(() => {
+    if (!pinterestReady) return;
+    const rebuild = () => window.PinUtils?.build?.();
+
+    if (typeof window.requestAnimationFrame === "function") {
+      const rafId = window.requestAnimationFrame(rebuild);
+      return () => window.cancelAnimationFrame(rafId);
+    }
+
+    const timerId = window.setTimeout(rebuild, 0);
+    return () => window.clearTimeout(timerId);
+  }, [pinterestReady, boardDims]);
 
   // Animaciones épicas al entrar con Intersection Observer
   useEffect(() => {
@@ -166,11 +263,13 @@ export default function Vestimenta() {
 
         <div ref={cardRef} className="vst__pinterestBoard" style={{ opacity: 0 }}>
           <a
+            key={`${boardDims.width}-${boardDims.scaleWidth}-${boardDims.scaleHeight}`}
             data-pin-do="embedBoard"
-            data-pin-board-width="1400"
-            data-pin-scale-height="500"
-            data-pin-scale-width="50"
+            data-pin-board-width={boardDims.width}
+            data-pin-scale-height={boardDims.scaleHeight}
+            data-pin-scale-width={boardDims.scaleWidth}
             href="https://www.pinterest.com/vportilloc/inspo-de-outfits-de-boda/"
+            style={{ display: "block" }}
           />
         </div>
       </div>

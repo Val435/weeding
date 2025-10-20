@@ -79,7 +79,7 @@
   border-radius: 18px;
   background: linear-gradient(to right, #ffffff, #fefefe);
   cursor: pointer;
-  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -91,7 +91,7 @@
   inset: 0;
   background: linear-gradient(135deg, rgba(199, 0, 123, 0.08), rgba(211, 56, 0, 0.08));
   opacity: 0;
-  transition: opacity .35s ease;
+  transition: opacity .4s ease;
 }
 
 .selectGroup__radio-wrapper:hover {
@@ -114,6 +114,7 @@
   background: linear-gradient(135deg, rgba(199, 0, 123, 0.06), rgba(211, 56, 0, 0.06));
   box-shadow: 0 8px 24px rgba(211, 56, 0, 0.25);
   transform: translateY(-2px);
+  animation: selectBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .selectGroup__radio-wrapper:has(.selectGroup__radio-input:checked)::before {
@@ -134,7 +135,7 @@
   border: 3px solid #ccc;
   border-radius: 50%;
   background: var(--bg);
-  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -171,7 +172,7 @@
   line-height: 1.6;
   position: relative;
   z-index: 1;
-  transition: all .3s ease;
+  transition: all .4s ease;
 }
 
 .selectGroup__radio-input:checked ~ .selectGroup__option-text {
@@ -180,12 +181,32 @@
   letter-spacing: 0.01em;
 }
 
+/* Animación de bounce al seleccionar */
+@keyframes selectBounce {
+  0% {
+    transform: translateY(-2px) scale(1);
+  }
+  40% {
+    transform: translateY(-2px) scale(1.03);
+  }
+  60% {
+    transform: translateY(-2px) scale(0.98);
+  }
+  80% {
+    transform: translateY(-2px) scale(1.01);
+  }
+  100% {
+    transform: translateY(-2px) scale(1);
+  }
+}
+
 /* Botones */
 .selectGroup__actions {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 14px;
   justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
   margin-top: 32px;
 }
 
@@ -238,6 +259,59 @@
 }
 
 .selectGroup__btn--primary:active {
+  transform: translateY(0);
+}
+
+.selectGroup__btn--primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.selectGroup__btn--primary:disabled:hover {
+  color: #fff;
+  transform: none;
+}
+
+.selectGroup__btn--primary:disabled:hover::before {
+  transform: scaleX(0);
+}
+
+.selectGroup__btn--secondary {
+  min-width: 280px;
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.selectGroup__btn--secondary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.selectGroup__btn--secondary:hover {
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.selectGroup__btn--secondary:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.selectGroup__btn--secondary:active {
   transform: translateY(0);
 }
 
