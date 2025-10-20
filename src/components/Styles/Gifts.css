@@ -18,28 +18,28 @@
   overflow: hidden;
 }
 
+.gifts__title-wrapper {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
 .gifts__title {
   font-family: 'Against-Regular', 'against', serif;
   font-size: 48px;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: #2c2c2c;
-  margin: 0 0 64px;
+  color: #D33800;
+  margin: 0 0 16px;
   text-align: center;
-  position: relative;
-  padding-bottom: 24px;
 }
 
 /* Línea decorativa debajo del título */
-.gifts__title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #D33800, transparent);
+.gifts__title-rule {
+  width: 160px;
+  height: 3px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, transparent, #C7007B, #D33800, transparent);
+  border-radius: 2px;
 }
 
 /* Texto destacado elegante */
@@ -129,13 +129,23 @@
 }
 
 .gifts__logo {
-  width: clamp(200px, 65%, 420px);
   height: auto;
-  max-height: 100px;
   object-fit: contain;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
   transition: all .5s cubic-bezier(0.4, 0, 0.2, 1);
   margin-bottom: 8px;
+}
+
+/* Logo de Siman - más pequeño */
+.gifts__logo--siman {
+  width: clamp(150px, 55%, 300px);
+  max-height: 80px;
+}
+
+/* Logos de Pórtico y Avión - más grandes */
+.gifts__logo--large {
+  width: clamp(260px, 75%, 450px);
+  max-height: 130px;
 }
 
 .gifts__card:hover .gifts__logo {
@@ -538,14 +548,18 @@
     padding: 60px 16px 80px;
   }
 
-  .gifts__title {
-    font-size: clamp(32px, 9vw, 42px);
+  .gifts__title-wrapper {
     margin-bottom: 48px;
-    padding-bottom: 20px;
   }
 
-  .gifts__title::after {
-    width: 80px;
+  .gifts__title {
+    font-size: clamp(32px, 9vw, 42px);
+    margin-bottom: 16px;
+  }
+
+  .gifts__title-rule {
+    width: 160px;
+    height: 3px;
   }
 
   .gifts__hl {
@@ -567,9 +581,16 @@
     inset: 12px;
   }
 
-  .gifts__logo {
-    max-height: 85px;
-    width: clamp(160px, 70%, 320px);
+  /* Logo de Siman - más pequeño en mobile */
+  .gifts__logo--siman {
+    width: clamp(130px, 55%, 280px);
+    max-height: 70px;
+  }
+
+  /* Logos de Pórtico y Avión - mantienen tamaño grande en mobile */
+  .gifts__logo--large {
+    width: clamp(200px, 75%, 360px);
+    max-height: 110px;
   }
 
   .gifts__button {

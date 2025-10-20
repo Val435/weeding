@@ -1,12 +1,14 @@
 // src/pages/AllSet.jsx
 import { useEffect, useState, useRef } from "react";
 import { animate, createTimeline, stagger } from "animejs";
+import { useGuest } from "../GuestContext";
 import "../components/Styles/AllSet.css";
 import simanImg from "../assets/siman.png";
 import porticoImg from "../assets/portico.png";
 import avionImg from "../assets/avion.png";
 
 export default function AllSet() {
+  const { clearGuest } = useGuest();
   const [confetti, setConfetti] = useState([]);
 
   const cardRef = useRef(null);
@@ -17,6 +19,9 @@ export default function AllSet() {
   const hintRef = useRef(null);
 
   useEffect(() => {
+    // Limpiar los datos del guest cuando llegue a la página de confirmación final
+    clearGuest();
+
     const items = Array.from({ length: 40 }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,

@@ -1,0 +1,393 @@
+:root {
+  --nav-h: 50px;
+  --accent: #C7007B;
+  --accent-dark: #D33800;
+  --text: #000;
+  --bg: #FFF;
+  --font-serif: "Against", serif;
+  --font-sans: "Futura PT","Futura","Trebuchet MS", Arial, sans-serif;
+  --btn-h: 74px;
+  --btn-radius: 20px;
+  --card-radius: 24px;
+}
+
+/* =============== SELECT GROUP =============== */
+.selectGroup {
+  position: relative;
+  min-height: calc(100vh - var(--nav-h));
+  display: grid;
+  place-items: center;
+  padding: calc(var(--nav-h) + 24px) 16px 60px;
+  background:
+    radial-gradient(1000px 700px at -10% 0%, rgba(199, 0, 123, .05), transparent 60%),
+    radial-gradient(1000px 700px at 110% 5%, rgba(211, 56, 0, .05), transparent 60%),
+    linear-gradient(180deg, #ffffff, #fbfaf8);
+}
+
+.selectGroup__card {
+  width: min(920px, 96vw);
+  margin: 0 auto;
+  background: var(--bg);
+  border-radius: var(--card-radius);
+  padding: 32px 32px 28px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* Título */
+.selectGroup__title {
+  margin: 0 0 20px;
+  color: var(--accent-dark);
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+/* Descripción */
+.selectGroup__desc {
+  margin: 0 auto 40px;
+  max-width: 680px;
+  color: #555;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* Opciones */
+.selectGroup__options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.selectGroup__option {
+  position: relative;
+}
+
+/* Radio Button Custom */
+.selectGroup__radio-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 28px;
+  border: 2px solid #ddd;
+  border-radius: 18px;
+  background: linear-gradient(to right, #ffffff, #fefefe);
+  cursor: pointer;
+  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.selectGroup__radio-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(199, 0, 123, 0.08), rgba(211, 56, 0, 0.08));
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+
+.selectGroup__radio-wrapper:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(199, 0, 123, 0.2);
+}
+
+.selectGroup__radio-wrapper:hover::before {
+  opacity: 1;
+}
+
+.selectGroup__radio-input:checked + .selectGroup__radio-custom ~ .selectGroup__radio-wrapper,
+.selectGroup__radio-input:checked ~ .selectGroup__option-text {
+  pointer-events: none;
+}
+
+.selectGroup__radio-wrapper:has(.selectGroup__radio-input:checked) {
+  border-color: var(--accent-dark);
+  background: linear-gradient(135deg, rgba(199, 0, 123, 0.06), rgba(211, 56, 0, 0.06));
+  box-shadow: 0 8px 24px rgba(211, 56, 0, 0.25);
+  transform: translateY(-2px);
+}
+
+.selectGroup__radio-wrapper:has(.selectGroup__radio-input:checked)::before {
+  opacity: 1;
+}
+
+.selectGroup__radio-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.selectGroup__radio-custom {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border: 3px solid #ccc;
+  border-radius: 50%;
+  background: var(--bg);
+  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.selectGroup__radio-custom::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  transition: transform .4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 2px 6px rgba(211, 56, 0, 0.4);
+}
+
+.selectGroup__radio-input:checked ~ .selectGroup__radio-custom {
+  border-color: var(--accent-dark);
+  background: var(--bg);
+  box-shadow: 0 0 0 4px rgba(211, 56, 0, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.selectGroup__radio-input:checked ~ .selectGroup__radio-custom::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.selectGroup__option-text {
+  flex: 1;
+  color: #333;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+  transition: all .3s ease;
+}
+
+.selectGroup__radio-input:checked ~ .selectGroup__option-text {
+  font-weight: 600;
+  color: var(--accent-dark);
+  letter-spacing: 0.01em;
+}
+
+/* Botones */
+.selectGroup__actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.selectGroup__btn {
+  border: none;
+  border-radius: var(--btn-radius);
+  height: var(--btn-h);
+  padding: 0 32px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: transform .06s ease, opacity .2s ease, background .25s ease;
+  box-shadow: none;
+  text-shadow: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.selectGroup__btn--primary {
+  min-width: 280px;
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.selectGroup__btn--primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.selectGroup__btn--primary:hover {
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.selectGroup__btn--primary:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.selectGroup__btn--primary:active {
+  transform: translateY(0);
+}
+
+/* Decoraciones */
+.selectGroup__decor {
+  position: fixed;
+  top: 50px;
+  width: auto;
+  height: calc(100vh - 50px);
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.selectGroup__decor--left { left: -32px; }
+.selectGroup__decor--right { right: -32px; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .selectGroup__decor--left { left: -15vw; }
+  .selectGroup__decor--right { right: -15vw; }
+}
+
+@media (max-width: 768px) {
+  .selectGroup {
+    padding: calc(var(--nav-h) + 20px) 14px 50px;
+  }
+
+  .selectGroup__card {
+    padding: 28px 24px 24px;
+  }
+
+  .selectGroup__title {
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+
+  .selectGroup__desc {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  .selectGroup__radio-wrapper {
+    padding: 18px 20px;
+    gap: 14px;
+  }
+
+  .selectGroup__option-text {
+    font-size: 15px;
+  }
+
+  .selectGroup__btn--primary {
+    min-width: 250px;
+    font-size: 14px;
+  }
+
+  .selectGroup__decor--left { left: -12vw; }
+  .selectGroup__decor--right { right: -12vw; }
+}
+
+@media (max-width: 560px) {
+  .selectGroup {
+    padding: calc(var(--nav-h) + 16px) 12px 40px;
+  }
+
+  .selectGroup__card {
+    padding: 24px 20px 20px;
+    width: 100%;
+  }
+
+  .selectGroup__title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .selectGroup__desc {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .selectGroup__options {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .selectGroup__radio-wrapper {
+    padding: 16px 18px;
+    gap: 12px;
+    border-radius: 14px;
+  }
+
+  .selectGroup__radio-custom {
+    width: 20px;
+    height: 20px;
+  }
+
+  .selectGroup__radio-custom::after {
+    width: 10px;
+    height: 10px;
+  }
+
+  .selectGroup__option-text {
+    font-size: 14px;
+  }
+
+  .selectGroup__actions {
+    margin-top: 24px;
+  }
+
+  .selectGroup__btn {
+    height: 64px;
+  }
+
+  .selectGroup__btn--primary {
+    width: 100%;
+    min-width: unset;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .selectGroup__decor--left { left: -180px; }
+  .selectGroup__decor--right { right: -180px; }
+}
+
+@media (max-width: 400px) {
+  .selectGroup__card {
+    padding: 20px 16px 18px;
+  }
+
+  .selectGroup__title {
+    font-size: 18px;
+  }
+
+  .selectGroup__desc {
+    font-size: 13px;
+  }
+
+  .selectGroup__radio-wrapper {
+    padding: 14px 16px;
+  }
+
+  .selectGroup__option-text {
+    font-size: 13px;
+  }
+
+  .selectGroup__btn {
+    height: 60px;
+  }
+
+  .selectGroup__btn--primary {
+    font-size: 14px;
+  }
+}

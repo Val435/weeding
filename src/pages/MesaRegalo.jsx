@@ -148,6 +148,7 @@ export default function GiftsSection() {
   const [hasAnimated, setHasAnimated] = useState(false);
 
   const titleRef = useRef(null);
+  const ruleRef = useRef(null);
   const card1Ref = useRef(null);
   const card2Ref = useRef(null);
   const card3Ref = useRef(null);
@@ -195,6 +196,15 @@ export default function GiftsSection() {
               delay: stagger(isMobile ? 30 : 50),
               ease: "out(3)"
             }, 0);
+
+            // Anima la línea decorativa (igual que en Vestimenta)
+            if (ruleRef.current) {
+              timeline.add(ruleRef.current, {
+                opacity: [0, 1],
+                scaleX: [0, 1],
+                duration: isMobile ? 600 : 500
+              }, isMobile ? 600 : 700);
+            }
 
             // Anima las tarjetas con efectos 3D espectaculares (más dramáticas en móvil)
             timeline.add(card1Ref.current, {
@@ -279,12 +289,15 @@ export default function GiftsSection() {
   return (
     <section id="regalos" className="gifts">
       {/* Título superior */}
-      <h2 ref={titleRef} className="gifts__title">MUESTRA DE CARIÑO</h2>
+      <div className="gifts__title-wrapper">
+        <h2 ref={titleRef} className="gifts__title">MUESTRA DE CARIÑO</h2>
+        <div ref={ruleRef} className="gifts__title-rule" style={{ opacity: 0 }}></div>
+      </div>
 
       <div className="gifts__stack">
         {/* SIMAN */}
         <div ref={card1Ref} className="gifts__card" style={{ opacity: 0 }}>
-          <img src={simanImg} alt="Siman" className="gifts__logo" style={{ opacity: 0 }} />
+          <img src={simanImg} alt="Siman" className="gifts__logo gifts__logo--siman" style={{ opacity: 0 }} />
           <p className="gifts__hl" style={{ opacity: 0 }}>Pocasangre Portillo</p>
           <p className="gifts__hl" style={{ opacity: 0 }}>10016317</p>
           <button className="gifts__button" onClick={() => setOpenModal("siman")} style={{ opacity: 0 }}>
@@ -294,7 +307,7 @@ export default function GiftsSection() {
 
         {/* PÓRTICO REAL */}
         <div ref={card2Ref} className="gifts__card" style={{ opacity: 0 }}>
-          <img src={porticoImg} alt="Pórtico Real" className="gifts__logo" style={{ opacity: 0 }} />
+          <img src={porticoImg} alt="Pórtico Real" className="gifts__logo gifts__logo--large" style={{ opacity: 0 }} />
           <p className="gifts__hl" style={{ opacity: 0 }}>Boda Pocasangre Portillo</p>
           <button className="gifts__button" onClick={() => setOpenModal("portico")} style={{ opacity: 0 }}>
             VER MESA
@@ -303,7 +316,7 @@ export default function GiftsSection() {
 
         {/* HONEYMOON FUND */}
         <div ref={card3Ref} className="gifts__card" style={{ opacity: 0 }}>
-          <img src={avionImg} alt="Honeymoon Fund" className="gifts__logo" style={{ opacity: 0 }} />
+          <img src={avionImg} alt="Honeymoon Fund" className="gifts__logo gifts__logo--large" style={{ opacity: 0 }} />
           <p className="gifts__hl" style={{ opacity: 0 }}>Honeymoon Fund</p>
           <p className="gifts__hl" style={{ opacity: 0 }}>0000000000</p>
           <button className="gifts__button" onClick={() => setOpenModal("bank")} style={{ opacity: 0 }}>

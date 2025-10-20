@@ -52,7 +52,26 @@ export default function RSVPSection() {
 
       if (guests.length > 0) {
         setGuest(guests);
-        navigate("/select");
+
+        // Agrupar por groupId para determinar cuántos grupos diferentes hay
+        const groupedGuests = guests.reduce((acc, g) => {
+          const groupId = g.groupId || `individual-${g.id}`;
+          if (!acc[groupId]) {
+            acc[groupId] = [];
+          }
+          acc[groupId].push(g);
+          return acc;
+        }, {});
+
+        const uniqueGroups = Object.keys(groupedGuests);
+
+        // Si hay más de un grupo diferente, ir a SelectGroup
+        // Si hay un solo grupo, ir directo a SelectPerson
+        if (uniqueGroups.length > 1) {
+          navigate("/select-group");
+        } else {
+          navigate("/select");
+        }
       } else {
         setShowError(true);
       }

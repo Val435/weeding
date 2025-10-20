@@ -23,20 +23,7 @@ export default function SelectPerson() {
   const images = [img1, img2, img3, img4, img5];
   const [index, setIndex] = useState(0);
 
-  // Agrupar invitados por groupId
-  const groupedGuests = guest?.reduce((acc, g) => {
-    const groupId = g.groupId || `individual-${g.id}`;
-    if (!acc[groupId]) {
-      acc[groupId] = [];
-    }
-    acc[groupId].push(g);
-    return acc;
-  }, {}) || {};
-
-  const groups = Object.values(groupedGuests);
-
   console.log("👥 Invitados recibidos:", guest);
-  console.log("🔢 Grupos organizados:", groups);
 
   const boxRef = useRef(null);
   const line1Ref = useRef(null);
@@ -47,29 +34,6 @@ export default function SelectPerson() {
   const listRef = useRef(null);
   const footerRef = useRef(null);
   const carouselRef = useRef(null);
-
-  if (!guest || guest.length === 0) {
-    return (
-      <section className="select">
-        <div className="selectBox" style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <h3 className="selectBox__line1--es" style={{ marginBottom: '20px' }}>
-            NO SE ENCONTRÓ INVITACIÓN
-          </h3>
-          <p className="selectBox__line--es" style={{ marginBottom: '30px' }}>
-            Por favor, vuelve al inicio y busca tu invitación nuevamente.
-          </p>
-          <button
-            className="nextBtn"
-            type="button"
-            onClick={() => navigate("/")}
-            style={{ margin: '0 auto' }}
-          >
-            VOLVER AL INICIO
-          </button>
-        </div>
-      </section>
-    );
-  }
 
   const setResponse = (id, willAttend) => {
     setResponses((prev) => {
@@ -82,11 +46,11 @@ export default function SelectPerson() {
   const getResponse = (id) => responses.get(id);
 
   const allHaveResponded = () => {
-    return guest.every((g) => responses.has(g.id));
+    return guest?.every((g) => responses.has(g.id)) || false;
   };
 
   const respondedCount = responses.size;
-  const totalPeople = guest.length;
+  const totalPeople = guest?.length || 0;
 
   const handleNext = async () => {
     for (let [id, attending] of responses.entries()) {
@@ -176,6 +140,30 @@ export default function SelectPerson() {
     return () => clearInterval(interval);
   }, [images.length]);
 
+  // Validación de invitados (después de todos los hooks)
+  if (!guest || guest.length === 0) {
+    return (
+      <section className="select">
+        <div className="selectBox" style={{ textAlign: 'center', padding: '60px 20px' }}>
+          <h3 className="selectBox__line1--es" style={{ marginBottom: '20px' }}>
+            NO SE ENCONTRÓ INVITACIÓN
+          </h3>
+          <p className="selectBox__line--es" style={{ marginBottom: '30px' }}>
+            Por favor, vuelve al inicio y busca tu invitación nuevamente.
+          </p>
+          <button
+            className="nextBtn"
+            type="button"
+            onClick={() => navigate("/")}
+            style={{ margin: '0 auto' }}
+          >
+            VOLVER AL INICIO
+          </button>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="select">
       <img
@@ -211,45 +199,31 @@ export default function SelectPerson() {
         </div>
 
         <div className="selectArea selectArea--perRowBtn">
-          {groups.map((group, groupIndex) => (
-            <div key={groupIndex} className="selectGroup">
-              {groups.length > 1 && (
-                <div className="selectGroup__header">
-                  <span className="selectGroup__label">
-                    {group[0].groupId ? `Grupo ${groupIndex + 1}` : 'Invitado individual'}
-                  </span>
-                  <span className="selectGroup__count">
-                    {group.length} {group.length === 1 ? 'persona' : 'personas'}
-                  </span>
+          <ul ref={listRef} className="selectList">
+            {guest?.map((g) => (
+              <li key={g.id} className="selectRow">
+                <span className="selectRow__name">{g.fullName}</span>
+                <div className="selectRow__buttons">
+                  <button
+                    type="button"
+                    className={`selectRow__btn selectRow__btn--yes ${getResponse(g.id) === true ? "is-selected" : ""}`}
+                    onClick={() => setResponse(g.id, true)}
+                    aria-pressed={getResponse(g.id) === true}
+                  >
+                    SÍ ASISTIRÉ
+                  </button>
+                  <button
+                    type="button"
+                    className={`selectRow__btn selectRow__btn--no ${getResponse(g.id) === false ? "is-selected" : ""}`}
+                    onClick={() => setResponse(g.id, false)}
+                    aria-pressed={getResponse(g.id) === false}
+                  >
+                    NO PODRÉ ASISTIR
+                  </button>
                 </div>
-              )}
-              <ul ref={groupIndex === 0 ? listRef : null} className="selectList">
-                {group.map((g) => (
-                  <li key={g.id} className="selectRow">
-                    <span className="selectRow__name">{g.fullName}</span>
-                    <div className="selectRow__buttons">
-                      <button
-                        type="button"
-                        className={`selectRow__btn selectRow__btn--yes ${getResponse(g.id) === true ? "is-selected" : ""}`}
-                        onClick={() => setResponse(g.id, true)}
-                        aria-pressed={getResponse(g.id) === true}
-                      >
-                        SÍ ASISTIRÉ
-                      </button>
-                      <button
-                        type="button"
-                        className={`selectRow__btn selectRow__btn--no ${getResponse(g.id) === false ? "is-selected" : ""}`}
-                        onClick={() => setResponse(g.id, false)}
-                        aria-pressed={getResponse(g.id) === false}
-                      >
-                        NO PODRÉ ASISTIR
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

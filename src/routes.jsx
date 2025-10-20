@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import DetailsSection from "./components/DetailsSection";
 
 import RSVPSection from "./components/RSVPSection";
+import SelectGroupPage from "./pages/SelectGroupPage";
 import SelectPersonPage from "./pages/SelectPersonPage";
 import MesaRegalo from "./pages/MesaRegalo";
 import Vestimenta from "./pages/Vestimenta";
@@ -25,6 +26,7 @@ export const appRoutes = (eventDate, countdown, goToRSVP) => [
     ),
   },
   { path: "/rsvp", element: <RSVPSection /> },
+  { path: "/select-group", element: <SelectGroupPage /> },
   { path: "/select", element: <SelectPersonPage /> },
   { path: "/gift", element: <MesaRegalo /> },
   { path: "/dress-code", element: <Vestimenta /> },
