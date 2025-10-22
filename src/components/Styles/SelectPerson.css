@@ -34,13 +34,13 @@
   align-items: center;
   position: relative;
   min-height: 100vh;
-  padding: 40px var(--page-side-px) 60px;
+  padding: 40px var(--page-gutter-tight) 60px;
 }
 
 .selectBox{
-  width: min(var(--page-max-w), 96vw);
+  width: min(var(--page-max-w), 100%);
   background:#fff;
-  padding:16px 20px 22px;
+  padding:16px clamp(18px, 5vw, 28px) 22px;
   color:var(--sp-blue);
   font-family: var(--font-serif);
   position: relative;
@@ -534,7 +534,7 @@
 /* === Carrusel tipo mosaico vivo === */
 .select__carousel{
   position: relative;
-  width: min(var(--page-max-w), 96vw);
+  width: min(var(--page-max-w), 100%);
   height: 480px;
   margin: 28px auto 0;
   perspective: 1500px;
@@ -660,8 +660,9 @@
 
 @media (max-width: 480px){
   .select__carousel{
-    width: min(392px, 92vw);
-    height: calc(522px * min(392px, 92vw) / 392);
+    width: min(392px, 100%);
+    aspect-ratio: 392 / 522;
+    height: auto;
   }
   .vestimenta__decor--left2 { left: -124px; }
   .vestimenta__decor--right2 { right: -124px; }

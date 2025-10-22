@@ -3,13 +3,13 @@
   background:#fff;
   display:grid;
   place-items:center;
-  padding: 24px var(--page-side-px) 48px;
+  padding: 24px 0 48px;
 }
 
 .noteBox{
-  width: min(var(--page-max-w), 96vw);
+  width: min(var(--page-max-tight), 100%);
   background:#fff;
-  padding: 16px 20px 22px;
+  padding: 16px var(--page-gutter-tight) 22px;
   color: var(--sp-blue);
   font-family: var(--font-serif);
 }

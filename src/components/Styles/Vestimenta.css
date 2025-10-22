@@ -31,7 +31,7 @@
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: 80px 40px 72px;
+  padding: 64px var(--page-gutter) 72px;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -126,7 +126,7 @@
 /* Pinterest Board - ocupa todo el ancho horizontal */
 .vst__pinterestBoard{
   position: relative;
-  width: min(1800px, calc(100vw - clamp(40px, 8vw, 120px)));
+  width: min(1800px, 100%);
   margin: clamp(28px, 6vw, 56px) auto 0;
   padding: clamp(14px, 3vw, 32px);
   box-sizing: border-box;
@@ -154,11 +154,11 @@
 /* Responsive */
 @media (max-width: 1200px) {
   .vst__container{
-    padding: 80px 30px 72px;
+    padding: 56px var(--page-gutter-tight) 68px;
   }
 
   .vst__pinterestBoard{
-    width: min(1400px, calc(100vw - clamp(32px, 10vw, 140px)));
+    width: min(1400px, 100%);
     padding: clamp(12px, 4vw, 26px);
   }
 }
@@ -169,11 +169,10 @@
   .vst__flor--right{ top: 180px; }
 
   .vst__container{
-    padding: 60px 20px 72px;
+    padding: 32px var(--page-gutter-tight) 60px;
   }
 
   .vst__pinterestBoard{
-    width: calc(100vw - clamp(28px, 14vw, 80px));
     margin: clamp(24px, 7vw, 40px) auto 0;
     padding: clamp(12px, 6vw, 24px);
   }
@@ -181,11 +180,10 @@
 
 @media (max-width: 480px){
   .vst__container{
-    padding: 60px 16px 72px;
+    padding: 24px var(--page-gutter-tight) 52px;
   }
 
   .vst__pinterestBoard{
-    width: calc(100vw - 28px);
     margin: clamp(20px, 6vw, 32px) auto 0;
     padding: clamp(10px, 7vw, 20px);
   }

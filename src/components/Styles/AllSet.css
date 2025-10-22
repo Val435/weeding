@@ -7,7 +7,7 @@
   --muted:#6b7280;
   --card:#ffffff;
   min-height: 100vh;
-  padding: 60px 20px;
+  padding: 60px var(--page-gutter);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -36,7 +36,8 @@
 
 .allset__card{
   position:relative;
-  width:min(800px, 92vw);
+  width:min(800px, 100%);
+  margin: 0 auto;
   background: linear-gradient(
     145deg,
     rgba(255, 255, 255, 0.95) 0%,

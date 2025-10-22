@@ -10,6 +10,13 @@
   font-style: normal;
   font-display: swap;
 }
+
+:root{
+  --page-max: 1100px;
+  --page-max-tight: 880px;
+  --page-gutter: clamp(16px, 6vw, 48px);
+  --page-gutter-tight: clamp(16px, 5vw, 36px);
+}
 * {
   box-sizing: border-box;
   margin: 0;
