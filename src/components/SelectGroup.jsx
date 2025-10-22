@@ -9,7 +9,7 @@ import florDer from "../assets/florDer1.png";
 export default function SelectGroup() {
   const { guest, setGuest, allGroups } = useGuest();
   const [hasAnimated, setHasAnimated] = useState(false);
-  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
   const navigate = useNavigate();
 
   const cardRef = useRef(null);
@@ -41,15 +41,17 @@ export default function SelectGroup() {
   console.log("👥 Grupos encontrados:", groups.length);
   console.log("📦 Datos de grupos:", groups);
 
-  const handleSelectGroup = (groupGuests) => {
-    console.log("✅ Grupo seleccionado temporalmente:", groupGuests);
-    setSelectedGroup(groupGuests);
+  const handleSelectGroup = (groupId, groupGuests) => {
+    console.log("✅ Grupo seleccionado temporalmente:", groupId, groupGuests);
+    setSelectedGroupId(groupId);
   };
 
   const handleConfirm = () => {
-    if (selectedGroup) {
-      console.log("✅ Confirmando grupo:", selectedGroup);
-      setGuest(selectedGroup);
+    if (selectedGroupId) {
+      // Encontrar el grupo seleccionado
+      const selectedGuests = groupedGuests[selectedGroupId];
+      console.log("✅ Confirmando grupo:", selectedGuests);
+      setGuest(selectedGuests);
       navigate("/select");
     }
   };
@@ -178,7 +180,7 @@ export default function SelectGroup() {
           {groups.map(([groupId, groupGuests], index) => {
             // Crear etiqueta de nombres del grupo
             const names = groupGuests.map(g => g.fullName).join(", ");
-            const isSelected = selectedGroup === groupGuests;
+            const isSelected = selectedGroupId === groupId;
 
             return (
               <div key={groupId} className="selectGroup__option" style={{ opacity: 0 }}>
@@ -187,7 +189,7 @@ export default function SelectGroup() {
                   onClick={(e) => {
                     // Prevenir navegación inmediata en móvil
                     e.preventDefault();
-                    handleSelectGroup(groupGuests);
+                    handleSelectGroup(groupId, groupGuests);
                   }}
                 >
                   <input
@@ -214,7 +216,7 @@ export default function SelectGroup() {
             type="button"
             className="selectGroup__btn selectGroup__btn--primary"
             onClick={handleConfirm}
-            disabled={!selectedGroup}
+            disabled={!selectedGroupId}
           >
             CONTINUAR
           </button>

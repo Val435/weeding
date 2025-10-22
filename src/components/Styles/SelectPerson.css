@@ -361,6 +361,14 @@
     width: 38px;
     height: 32px;
   }
+  .selectFooter {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .nextBtn {
+    width: 100%;
+  }
   .select__carousel {
     height: 400px;
     margin-top: 24px;
@@ -504,6 +512,7 @@
     font-weight: 500;
   }
   .nextBtn {
+    width: 100%;
     height: 70px;
     font-size: 15px;
     font-weight: 600;
