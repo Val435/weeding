@@ -22,6 +22,10 @@ export default function SelectGroup() {
   // Usar allGroups si existe, sino usar guest
   const guestsToShow = allGroups || guest;
 
+  console.log("🔍 SelectGroup - allGroups:", allGroups);
+  console.log("🔍 SelectGroup - guest:", guest);
+  console.log("🔍 SelectGroup - guestsToShow:", guestsToShow);
+
   // Agrupar invitados por groupId
   const groupedGuests = guestsToShow?.reduce((acc, g) => {
     const groupId = g.groupId || `individual-${g.id}`;
@@ -174,16 +178,26 @@ export default function SelectGroup() {
           {groups.map(([groupId, groupGuests], index) => {
             // Crear etiqueta de nombres del grupo
             const names = groupGuests.map(g => g.fullName).join(", ");
+            const isSelected = selectedGroup === groupGuests;
 
             return (
               <div key={groupId} className="selectGroup__option" style={{ opacity: 0 }}>
-                <label className="selectGroup__radio-wrapper">
+                <label
+                  className="selectGroup__radio-wrapper"
+                  onClick={(e) => {
+                    // Prevenir navegación inmediata en móvil
+                    e.preventDefault();
+                    handleSelectGroup(groupGuests);
+                  }}
+                >
                   <input
                     type="radio"
                     name="group-selection"
                     value={groupId}
                     className="selectGroup__radio-input"
-                    onChange={() => handleSelectGroup(groupGuests)}
+                    checked={isSelected}
+                    onChange={() => {}} // Manejado por el onClick del label
+                    onClick={(e) => e.stopPropagation()} // Prevenir doble disparo
                   />
                   <span className="selectGroup__radio-custom"></span>
                   <span className="selectGroup__option-text">

@@ -53,8 +53,9 @@
   font-weight: 400;
   letter-spacing: .12em;
   color: #D33800;
-  font-size: 48px;
+  font-size: clamp(32px, 8vw, 48px);
   line-height: 1.05;
+  white-space: nowrap;
 }
 .v-subtitle{
   margin: 8px 0 0;
@@ -153,8 +154,7 @@
 /* Responsive */
 @media (max-width: 1200px) {
   .vst__container{
-    padding-left: 30px;
-    padding-right: 30px;
+    padding: 80px 30px 72px;
   }
 
   .vst__pinterestBoard{
@@ -169,8 +169,7 @@
   .vst__flor--right{ top: 180px; }
 
   .vst__container{
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 80px 20px 72px;
   }
 
   .vst__pinterestBoard{
@@ -182,8 +181,7 @@
 
 @media (max-width: 480px){
   .vst__container{
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 80px 16px 72px;
   }
 
   .vst__pinterestBoard{

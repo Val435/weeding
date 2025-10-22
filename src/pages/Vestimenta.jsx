@@ -20,6 +20,7 @@ export default function Vestimenta() {
   const cardRef = useRef(null);
   // const florLeftRef = useRef(null);
   // const florRightRef = useRef(null);
+  const hiddenUntilAnimatedStyle = hasAnimated ? undefined : { opacity: 0 };
 
   // Cargar el script de Pinterest una sola vez
   useEffect(() => {
@@ -249,19 +250,19 @@ export default function Vestimenta() {
       <div className="vst__container">
         <header className="v-header">
           <h1 ref={titleRef} className="v-title" style={{ opacity: 1 }}>VESTIMENTA</h1>
-          <h2 ref={subtitleRef} className="v-subtitle" style={{ opacity: 0 }}>
+          <h2 ref={subtitleRef} className="v-subtitle" style={hiddenUntilAnimatedStyle}>
             Etiqueta <span className="v-subtle">(Black Tie)</span>
           </h2>
-          <div ref={ruleRef} className="v-rule" style={{ opacity: 0 }} />
+          <div ref={ruleRef} className="v-rule" style={hiddenUntilAnimatedStyle} />
         </header>
 
-        <p ref={noteRef} className="v-note" style={{ opacity: 0 }}>
+        <p ref={noteRef} className="v-note" style={hiddenUntilAnimatedStyle}>
           Invitadas:
           <span className="v-chip">Agradecemos evitar vestidos color negro</span>
         </p>
-        <p ref={leadRef} className="v-lead" style={{ opacity: 0 }}>Para inspirarse, les dejamos algunas ideas:</p>
+        <p ref={leadRef} className="v-lead" style={hiddenUntilAnimatedStyle}>Para inspirarse, les dejamos algunas ideas:</p>
 
-        <div ref={cardRef} className="vst__pinterestBoard" style={{ opacity: 0 }}>
+        <div ref={cardRef} className="vst__pinterestBoard" style={hiddenUntilAnimatedStyle}>
           <a
             key={`${boardDims.width}-${boardDims.scaleWidth}-${boardDims.scaleHeight}`}
             data-pin-do="embedBoard"

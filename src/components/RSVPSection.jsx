@@ -27,6 +27,7 @@ export default function RSVPSection() {
   const actionsRef = useRef(null);
   const leftDecorRef = useRef(null);
   const rightDecorRef = useRef(null);
+  const initialVisibilityStyle = hasAnimated ? undefined : { opacity: 0 };
 
   const handleFind = async () => {
     if (!fullName.trim()) return;
@@ -203,7 +204,7 @@ export default function RSVPSection() {
             alt=""
             aria-hidden="true"
             className="vestimenta__decor1 vestimenta__decor--left1"
-            style={{ opacity: 0 }}
+            style={initialVisibilityStyle}
           />
           <img
             ref={rightDecorRef}
@@ -211,16 +212,16 @@ export default function RSVPSection() {
             alt=""
             aria-hidden="true"
             className="vestimenta__decor1 vestimenta__decor--right1"
-            style={{ opacity: 0 }}
+            style={initialVisibilityStyle}
           />
         </>
       )}
 
-      <div ref={cardRef} className="rsvp__card" style={{ opacity: 0 }}>
-        <h3 ref={titleRef} className="rsvp__title" style={{ opacity: 0 }}>
+      <div ref={cardRef} className="rsvp__card" style={initialVisibilityStyle}>
+        <h3 ref={titleRef} className="rsvp__title" style={initialVisibilityStyle}>
           RSVP
         </h3>
-        <p ref={descRef} className="rsvp__desc" style={{ opacity: 0 }}>
+        <p ref={descRef} className="rsvp__desc" style={initialVisibilityStyle}>
           Por favor ingresa el nombre y apellido de uno de los miembros de tu grupo a continuación.
         </p>
 
@@ -228,7 +229,7 @@ export default function RSVPSection() {
           ref={labelRef}
           className="rsvp__label"
           htmlFor="fullname"
-          style={{ opacity: 0 }}
+          style={initialVisibilityStyle}
         >
           Nombre y apellido
         </label>
@@ -240,7 +241,7 @@ export default function RSVPSection() {
           placeholder="NOMBRE Y APELLIDO"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
-          style={{ opacity: 0 }}
+          style={initialVisibilityStyle}
         />
 
         <div ref={actionsRef} className="rsvp__actions">
@@ -248,7 +249,7 @@ export default function RSVPSection() {
             type="button"
             className="rsvp__btn rsvp__btn--primary"
             onClick={handleFind}
-            style={{ opacity: 0 }}
+            style={initialVisibilityStyle}
           >
             ENCUENTRA TUS INVITACIONES
           </button>

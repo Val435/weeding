@@ -362,8 +362,17 @@
     height: 32px;
   }
   .select__carousel {
-    height: 420px;
+    height: 400px;
     margin-top: 24px;
+    padding: 30px;
+  }
+  .select__img {
+    width: 160px;
+    height: 200px;
+  }
+  .select__img.is-active {
+    width: 280px;
+    height: 340px;
   }
 }
 
@@ -437,8 +446,17 @@
     font-weight: 600;
   }
   .select__carousel {
-    height: 380px;
+    height: 360px;
     margin-top: 24px;
+    padding: 20px;
+  }
+  .select__img {
+    width: 130px;
+    height: 160px;
+  }
+  .select__img.is-active {
+    width: 240px;
+    height: 290px;
   }
 }
 
@@ -491,34 +509,102 @@
     font-weight: 600;
   }
   .select__carousel {
-    height: 340px;
+    height: 320px;
+    padding: 15px;
+  }
+  .select__img {
+    width: 100px;
+    height: 130px;
+  }
+  .select__img.is-active {
+    width: 200px;
+    height: 250px;
   }
 }
 
-/* === Carrusel debajo de Select === */
+/* === Carrusel tipo mosaico vivo === */
 .select__carousel{
   position: relative;
- width: min(var(--page-max-w), 96vw);
+  width: min(var(--page-max-w), 96vw);
   height: 480px;
-  margin: 28px auto 0;      /* centrado y separado del bloque anterior */
-  border-radius: 16px;
-  overflow: hidden;
-  background: #d9d9d9;
-  box-shadow: 0 20px 60px rgba(0,0,0,.06);
+  margin: 28px auto 0;
+  perspective: 1500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border-radius: 0;
+  overflow: visible;
+  padding: 40px;
 }
 
 .select__img{
   position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
+  width: 200px;
+  height: 240px;
   object-fit: cover;
-  opacity: 0; visibility: hidden;
-  transition: opacity .45s ease, visibility .45s ease, transform .6s ease;
-  transform: scale(1.02);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.15);
+  transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform, filter, opacity;
+  filter: grayscale(0.5) brightness(0.8);
+  opacity: 0.7;
 }
+
+/* Posiciones organizadas en círculo perfecto alrededor del centro */
+.select__img:nth-child(1) {
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%) translateZ(-50px) scale(0.75);
+}
+
+.select__img:nth-child(2) {
+  top: 35%;
+  right: 12%;
+  transform: translateZ(-50px) scale(0.75) rotate(5deg);
+}
+
+.select__img:nth-child(3) {
+  bottom: 15%;
+  right: 20%;
+  transform: translateZ(-50px) scale(0.75) rotate(-3deg);
+}
+
+.select__img:nth-child(4) {
+  bottom: 15%;
+  left: 20%;
+  transform: translateZ(-50px) scale(0.75) rotate(3deg);
+}
+
+.select__img:nth-child(5) {
+  top: 35%;
+  left: 12%;
+  transform: translateZ(-50px) scale(0.75) rotate(-5deg);
+}
+
+/* Imagen activa: se levanta y crece dramáticamente al centro */
 .select__img.is-active{
-  opacity: 1; visibility: visible;
-  transform: scale(1);       /* ligero “zoom in” al entrar */
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  height: 410px;
+  transform: translate(-50%, -50%) translateZ(120px) rotate(0deg) scale(1);
+  z-index: 20;
+  box-shadow: 0 40px 120px rgba(0,0,0,.35);
+  filter: grayscale(0) brightness(1);
+  border-radius: 16px;
+  opacity: 1;
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+/* Efecto de resplandor pulsante */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 40px 120px rgba(0,0,0,.35), 0 0 60px rgba(199,0,123,.12);
+  }
+  50% {
+    box-shadow: 0 45px 130px rgba(0,0,0,.4), 0 0 80px rgba(199,0,123,.2);
+  }
 }
 
 /* Dots encima, centrados */
