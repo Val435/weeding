@@ -59,7 +59,7 @@
 }
 .v-subtitle{
   margin: 8px 0 0;
-  font-family: "Futura", sans-serif;
+  font-family: "Jost", sans-serif;
   font-weight: 600;
   letter-spacing: .06em;
   color: var(--brand-orange);
@@ -81,7 +81,7 @@
 .v-note{
   margin: 0 auto 6px;
   color: var(--muted);
-  font: 400 clamp(16px, 2.5vw, 18px)/1.8 "Futura", sans-serif;
+  font: 400 clamp(16px, 2.5vw, 18px)/1.8 "Jost", sans-serif;
 }
 .v-chip{
   display: inline-block;
@@ -96,7 +96,7 @@
 .v-lead{
   margin: 4px 0 22px;
   color: var(--muted);
-  font: 400 clamp(15px, 2.5vw, 17px)/1.8 "Futura", sans-serif;
+  font: 400 clamp(15px, 2.5vw, 17px)/1.8 "Jost", sans-serif;
 }
 
 /* Tarjeta del board perfectamente centrada */
@@ -169,7 +169,7 @@
   .vst__flor--right{ top: 180px; }
 
   .vst__container{
-    padding: 80px 20px 72px;
+    padding: 60px 20px 72px;
   }
 
   .vst__pinterestBoard{
@@ -181,7 +181,7 @@
 
 @media (max-width: 480px){
   .vst__container{
-    padding: 80px 16px 72px;
+    padding: 60px 16px 72px;
   }
 
   .vst__pinterestBoard{

@@ -11,7 +11,7 @@
 
   /* Fonts */
   --font-serif: Georgia, "Times New Roman", Times, serif;
-  --font-sans: "Futura PT","Futura","Trebuchet MS", Arial, sans-serif;
+  --font-sans: "Jost", "Inter", sans-serif;
 
   /* Sizing */
   --page-max-w: 815px;
@@ -690,7 +690,7 @@
 }
 
 .selectGroup__label {
-  font-family: "Futura PT", "Futura", sans-serif;
+  font-family: "Jost", sans-serif;
   font-size: 18px;
   font-weight: 600;
   color: #fff;
@@ -699,7 +699,7 @@
 }
 
 .selectGroup__count {
-  font-family: "Futura PT", "Futura", sans-serif;
+  font-family: "Jost", sans-serif;
   font-size: 14px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.9);

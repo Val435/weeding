@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap');
 
 @font-face {
   font-family: "Against";
@@ -9,82 +10,6 @@
   font-style: normal;
   font-display: swap;
 }
-@font-face {
-  font-family: "Futura";
-  src: url("/fonts/FuturaCyrillicLight.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Futura";
-  src: url("/fonts/FuturaCyrillicBook.ttf") format("truetype");
-  font-weight: 400; /* regular */
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Futura";
-  src: url("/fonts/FuturaCyrillicMedium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Futura";
-  src: url("/fonts/FuturaCyrillicDemi.ttf") format("truetype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Futura";
-  src: url("/fonts/FuturaCyrillicBold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Futura";
-  src: url("/fonts/FuturaCyrillicExtraBold.ttf") format("truetype");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Futura";
-  src: url("/fonts/FuturaCyrillicHeavy.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-/* Alias para usar "Futura PT" con tus archivos locales */
-@font-face {
-  font-family: "Futura PT";
-  src: url("/fonts/FuturaCyrillicBook.ttf") format("truetype");
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "Futura PT";
-  src: url("/fonts/FuturaCyrillicMedium.ttf") format("truetype");
-  font-weight: 450; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "Futura PT";
-  src: url("/fonts/FuturaCyrillicMedium.ttf") format("truetype");
-  font-weight: 500; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "Futura PT";
-  src: url("/fonts/FuturaCyrillicDemi.ttf") format("truetype");
-  font-weight: 600; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "Futura PT";
-  src: url("/fonts/FuturaCyrillicBold.ttf") format("truetype");
-  font-weight: 700; font-style: normal; font-display: swap;
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -93,6 +18,7 @@
 
 html {
   overflow-x: hidden;
+  overflow-y: scroll; /* Forzar scrollbar siempre visible */
   width: 100%;
   min-height: 100%;
   scroll-behavior: auto;
@@ -104,6 +30,7 @@ body {
   width: 100%;
   min-height: 100%;
   margin: 0;
+  padding: 0;
   font-family: Georgia, "Times New Roman", serif; /* fuente por defecto del sitio */
   background: #ffffff;
   color: #000000;

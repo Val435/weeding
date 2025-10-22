@@ -33,6 +33,7 @@
   padding: 40px 32px;
   max-width: 560px;
   width: 100%;
+  margin: 0 auto;
   box-shadow:
     0 10px 40px rgba(211, 56, 0, 0.15),
     0 30px 80px rgba(0, 0, 0, 0.2);
@@ -115,7 +116,7 @@
 }
 
 .errorModal__subtitle {
-  font-family: 'Futura PT', 'Futura', sans-serif;
+  font-family: "Jost", sans-serif;
   font-size: 16px;
   color: #D33800;
   margin: 0 0 16px;
@@ -179,7 +180,7 @@
   border: 2px solid #D33800;
   border-radius: 12px;
   padding: 16px 32px;
-  font-family: 'Futura PT', 'Futura', sans-serif;
+  font-family: "Jost", sans-serif;
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;

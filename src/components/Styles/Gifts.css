@@ -206,8 +206,9 @@
   background: rgba(26, 26, 26, .75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 24px;
   animation: modalFade .4s ease;
   z-index: 1000;
@@ -216,6 +217,8 @@
 .modalX__card {
   position: relative;
   width: min(680px, 94vw);
+  max-width: 680px;
+  margin: 0 auto;
   border-radius: 0;
   background: #ffffff;
   box-shadow:
