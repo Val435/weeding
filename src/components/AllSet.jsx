@@ -95,7 +95,7 @@ export default function AllSet() {
   }, []);
 
   const SIMAN_URL = "https://simangiftregistry.web.app/table/10016317";
-  const PORTICO_URL = "https://www.porticoreal.com.sv/boda-pocasangre-portillo-martin-valeria-te-15-de-noviembre-de-2025";
+  const PORTICO_URL = "https://www.porticoreal.com.sv/boda-pocasangre-portillo-martin-valeria-te-15-de-noviembre-de-2025"; // mismo enlace que en MesaRegalo.jsx
   const HONEYMOON_URL = "#"; // URL para Honeymoon Fund
   const HOME_URL = "/"; // ajusta según tu router
 
