@@ -1,0 +1,46 @@
+.orientation-lock__content{
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+}
+
+.orientation-lock__overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background:
+    radial-gradient(900px 600px at 50% 20%, rgba(199,0,123,.12), transparent 70%),
+    rgba(255,255,255,.96);
+  text-align: center;
+  pointer-events: all;
+  backdrop-filter: blur(2px);
+}
+
+.orientation-lock__inner{
+  width: min(360px, 100%);
+  padding: 28px 24px;
+  background: rgba(255,255,255,.98);
+  border-radius: 20px;
+  box-shadow: 0 18px 44px rgba(31,31,31,.12);
+}
+
+.orientation-lock__title{
+  margin: 0 0 12px;
+  font-family: "Jost", sans-serif;
+  font-weight: 600;
+  letter-spacing: .06em;
+  font-size: clamp(20px, 6vw, 28px);
+  color: #D33800;
+  text-transform: uppercase;
+}
+
+.orientation-lock__text{
+  margin: 0;
+  color: #5a5a5a;
+  font: 400 clamp(15px, 4vw, 18px)/1.6 "Jost", sans-serif;
+}
+

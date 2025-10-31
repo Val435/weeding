@@ -117,6 +117,7 @@
   display: block;
 }
 
+
 /* Responsive */
 @media (max-width: 1200px) {
   .vst__container{ padding: 56px var(--page-gutter-tight) 68px; }
