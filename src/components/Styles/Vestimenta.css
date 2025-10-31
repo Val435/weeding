@@ -1,5 +1,4 @@
 :root{
-  /* AJUSTA al alto real del navbar para que el contenido empiece EXACTO debajo */
   --nav-h: 72px;
 
   --ink: #1f1f1f;
@@ -12,6 +11,9 @@
 
   --radius: 16px;
   --shadow: 0 10px 30px rgba(0,0,0,.06);
+
+  --page-gutter: 24px;
+  --page-gutter-tight: 16px;
 }
 
 /* Sección base */
@@ -26,7 +28,7 @@
   overflow: hidden;
 }
 
-/* Contenedor centrado, columna única y ordenado */
+/* Contenedor */
 .vst__container{
   width: 100%;
   max-width: 100%;
@@ -37,15 +39,7 @@
   z-index: 1;
 }
 
-/* Flores decorativas: discretas y en esquinas */
-.vst__flor{
-  position: absolute; z-index: 0; pointer-events: none; opacity: .6; filter: saturate(1.05);
-  width: min(520px, 42vw); height: auto;
-}
-.vst__flor--left{ left: -8vw; top: 20px; transform: rotate(-1deg); }
-.vst__flor--right{ right: -8vw; top: 80px; transform: rotate(1deg); }
-
-/* Header (títulos) */
+/* Header */
 .v-header{ margin-bottom: clamp(16px, 3.5vw, 28px); }
 .v-title{
   margin: 0;
@@ -63,21 +57,16 @@
   font-weight: 600;
   letter-spacing: .06em;
   color: var(--brand-orange);
-  font-size: clamp(16px, 2.6vw, 22px); /* discreto */
+  font-size: clamp(16px, 2.6vw, 22px);
 }
-.v-subtle{
-  font-weight: 500;
-  color: #8a2a00;
-  letter-spacing: .04em;
-  opacity: .95;
-}
+.v-subtle{ font-weight: 500; color: #8a2a00; letter-spacing: .04em; opacity: .95; }
 .v-rule{
   width: 160px; height: 3px; margin: 16px auto 20px;
   background: linear-gradient(90deg, transparent, var(--brand-pink), var(--brand-orange), transparent);
   border-radius: 2px;
 }
 
-/* Texto y nota */
+/* Texto */
 .v-note{
   margin: 0 auto 6px;
   color: var(--muted);
@@ -99,34 +88,10 @@
   font: 400 clamp(15px, 2.5vw, 17px)/1.8 "Jost", sans-serif;
 }
 
-/* Tarjeta del board perfectamente centrada */
-.vst__boardCard{
-  position: relative;
-  background: #fff;
-  border: 1px solid rgba(0,0,0,.06);
-  border-radius: calc(var(--radius) + 4px);
-  padding: clamp(12px, 2.2vw, 18px);
-  box-shadow: var(--shadow);
-  opacity: 0;               /* anim start */
-  transform: translateY(8px);
-  max-width: 1400px;        /* límite visual cómodo */
-  margin: 0 auto;           /* ← CENTRADO */
-}
-
-/* Pinterest embebido, responsivo */
-.vst__boardCard iframe{
-  width: 100%;
-  min-height: clamp(520px, 72vh, 760px);
-  border: 0;
-  border-radius: 12px;
-  display: block;
-  background: #f6f6f6;
-}
-
-/* Pinterest Board - ocupa todo el ancho horizontal */
+/* Pinterest Board */
 .vst__pinterestBoard{
   position: relative;
-  width: min(1800px, 100%);
+  width: min(2800px, 100%);  /* abre bien ancho en ultrawide */
   margin: clamp(28px, 6vw, 56px) auto 0;
   padding: clamp(14px, 3vw, 32px);
   box-sizing: border-box;
@@ -144,7 +109,8 @@
 .vst__pinterestBoard iframe{
   width: 100% !important;
   max-width: 100% !important;
-  min-height: clamp(900px, 85vw, 1600px);
+  /* Este min-height es solo por primera carga; después la altura la dicta scaleHeight */
+  min-height: clamp(700px, 70vh, 1400px);
   border: 0;
   border-radius: calc(var(--radius) + 2px);
   background: #f7f7f7;
@@ -153,43 +119,14 @@
 
 /* Responsive */
 @media (max-width: 1200px) {
-  .vst__container{
-    padding: 56px var(--page-gutter-tight) 68px;
-  }
-
-  .vst__pinterestBoard{
-    width: min(1400px, 100%);
-    padding: clamp(12px, 4vw, 26px);
-  }
+  .vst__container{ padding: 56px var(--page-gutter-tight) 68px; }
+  .vst__pinterestBoard{ width: min(1600px, 100%); padding: clamp(12px, 4vw, 26px); }
 }
-
 @media (max-width: 768px){
-  .vst__flor{ width: min(380px, 70vw); opacity: .5; }
-  .vst__flor--left{ top: 80px; }
-  .vst__flor--right{ top: 180px; }
-
-  .vst__container{
-    padding: 32px var(--page-gutter-tight) 60px;
-  }
-
-  .vst__pinterestBoard{
-    margin: clamp(24px, 7vw, 40px) auto 0;
-    padding: clamp(12px, 6vw, 24px);
-  }
+  .vst__container{ padding: 32px var(--page-gutter-tight) 60px; }
+  .vst__pinterestBoard{ margin: clamp(24px, 7vw, 40px) auto 0; padding: clamp(12px, 6vw, 24px); }
 }
-
 @media (max-width: 480px){
-  .vst__container{
-    padding: 24px var(--page-gutter-tight) 52px;
-  }
-
-  .vst__pinterestBoard{
-    margin: clamp(20px, 6vw, 32px) auto 0;
-    padding: clamp(10px, 7vw, 20px);
-  }
-}
-
-@media (max-width: 420px){
-  .vst{ padding-top: calc(var(--nav-h) + 2px); }
-  .vst__boardCard iframe{ min-height: 480px; }
+  .vst__container{ padding: 24px var(--page-gutter-tight) 52px; }
+  .vst__pinterestBoard{ margin: clamp(20px, 6vw, 32px) auto 0; padding: clamp(10px, 7vw, 20px); }
 }

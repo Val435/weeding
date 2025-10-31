@@ -1,28 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 import { createTimeline, stagger } from "animejs";
-// import florIzq from "../assets/florIzq1.png";
-// import florDer from "../assets/florDer1.png";
 import "../components/Styles/Vestimenta.css";
 
 export default function Vestimenta() {
   const [pinterestReady, setPinterestReady] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
+
+  // Dimensiones + recuento exacto de columnas/filas
   const [boardDims, setBoardDims] = useState({
     width: 960,
     scaleWidth: 180,
-    scaleHeight: 240
+    scaleHeight: 240,
+    cols: 3,
+    rows: 4,
   });
+
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
   const ruleRef = useRef(null);
   const noteRef = useRef(null);
   const leadRef = useRef(null);
   const cardRef = useRef(null);
-  // const florLeftRef = useRef(null);
-  // const florRightRef = useRef(null);
+
   const hiddenUntilAnimatedStyle = hasAnimated ? undefined : { opacity: 0 };
 
-  // Cargar el script de Pinterest una sola vez
+  // 1) Cargar Pinterest una sola vez
   useEffect(() => {
     const src = "https://assets.pinterest.com/js/pinit.js";
     if (document.querySelector(`script[src="${src}"]`)) {
@@ -37,75 +39,131 @@ export default function Vestimenta() {
     document.body.appendChild(s);
   }, []);
 
-  // Construir widgets cuando esté listo
+  // 2) Cálculo responsivo CONTINUO: columnas y filas “reales”
   useEffect(() => {
-    if (pinterestReady && window.PinUtils?.build) window.PinUtils.build();
-  }, [pinterestReady]);
+    let t;
 
-  // Calcular dimensiones responsivas del board para mostrar más columnas
-  useEffect(() => {
-    const calculateBoardDimensions = () => {
+    const computeDims = () => {
       const vw = window.innerWidth || 0;
-      const maxWidth = 1800;
-      const minWidth = 640;
+      const vh = window.innerHeight || 0;
+
+      // Gutter para no pegarse a los bordes
       const horizontalGutter =
+        vw >= 1920 ? 220 :
         vw >= 1600 ? 180 :
         vw >= 1366 ? 140 :
         vw >= 1024 ? 120 :
-        vw >= 768 ? 100 :
-        64;
+        vw >=  768 ? 100 : 64;
 
+      // Ancho máximo del board (suficiente para ultrawide)
+      const maxWidth = 2800;
+      const minWidth = 520;
       const width = Math.round(Math.min(maxWidth, Math.max(minWidth, vw - horizontalGutter)));
-      const targetColumns =
-        vw >= 1800 ? 8 :
-        vw >= 1600 ? 7 :
-        vw >= 1200 ? 6 :
-        vw >= 900 ? 4 :
-        vw >= 640 ? 3 : 2;
 
-      const scaleWidth = Math.max(90, Math.round(width / targetColumns));
-      const targetRatio = vw >= 1024 ? 2.5 : 1.8;
-      const scaleHeight = Math.round(Math.min(1800, Math.max(400, scaleWidth * targetRatio)));
+      // Target de tamaño de “celda” (pin) para derivar columnas
+      const cellTarget =
+        vw >= 3000 ? 140 :
+        vw >= 2560 ? 150 :
+        vw >= 1920 ? 170 :
+        vw >= 1440 ? 190 :
+        vw >= 1280 ? 210 : 220;
 
-      setBoardDims((prev) => {
+      // COLS: aprox. anchoBoard / anchoCelda
+      const cols = Math.max(2, Math.min(16, Math.floor(width / cellTarget)));
+
+      // scaleWidth que enviamos al embed = anchoBoard / cols (con límites de seguridad)
+      const SCALE_MIN = 64;
+      const SCALE_MAX = 360;
+      const scaleWidth = Math.max(SCALE_MIN, Math.min(SCALE_MAX, Math.round(width / cols)));
+
+      // Relación de alto de un “tile” (Pinterest hace masonry, esto es una guía sólida)
+      const ratio = vw >= 1024 ? 2.5 : 1.8; // alto ≈ scaleWidth * ratio
+
+      // Alto “deseado” del board:
+      const baseBoardH = Math.round(vh * (vw >= 1024 ? 0.95 : 0.9));
+      const boost = Math.round((Math.max(cols - 4, 0) * 0.35 + 1) * scaleWidth * ratio);
+
+      const targetBoardH = Math.max(520, Math.min(3600, Math.max(baseBoardH, boost)));
+      const cellHeight = scaleWidth * ratio;
+      const rows = Math.max(3, Math.min(14, Math.floor(targetBoardH / cellHeight)));
+
+      // scaleHeight final que enviamos al embed (ligero margen para no cortar)
+      const scaleHeight = Math.round(Math.min(4000, rows * cellHeight * 1.02));
+
+      setBoardDims(prev => {
         if (
           prev.width === width &&
           prev.scaleWidth === scaleWidth &&
-          prev.scaleHeight === scaleHeight
-        ) {
-          return prev;
-        }
-        return {
-          width,
-          scaleWidth,
-          scaleHeight
-        };
+          prev.scaleHeight === scaleHeight &&
+          prev.cols === cols &&
+          prev.rows === rows
+        ) return prev;
+        return { width, scaleWidth, scaleHeight, cols, rows };
       });
     };
 
-    calculateBoardDimensions();
-    window.addEventListener("resize", calculateBoardDimensions);
-    return () => window.removeEventListener("resize", calculateBoardDimensions);
+    const onResize = () => {
+      clearTimeout(t);
+      t = setTimeout(computeDims, 120); // debounce
+    };
+
+    computeDims();
+    window.addEventListener("resize", onResize);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
-  // Fuerza al embed de Pinterest a ocupar todo el ancho disponible
+  // 3) Build inicial del embed (si no hay iframe aún)
+  useEffect(() => {
+    if (!pinterestReady || !cardRef.current) return;
+    const hasIframe = !!cardRef.current.querySelector("iframe");
+    if (!hasIframe) window.PinUtils?.build?.();
+  }, [pinterestReady]);
+
+  // 4) Rebuild cuando cambian cols o rows (sin necesidad de recargar)
+  useEffect(() => {
+    if (!pinterestReady || !cardRef.current) return;
+
+    const container = cardRef.current;
+    const lastCols = container.dataset.cols;
+    const lastRows = container.dataset.rows;
+
+    const colsChanged = String(boardDims.cols) !== lastCols;
+    const rowsChanged = String(boardDims.rows) !== lastRows;
+
+    if (colsChanged || rowsChanged) {
+      container.dataset.cols = String(boardDims.cols);
+      container.dataset.rows = String(boardDims.rows);
+
+      let t;
+      const safeRebuild = () => {
+        container.querySelectorAll("iframe").forEach((ifr) => ifr.remove());
+        window.PinUtils?.build?.();
+      };
+      clearTimeout(t);
+      t = setTimeout(safeRebuild, 80);
+      return () => clearTimeout(t);
+    }
+  }, [pinterestReady, boardDims.cols, boardDims.rows]);
+
+  // 5) Forzar ancho 100% del iframe sin reconstruir
   useEffect(() => {
     if (!pinterestReady) return;
 
     const ensureFullWidth = () => {
       const host = cardRef.current;
       if (!host) return;
-
-      const pinterestWrappers = host.querySelectorAll("div, iframe");
-      pinterestWrappers.forEach((element) => {
-        element.style.width = "100%";
-        element.style.maxWidth = "100%";
-        element.removeAttribute("width");
+      const nodes = host.querySelectorAll("div, iframe");
+      nodes.forEach((el) => {
+        el.style.width = "100%";
+        el.style.maxWidth = "100%";
+        el.removeAttribute("width");
       });
     };
 
     let observer;
-
     if (typeof MutationObserver !== "undefined" && cardRef.current) {
       observer = new MutationObserver(ensureFullWidth);
       observer.observe(cardRef.current, { childList: true, subtree: true });
@@ -120,25 +178,12 @@ export default function Vestimenta() {
     };
   }, [pinterestReady]);
 
-  // Reconstruir embed cuando cambian las dimensiones
-  useEffect(() => {
-    if (!pinterestReady) return;
-    const rebuild = () => window.PinUtils?.build?.();
-
-    if (typeof window.requestAnimationFrame === "function") {
-      const rafId = window.requestAnimationFrame(rebuild);
-      return () => window.cancelAnimationFrame(rafId);
-    }
-
-    const timerId = window.setTimeout(rebuild, 0);
-    return () => window.clearTimeout(timerId);
-  }, [pinterestReady, boardDims]);
-
-  // Animaciones épicas al entrar con Intersection Observer
+  // 6) Animaciones
   useEffect(() => {
     if (hasAnimated) return;
 
     const isMobile = window.innerWidth < 768;
+    const target = document.getElementById("vestimenta");
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -146,110 +191,99 @@ export default function Vestimenta() {
           if (entry.isIntersecting && !hasAnimated) {
             setHasAnimated(true);
 
-            const timeline = createTimeline({
-              defaults: {
-                ease: "out(4)"
-              }
-            });
+            const timeline = createTimeline({ defaults: { ease: "out(4)" } });
 
-            // Anima el título con efecto de letras
             if (titleRef.current) {
-              const titleChars = titleRef.current.textContent.split('');
-              titleRef.current.innerHTML = titleChars.map(char =>
-                `<span class="char" style="display:inline-block;opacity:0">${char === ' ' ? '&nbsp;' : char}</span>`
-              ).join('');
+              const titleChars = titleRef.current.textContent.split("");
+              titleRef.current.innerHTML = titleChars
+                .map(
+                  (c) =>
+                    `<span class="char" style="display:inline-block;opacity:0">${
+                      c === " " ? "&nbsp;" : c
+                    }</span>`
+                )
+                .join("");
 
-              timeline.add(titleRef.current.querySelectorAll('.char'), {
-                opacity: [0, 1],
-                translateY: isMobile ? [-30, 0] : [-50, 0],
-                rotateX: [90, 0],
-                duration: isMobile ? 600 : 800,
-                delay: stagger(isMobile ? 30 : 50),
-                ease: "out(3)"
-              }, 0);
+              timeline.add(
+                titleRef.current.querySelectorAll(".char"),
+                {
+                  opacity: [0, 1],
+                  translateY: isMobile ? [-30, 0] : [-50, 0],
+                  rotateX: [90, 0],
+                  duration: isMobile ? 600 : 800,
+                  delay: stagger(isMobile ? 30 : 50),
+                  ease: "out(3)",
+                },
+                0
+              );
             }
 
-            // Anima el subtítulo
-            timeline.add(subtitleRef.current, {
-              opacity: [0, 1],
-              translateY: isMobile ? [40, 0] : [30, 0],
-              scale: isMobile ? [0.9, 1] : [0.95, 1],
-              duration: isMobile ? 700 : 600
-            }, isMobile ? 400 : 500);
+            timeline.add(
+              subtitleRef.current,
+              {
+                opacity: [0, 1],
+                translateY: isMobile ? [40, 0] : [30, 0],
+                scale: isMobile ? [0.9, 1] : [0.95, 1],
+                duration: isMobile ? 700 : 600,
+              },
+              isMobile ? 400 : 500
+            );
 
-            // Anima la línea decorativa
-            timeline.add(ruleRef.current, {
-              opacity: [0, 1],
-              scaleX: [0, 1],
-              duration: isMobile ? 600 : 500
-            }, isMobile ? 600 : 700);
+            timeline.add(
+              ruleRef.current,
+              { opacity: [0, 1], scaleX: [0, 1], duration: isMobile ? 600 : 500 },
+              isMobile ? 600 : 700
+            );
 
-            // Anima la nota
-            timeline.add(noteRef.current, {
-              opacity: [0, 1],
-              translateX: isMobile ? [-50, 0] : [-30, 0],
-              duration: isMobile ? 600 : 500
-            }, isMobile ? 700 : 800);
+            timeline.add(
+              noteRef.current,
+              {
+                opacity: [0, 1],
+                translateX: isMobile ? [-50, 0] : [-30, 0],
+                duration: isMobile ? 600 : 500,
+              },
+              isMobile ? 700 : 800
+            );
 
-            // Anima el lead text
-            timeline.add(leadRef.current, {
-              opacity: [0, 1],
-              translateY: isMobile ? [20, 0] : [15, 0],
-              duration: isMobile ? 600 : 500
-            }, isMobile ? 800 : 900);
+            timeline.add(
+              leadRef.current,
+              {
+                opacity: [0, 1],
+                translateY: isMobile ? [20, 0] : [15, 0],
+                duration: isMobile ? 600 : 500,
+              },
+              isMobile ? 800 : 900
+            );
 
-            // Anima la tarjeta del Pinterest board con efecto 3D
-            timeline.add(cardRef.current, {
-              opacity: [0, 1],
-              translateY: isMobile ? [100, 0] : [80, 0],
-              rotateX: [45, 0],
-              scale: [0.8, 1],
-              duration: isMobile ? 1000 : 900,
-              ease: "out(4)"
-            }, isMobile ? 900 : 1000);
-
-            // Anima las flores laterales si existen
-            // if (florLeftRef.current && florRightRef.current) {
-            //   timeline.add(florLeftRef.current, {
-            //     opacity: [0, 0.6],
-            //     translateX: isMobile ? [-200, 0] : [-150, 0],
-            //     rotate: isMobile ? [-20, 0] : [-10, 0],
-            //     scale: isMobile ? [0.8, 1] : [0.9, 1],
-            //     duration: isMobile ? 1200 : 1000,
-            //     ease: "out(3)"
-            //   }, 0);
-
-            //   timeline.add(florRightRef.current, {
-            //     opacity: [0, 0.6],
-            //     translateX: isMobile ? [200, 0] : [150, 0],
-            //     rotate: isMobile ? [20, 0] : [10, 0],
-            //     scale: isMobile ? [0.8, 1] : [0.9, 1],
-            //     duration: isMobile ? 1200 : 1000,
-            //     ease: "out(3)"
-            //   }, 0);
-            // }
+            timeline.add(
+              cardRef.current,
+              {
+                opacity: [0, 1],
+                translateY: isMobile ? [100, 0] : [80, 0],
+                rotateX: [45, 0],
+                scale: [0.8, 1],
+                duration: isMobile ? 1000 : 900,
+                ease: "out(4)",
+              },
+              isMobile ? 900 : 1000
+            );
           }
         });
       },
-      { threshold: isMobile ? 0.1 : 0.2 }
+      { threshold: isMobile ? 0.1 : 0.2, rootMargin: "0px 0px -20% 0px" }
     );
 
-    if (titleRef.current) {
-      observer.observe(titleRef.current);
-    }
-
+    if (target) observer.observe(target);
     return () => observer.disconnect();
   }, [hasAnimated]);
 
   return (
     <section id="vestimenta" className="vst">
-      {/* Fondos florales suaves */}
-      {/* <img ref={florLeftRef} className="vst__flor vst__flor--left" src={florIzq} alt="" aria-hidden="true" style={{ opacity: 0 }} />
-      <img ref={florRightRef} className="vst__flor vst__flor--right" src={florDer} alt="" aria-hidden="true" style={{ opacity: 0 }} /> */}
-
       <div className="vst__container">
         <header className="v-header">
-          <h1 ref={titleRef} className="v-title" style={{ opacity: 1 }}>VESTIMENTA</h1>
+          <h1 ref={titleRef} className="v-title" style={{ opacity: 1 }}>
+            VESTIMENTA
+          </h1>
           <h2 ref={subtitleRef} className="v-subtitle" style={hiddenUntilAnimatedStyle}>
             Etiqueta <span className="v-subtle">(Black Tie)</span>
           </h2>
@@ -260,11 +294,18 @@ export default function Vestimenta() {
           Invitadas:
           <span className="v-chip">Agradecemos evitar vestidos color negro</span>
         </p>
-        <p ref={leadRef} className="v-lead" style={hiddenUntilAnimatedStyle}>Para inspirarse, les dejamos algunas ideas:</p>
+        <p ref={leadRef} className="v-lead" style={hiddenUntilAnimatedStyle}>
+          Para inspirarse, les dejamos algunas ideas:
+        </p>
 
-        <div ref={cardRef} className="vst__pinterestBoard" style={hiddenUntilAnimatedStyle}>
+        <div
+          ref={cardRef}
+          className="vst__pinterestBoard"
+          data-cols={boardDims.cols}
+          data-rows={boardDims.rows}
+          style={hiddenUntilAnimatedStyle}
+        >
           <a
-            key={`${boardDims.width}-${boardDims.scaleWidth}-${boardDims.scaleHeight}`}
             data-pin-do="embedBoard"
             data-pin-board-width={boardDims.width}
             data-pin-scale-height={boardDims.scaleHeight}

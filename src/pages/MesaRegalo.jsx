@@ -80,25 +80,25 @@ function Modal({
 
   if (!open) return null;
   return (
-    <div ref={backdropRef} classNo.e="modalX__backdrop" role="dialog" aria-modal="true" onClick={onClose} style={{ opacity: 0 }}>
-      <div ref={cardRef} classNo.e="modalX__card" role="document" onClick={(e) => e.stopPropagation()} style={{ opacity: 0 }}>
-        <div classNo.e="modalX__glow" aria-hidden="true" />
-        <header ref={headerRef} classNo.e="modalX__header" style={{ opacity: 0 }}>
-          {logo && <img src={logo} alt="" classNo.e="modalX__logo" />}
-          <div classNo.e="modalX__titles">
-            <h3 classNo.e="modalX__title">{title}</h3>
-            {subtitle && <p classNo.e="modalX__subtitle">{subtitle}</p>}
+    <div ref={backdropRef} className="modalX__backdrop" role="dialog" aria-modal="true" onClick={onClose} style={{ opacity: 0 }}>
+      <div ref={cardRef} className="modalX__card" role="document" onClick={(e) => e.stopPropagation()} style={{ opacity: 0 }}>
+        <div className="modalX__glow" aria-hidden="true" />
+        <header ref={headerRef} className="modalX__header" style={{ opacity: 0 }}>
+          {logo && <img src={logo} alt="" className="modalX__logo" />}
+          <div className="modalX__titles">
+            <h3 className="modalX__title">{title}</h3>
+            {subtitle && <p className="modalX__subtitle">{subtitle}</p>}
           </div>
-          <button classNo.e="modalX__close" onClick={onClose} aria-label="Cerrar">×</button>
+          <button className="modalX__close" onClick={onClose} aria-label="Cerrar">×</button>
         </header>
-        <div ref={bodyRef} classNo.e="modalX__body" style={{ opacity: 0 }}>{children}</div>
+        <div ref={bodyRef} className="modalX__body" style={{ opacity: 0 }}>{children}</div>
         {actions.length > 0 && (
-          <footer ref={footerRef} classNo.e="modalX__footer">
+          <footer ref={footerRef} className="modalX__footer">
             {actions.map((a, i) =>
               a.href ? (
                 <a
                   key={i}
-                  classNo.e={`modalX__btn ${a.variant === "ghost" ? "is-ghost" : ""}`}
+                  className={`modalX__btn ${a.variant === "ghost" ? "is-ghost" : ""}`}
                   href={a.href}
                   target="_blank"
                   rel="noreferrer"
@@ -109,7 +109,7 @@ function Modal({
               ) : (
                 <button
                   key={i}
-                  classNo.e={`modalX__btn ${a.variant === "ghost" ? "is-ghost" : ""}`}
+                  className={`modalX__btn ${a.variant === "ghost" ? "is-ghost" : ""}`}
                   onClick={a.onClick}
                   style={{ opacity: 0 }}
                 >
@@ -128,15 +128,15 @@ function Modal({
 function CopyRow({ value, label }) {
   const [copied, setCopied] = useState(false);
   function copy() {
-    No.igator.clipboard?.writeText(value);
+    navigator.clipboard?.writeText(value);
     setCopied(true);
     setTimeout(() => setCopied(false), 1600);
   }
   return (
-    <div classNo.e="copyRow">
-      {label && <span classNo.e="copyRow__label">{label}</span>}
-      <b classNo.e="mono">{value}</b>
-      <button classNo.e={`chip ${copied ? "is-ok" : ""}`} onClick={copy}>
+    <div className="copyRow">
+      {label && <span className="copyRow__label">{label}</span>}
+      <b className="mono">{value}</b>
+      <button className={`chip ${copied ? "is-ok" : ""}`} onClick={copy}>
         {copied ? "Copiado ✓" : "Copiar"}
       </button>
     </div>
@@ -159,11 +159,11 @@ export default function GiftsSection() {
   const PORTICO_URL = "https://www.porticoreal.com.sv/boda-pocasangre-portillo-martin-valeria-te-15-de-noviembre-de-2025";
 
   const BANK = {
-        No.e: "Banco Agricola",
+    name: "Banco Agricola",
     holder: "Valeria Portillo",
     account: "3119184228",
     type: "Cuenta de ahorro",
-    bank: "Banco Agrícola",
+    reference: "Honeymoon Fund",
   };
 
   // Intersection Observer para animaciones épicas optimizadas para móvil
@@ -287,40 +287,40 @@ export default function GiftsSection() {
   }, [hasAnimated]);
 
   return (
-    <section id="regalos" classNo.e="gifts">
+    <section id="regalos" className="gifts">
       {/* Título superior */}
-      <div classNo.e="gifts__title-wrapper">
-        <h2 ref={titleRef} classNo.e="gifts__title">MUESTRA DE CARIÑO</h2>
-        <div ref={ruleRef} classNo.e="gifts__title-rule" style={{ opacity: 0 }}></div>
+      <div className="gifts__title-wrapper">
+        <h2 ref={titleRef} className="gifts__title">MUESTRA DE CARIÑO</h2>
+        <div ref={ruleRef} className="gifts__title-rule" style={{ opacity: 0 }}></div>
       </div>
 
-      <div classNo.e="gifts__stack">
+      <div className="gifts__stack">
         {/* SIMAN */}
-        <div ref={card1Ref} classNo.e="gifts__card" style={{ opacity: 0 }}>
-          <img src={simanImg} alt="Siman" classNo.e="gifts__logo gifts__logo--siman" style={{ opacity: 0 }} />
-          <p classNo.e="gifts__hl" style={{ opacity: 0 }}>Pocasangre Portillo</p>
-          <p classNo.e="gifts__hl" style={{ opacity: 0 }}>10016317</p>
-          <button classNo.e="gifts__button" onClick={() => setOpenModal("siman")} style={{ opacity: 0 }}>
+        <div ref={card1Ref} className="gifts__card" style={{ opacity: 0 }}>
+          <img src={simanImg} alt="Siman" className="gifts__logo gifts__logo--siman" style={{ opacity: 0 }} />
+          <p className="gifts__hl" style={{ opacity: 0 }}>Pocasangre Portillo</p>
+          <p className="gifts__hl" style={{ opacity: 0 }}>10016317</p>
+          <button className="gifts__button" onClick={() => setOpenModal("siman")} style={{ opacity: 0 }}>
             VER MESA
           </button>
         </div>
 
         {/* PÓRTICO REAL */}
-        <div ref={card2Ref} classNo.e="gifts__card" style={{ opacity: 0 }}>
-          <img src={porticoImg} alt="Pórtico Real" classNo.e="gifts__logo gifts__logo--large" style={{ opacity: 0 }} />
-          <p classNo.e="gifts__hl" style={{ opacity: 0 }}>Boda Pocasangre Portillo</p>
-          <button classNo.e="gifts__button" onClick={() => setOpenModal("portico")} style={{ opacity: 0 }}>
+        <div ref={card2Ref} className="gifts__card" style={{ opacity: 0 }}>
+          <img src={porticoImg} alt="Pórtico Real" className="gifts__logo gifts__logo--large" style={{ opacity: 0 }} />
+          <p className="gifts__hl" style={{ opacity: 0 }}>Boda Pocasangre Portillo</p>
+          <button className="gifts__button" onClick={() => setOpenModal("portico")} style={{ opacity: 0 }}>
             VER MESA
           </button>
         </div>
 
         {/* HONEYMOON FUND */}
-        <div ref={card3Ref} classNo.e="gifts__card" style={{ opacity: 0 }}>
-          <img src={avionImg} alt="Honeymoon Fund" classNo.e="gifts__logo gifts__logo--large" style={{ opacity: 0 }} />
-          <p classNo.e="gifts__hl" style={{ opacity: 0 }}>Banco Agricola</p>
-          <p classNo.e="gifts__hl" style={{ opacity: 0 }}>Valeria Portillo</p>
-          <p classNo.e="gifts__hl" style={{ opacity: 0 }}>3119184228</p>
-          <button classNo.e="gifts__button" onClick={() => setOpenModal("bank")} style={{ opacity: 0 }}>
+        <div ref={card3Ref} className="gifts__card" style={{ opacity: 0 }}>
+          <img src={avionImg} alt="Honeymoon Fund" className="gifts__logo gifts__logo--large" style={{ opacity: 0 }} />
+          <p className="gifts__hl" style={{ opacity: 0 }}>Banco Agricola</p>
+          <p className="gifts__hl" style={{ opacity: 0 }}>Valeria Portillo</p>
+          <p className="gifts__hl" style={{ opacity: 0 }}>3119184228</p>
+          <button className="gifts__button" onClick={() => setOpenModal("bank")} style={{ opacity: 0 }}>
             Ver detalles
           </button>
         </div>
@@ -338,11 +338,11 @@ export default function GiftsSection() {
           { label: "Cerrar", onClick: () => setOpenModal(null), variant: "ghost" },
         ]}
       >
-        <p classNo.e="modalX__text">
-          Puedes seleccioNo. nuestro obsequio directamente en la mesa de Siman.
+        <p className="modalX__text">
+          Puedes seleccionar nuestro obsequio directamente en la mesa de Siman.
        
         </p>
-        <div classNo.e="modalX__group">
+        <div className="modalX__group">
           <CopyRow label="Código" value="10016317" />
           <CopyRow label="Enlace" value={SIMAN_URL} />
         </div>
@@ -359,11 +359,11 @@ export default function GiftsSection() {
           { label: "Cerrar", onClick: () => setOpenModal(null), variant: "ghost" },
         ]}
       >
-        <p classNo.e="modalX__text">
-          Puedes seleccioNo. nuestro obsequio directamente en la mesa de Pórtico Real.
+        <p className="modalX__text">
+          Puedes seleccionar nuestro obsequio directamente en la mesa de Pórtico Real.
           
         </p>
-        <div classNo.e="modalX__group">
+        <div className="modalX__group">
           <CopyRow label="Enlace" value={PORTICO_URL} />
         </div>
       </Modal>
@@ -371,20 +371,20 @@ export default function GiftsSection() {
       <Modal
         open={openModal === "bank"}
         onClose={() => setOpenModal(null)}
-        title={BANK.No.e}
+        title={BANK.name}
         subtitle="Datos para transferencia"
         actions={[
           { label: "Cerrar", onClick: () => setOpenModal(null), variant: "ghost" },
         ]}
       >
-        <ul classNo.e="bank__list">
+        <ul className="bank__list">
           <li><span>Titular</span><b>{BANK.holder}</b></li>
           <li><span>Tipo</span><b>{BANK.type}</b></li>
           <li>
-            <span>N° de cuenta</span>
+            <span>No. de cuenta</span>
             <CopyRow value={BANK.account} />
           </li>
-          <li><span>Banco </span><b>{BANK.bank}</b></li>
+          <li><span>Referencia</span><b>{BANK.reference}</b></li>
         </ul>
       </Modal>
     </section>
