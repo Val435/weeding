@@ -20,7 +20,7 @@ export default function OrientationLock({ children, maxDimension }) {
         >
           <div className="orientation-lock__inner">
             <p className="orientation-lock__title">Gira tu dispositivo</p>
-            <p className="orientation-lock__text">Esta experiencia solo esta disponible en orientacion vertical.</p>
+            <p className="orientation-lock__text">Gira tu dispositivo y continuemos compartiendo este momento tan especial juntos.</p>
           </div>
         </div>
       )}
