@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { animate, createTimeline, stagger } from "animejs";
 import { useGuest } from "../GuestContext";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import florIzq from "../assets/florIzq1.png";
 import florDer from "../assets/florDer1.png";
 
@@ -11,6 +12,12 @@ export default function SelectGroup() {
   const [hasAnimated, setHasAnimated] = useState(false);
   const [selectedGroupId, setSelectedGroupId] = useState(null);
   const navigate = useNavigate();
+
+  // Hook para activar animaciones solo cuando la sección es visible
+  const { ref: sectionScrollRef, isVisible: sectionVisible } = useScrollAnimation({
+    threshold: 0.1,
+    triggerOnce: true
+  });
 
   const cardRef = useRef(null);
   const titleRef = useRef(null);
@@ -150,7 +157,10 @@ export default function SelectGroup() {
   }
 
   return (
-    <section className="selectGroup">
+    <section
+      ref={sectionScrollRef}
+      className={`selectGroup ${sectionVisible ? 'is-visible' : ''}`}
+    >
       <img
         ref={leftDecorRef}
         src={florIzq}

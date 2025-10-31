@@ -603,6 +603,10 @@
   filter: grayscale(0) brightness(1);
   border-radius: 16px;
   opacity: 1;
+}
+
+/* Animación se activa solo cuando está visible */
+.select__carousel.is-visible .select__img.is-active{
   animation: pulse-glow 4s ease-in-out infinite;
 }
 

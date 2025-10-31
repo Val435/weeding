@@ -26,6 +26,10 @@
   background: radial-gradient(circle, rgba(211, 56, 0, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
+}
+
+/* Animación de fondo se activa solo cuando está visible */
+.allset.is-visible::before {
   animation: bgMove 20s linear infinite;
 }
 
@@ -71,9 +75,13 @@
   height:16px;
   border-radius:3px;
   background: var(--brand);
-  opacity:.95;
-  animation: drop linear forwards;
+  opacity:0;
   box-shadow: 0 2px 8px rgba(211, 56, 0, 0.3);
+}
+
+/* Confetti se anima solo cuando está visible */
+.allset.is-visible .confetti{
+  animation: drop linear forwards;
 }
 .confetti:nth-child(3n){
   background:#ffb3a1;

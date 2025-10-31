@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { animate, createTimeline, stagger } from "animejs";
 import { useGuest } from "../GuestContext";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import "../components/Styles/AllSet.css";
 import simanImg from "../assets/siman.png";
 import porticoImg from "../assets/portico.png";
@@ -10,6 +11,12 @@ import avionImg from "../assets/avion.png";
 export default function AllSet() {
   const { clearGuest } = useGuest();
   const [confetti, setConfetti] = useState([]);
+
+  // Hook para activar animaciones solo cuando la sección es visible
+  const { ref: sectionScrollRef, isVisible: sectionVisible } = useScrollAnimation({
+    threshold: 0.1,
+    triggerOnce: true
+  });
 
   const cardRef = useRef(null);
   const titleRef = useRef(null);
@@ -101,7 +108,10 @@ export default function AllSet() {
 
 
   return (
-    <section className="allset">
+    <section
+      ref={sectionScrollRef}
+      className={`allset ${sectionVisible ? 'is-visible' : ''}`}
+    >
       <div ref={cardRef} className="allset__card" style={{ opacity: 0 }}>
         <div className="allset__confetti">
           {confetti.map((c) => (

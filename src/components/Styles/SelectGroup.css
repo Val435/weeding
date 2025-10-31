@@ -115,6 +115,10 @@
   background: linear-gradient(135deg, rgba(199, 0, 123, 0.06), rgba(211, 56, 0, 0.06));
   box-shadow: 0 8px 24px rgba(211, 56, 0, 0.25);
   transform: translateY(-2px);
+}
+
+/* Animación se activa solo cuando está visible */
+.selectGroup.is-visible .selectGroup__radio-wrapper:has(.selectGroup__radio-input:checked) {
   animation: selectBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 

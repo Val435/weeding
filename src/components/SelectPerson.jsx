@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { animate, createTimeline, stagger } from "animejs";
 import { confirmGuest } from "../api";
 import { useGuest } from "../GuestContext";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 import img1 from "../assets/6.png";
 import img2 from "../assets/7.png";
@@ -22,6 +23,12 @@ export default function SelectPerson() {
   const navigate = useNavigate();
   const images = [img1, img2, img3, img4, img5];
   const [index, setIndex] = useState(0);
+
+  // Hook para activar animaciones solo cuando el carrusel es visible
+  const { ref: carouselScrollRef, isVisible: carouselVisible } = useScrollAnimation({
+    threshold: 0.2,
+    triggerOnce: true
+  });
 
   console.log("👥 Invitados recibidos:", guest);
 
@@ -244,7 +251,16 @@ export default function SelectPerson() {
         </button>
       </div>
 
-      <div ref={carouselRef} className="select__carousel" role="region" aria-label="Galería" style={{ opacity: 0 }}>
+      <div
+        ref={(node) => {
+          carouselRef.current = node;
+          carouselScrollRef.current = node;
+        }}
+        className={`select__carousel ${carouselVisible ? 'is-visible' : ''}`}
+        role="region"
+        aria-label="Galería"
+        style={{ opacity: 0 }}
+      >
         {images.map((src, i) => (
           <img
             key={i}
