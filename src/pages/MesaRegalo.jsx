@@ -290,7 +290,7 @@ export default function GiftsSection() {
     <section id="regalos" className="gifts">
       {/* Título superior */}
       <div className="gifts__title-wrapper">
-        <h2 ref={titleRef} className="gifts__title">MUESTRA DE CARIÑO</h2>
+        <h2 ref={titleRef} className="gifts__title">MUESTRAS DE CARINO</h2>
         <div ref={ruleRef} className="gifts__title-rule" style={{ opacity: 0 }}></div>
       </div>
 

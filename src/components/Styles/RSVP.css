@@ -36,11 +36,11 @@
 
 
 .rsvp__card {
-  width: min(920px, 96vw);
+  width: min(920px, calc(100vw - 32px));
   margin: 0 auto;
   background: var(--bg);
   border-radius: var(--card-radius);
-  padding: 24px 24px 20px; /* antes: 24px 24px 32px */
+  padding: 24px clamp(20px, 5vw, 32px) 28px;
 }
 
 /* Título: quita el line-height gigante */
@@ -74,10 +74,8 @@
 }
 
 .rsvp__input {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:783px;
+  display:block;
+  width:min(783px, 100%);
   max-width:100%;
   height: var(--btn-h);
   margin: 0 auto 20px;
@@ -90,14 +88,19 @@
   font-size:16px;
   font-weight:400;
   line-height: 1;
-  padding: 0 20px;
+  padding: 0 clamp(16px, 4vw, 28px);
   outline:none;
+  -webkit-appearance: none;
 }
 .rsvp__input::placeholder {
   color: var(--text);
   text-transform: uppercase;
   letter-spacing:.03em;
   line-height: 1;
+  text-align: center;
+}
+.rsvp__input::-webkit-input-placeholder {
+  text-align: center;
 }
 
 /* Botones */

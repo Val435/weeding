@@ -11,7 +11,7 @@
     radial-gradient(1000px 700px at -10% 0%, rgba(211, 56, 0, .05), transparent 60%),
     radial-gradient(1000px 700px at 110% 5%, rgba(199, 0, 123, .05), transparent 60%),
     linear-gradient(180deg, #ffffff, #fbfaf8);
-  padding: 80px 0 100px;
+  padding: 64px 0 100px;
   display: grid;
   place-items: center;
   position: relative;
@@ -20,21 +20,23 @@
 
 .gifts__title-wrapper {
   text-align: center;
-  margin: 0 auto 64px;
+  margin: 0 auto clamp(40px, 7vw, 64px);
   width: min(1000px, 100%);
-  padding: 0 var(--page-gutter);
+  padding: 0 clamp(16px, 6vw, 48px);
 }
 
 .gifts__title {
   font-family: 'Against-Regular', 'against', serif;
-  font-size: 48px;
-  letter-spacing: .12em;
+  font-size: clamp(32px, 8vw, 48px);
+  letter-spacing: clamp(.06em, 2vw, .12em);
   text-transform: uppercase;
-  word-break: keep-all;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: balance;
   white-space: normal;
-  line-height: 1.15;
+  line-height: 1.12;
   color: #D33800;
-  margin: 0 0 16px;
+  margin: 0 0 clamp(12px, 4vw, 20px);
   text-align: center;
 }
 
