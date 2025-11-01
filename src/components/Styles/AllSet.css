@@ -277,6 +277,31 @@
   color: #ff4500;
 }
 
+.giftLink__disabled{
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: default;
+}
+
+.giftLink:has(.giftLink__disabled) {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.giftLink:has(.giftLink__disabled):hover {
+  transform: none;
+  box-shadow:
+    0 4px 16px rgba(0,0,0,.06),
+    0 8px 32px rgba(0,0,0,.04),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+  border-color: rgba(211, 56, 0, 0.08);
+}
+
+.giftLink:has(.giftLink__disabled):hover img {
+  transform: none;
+}
+
 .allset__hint{
   text-align:center;
   color:var(--muted);

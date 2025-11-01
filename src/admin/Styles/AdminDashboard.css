@@ -355,25 +355,125 @@
   .admin-header__content {
     flex-direction: column;
     align-items: flex-start;
+    gap: 16px;
+  }
+
+  .admin-header__title {
+    font-size: 22px;
+  }
+
+  .admin-header__subtitle {
+    font-size: 13px;
   }
 
   .admin-header__logout {
     width: 100%;
   }
 
+  /* Stats cards en móvil */
   .admin-stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
+  .stat-card {
+    flex-direction: column;
+    padding: 16px;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .stat-card__icon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .stat-card__value {
+    font-size: 28px;
+  }
+
+  .stat-card__label {
+    font-size: 12px;
+  }
+
+  /* Filtros en móvil */
+  .admin-filters {
+    gap: 8px;
+  }
+
+  .filter-btn {
+    padding: 8px 14px;
+    font-size: 13px;
+    flex: 1;
+    min-width: calc(50% - 4px);
+  }
+
+  /* Tabla en móvil */
   .admin-table-container {
     overflow-x: auto;
+    border-radius: 8px;
   }
 
   .admin-table {
     min-width: 600px;
+    font-size: 13px;
   }
 
+  .admin-table th,
+  .admin-table td {
+    padding: 12px 10px;
+  }
+
+  .admin-table th {
+    font-size: 11px;
+  }
+
+  .status-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  /* Notas en móvil */
   .admin-notes-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .note-card {
+    padding: 16px;
+  }
+
+  .note-card__author {
+    font-size: 14px;
+  }
+
+  .note-card__message {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-header__title {
+    font-size: 18px;
+  }
+
+  .admin-header__subtitle {
+    font-size: 12px;
+  }
+
+  /* Stats en una sola columna en pantallas muy pequeñas */
+  .admin-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  /* Filtros apilados */
+  .filter-btn {
+    min-width: 100%;
   }
 }
