@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { animate } from "animejs";
 import "./Styles/Footer.css";
 
 export default function Footer() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const footerRef = useRef(null);
   const [hasAnimated, setHasAnimated] = useState(false);
 
@@ -65,6 +66,13 @@ export default function Footer() {
           VALENTINAPOCASANGRE@GMAIL.COM
         </a>
       </div>
+
+      {/* Botón secreto para los novios */}
+      <button
+        className="footer__secret-btn"
+        onClick={() => navigate("/admin")}
+        aria-label="Admin"
+      />
     </footer>
   );
 }

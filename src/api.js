@@ -31,3 +31,17 @@ export async function addNote(id, message) {
   });
   return res.json();
 }
+
+// ========== ADMIN ENDPOINTS ==========
+
+// Obtener todos los invitados (para dashboard admin)
+export async function getAllGuests() {
+  const res = await fetch(`${API_URL}/guests`);
+  return res.json();
+}
+
+// Obtener todas las notas
+export async function getAllNotes() {
+  const res = await fetch(`${API_URL}/guests/notes/all`);
+  return res.json();
+}
