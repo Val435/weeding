@@ -87,19 +87,45 @@
   font-family: var(--font-sans);
   font-size:16px;
   font-weight:400;
-  line-height: 1;
+  line-height: var(--btn-h); /* Fix para centrado vertical en Safari */
   padding: 0 clamp(16px, 4vw, 28px);
   outline:none;
   -webkit-appearance: none;
 }
+
+/* Fix para placeholder centrado en todos los navegadores */
 .rsvp__input::placeholder {
   color: var(--text);
   text-transform: uppercase;
   letter-spacing:.03em;
-  line-height: 1;
+  line-height: var(--btn-h);
   text-align: center;
 }
+
+/* Safari/Chrome */
 .rsvp__input::-webkit-input-placeholder {
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing:.03em;
+  line-height: var(--btn-h);
+  text-align: center;
+}
+
+/* Firefox */
+.rsvp__input::-moz-placeholder {
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing:.03em;
+  line-height: var(--btn-h);
+  text-align: center;
+}
+
+/* Edge */
+.rsvp__input:-ms-input-placeholder {
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing:.03em;
+  line-height: var(--btn-h);
   text-align: center;
 }
 
