@@ -11,8 +11,11 @@ export default function AdminLogin() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Credenciales
-    if (username === "valeymarti" && password === "mielitos090126") {
+    // Credenciales desde variables de entorno
+    const validUsername = import.meta.env.VITE_ADMIN_USERNAME;
+    const validPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+
+    if (username === validUsername && password === validPassword) {
       // Guardar sesión
       localStorage.setItem("adminAuth", "true");
       navigate("/admin/dashboard");
