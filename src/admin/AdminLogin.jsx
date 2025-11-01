@@ -11,8 +11,8 @@ export default function AdminLogin() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Credenciales hardcodeadas por ahora
-    if (username === "admin" && password === "1234") {
+    // Credenciales
+    if (username === "valeymarti" && password === "mielitos090126") {
       // Guardar sesión
       localStorage.setItem("adminAuth", "true");
       navigate("/admin/dashboard");
