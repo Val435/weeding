@@ -14,8 +14,14 @@ export default function AdminLogin() {
     // Credenciales desde variables de entorno
     const validUsername = import.meta.env.VITE_ADMIN_USERNAME;
     const validPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+    const validUsernameAlt = import.meta.env.VITE_ADMIN_USERNAME_ALT;
+    const validPasswordAlt = import.meta.env.VITE_ADMIN_PASSWORD_ALT;
 
-    if (username === validUsername && password === validPassword) {
+    // Verificar credenciales principales o alternativas
+    const isValidPrimary = username === validUsername && password === validPassword;
+    const isValidAlt = username === validUsernameAlt && password === validPasswordAlt;
+
+    if (isValidPrimary || isValidAlt) {
       // Guardar sesión
       localStorage.setItem("adminAuth", "true");
       navigate("/admin/dashboard");
