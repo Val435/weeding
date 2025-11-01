@@ -28,7 +28,10 @@
    LAYOUT GENERAL
 ================================ */
 .select{
-  background:#fff;
+  background:
+    radial-gradient(1000px 700px at -10% 0%, rgba(199, 0, 123, .05), transparent 60%),
+    radial-gradient(1000px 700px at 110% 5%, rgba(211, 56, 0, .05), transparent 60%),
+    linear-gradient(180deg, #ffffff, #fbfaf8);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -368,6 +371,11 @@
   }
   .nextBtn {
     width: 100%;
+    height: auto;
+    font-size: 15px;
+    padding: 16px 20px;
+    line-height: 1.5;
+    border-radius: 14px;
   }
   .select__carousel {
     height: 400px;
@@ -381,6 +389,10 @@
   .select__img.is-active {
     width: 280px;
     height: 340px;
+  }
+  /* Ocultar flores decorativas en tablets/móviles donde se ven cortadas */
+  .vestimenta__decor2 {
+    display: none;
   }
 }
 
@@ -449,9 +461,12 @@
   }
   .nextBtn{
     width: 100%;
-    height: 74px;
-    font-size: 16px;
-    font-weight: 600;
+    height: auto;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 16px 20px;
+    line-height: 1.5;
+    border-radius: 14px;
   }
   .select__carousel {
     height: 360px;

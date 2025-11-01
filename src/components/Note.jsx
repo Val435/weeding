@@ -127,10 +127,10 @@ export default function Note({ maxLength = 280 }) {
         />
 
         <div className="note__footer" ref={footerRef}>
-          <span className={`note__counter ${remaining <= 20 ? "note__counter--warn" : ""}`} aria-live="polite">
+          <span className={`note__counter ${remaining <= 20 ? "note__counter--warn" : ""}`} aria-live="polite" style={{ opacity: 0 }}>
             {remaining} caracteres restantes
           </span>
-          <div className="note__actions">
+          <div className="note__actions" style={{ opacity: 0 }}>
             <button type="button" className="noteBtn noteBtn--ghost" onClick={handleSkip}>
               Saltar
             </button>

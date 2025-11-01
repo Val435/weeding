@@ -373,8 +373,11 @@
     font-size: 14px;
   }
 
-  .selectGroup__decor--left { left: -12vw; }
-  .selectGroup__decor--right { right: -12vw; }
+  /* Ocultar flores decorativas en tablets/móviles donde se ven cortadas */
+  .selectGroup__decor--left,
+  .selectGroup__decor--right {
+    display: none;
+  }
 }
 
 @media (max-width: 560px) {

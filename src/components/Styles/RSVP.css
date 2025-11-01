@@ -74,7 +74,9 @@
 }
 
 .rsvp__input {
-  display:block;
+  display:flex;
+  align-items: center;
+  justify-content: center;
   width:min(783px, 100%);
   max-width:100%;
   height: var(--btn-h);
@@ -87,7 +89,6 @@
   font-family: var(--font-sans);
   font-size:16px;
   font-weight:400;
-  line-height: var(--btn-h); /* Fix para centrado vertical en Safari */
   padding: 0 clamp(16px, 4vw, 28px);
   outline:none;
   -webkit-appearance: none;
@@ -98,17 +99,18 @@
   color: var(--text);
   text-transform: uppercase;
   letter-spacing:.03em;
-  line-height: var(--btn-h);
   text-align: center;
+  opacity: 1;
 }
 
-/* Safari/Chrome */
+/* Safari/Chrome - Fix específico */
 .rsvp__input::-webkit-input-placeholder {
   color: var(--text);
   text-transform: uppercase;
   letter-spacing:.03em;
-  line-height: var(--btn-h);
   text-align: center;
+  line-height: normal;
+  opacity: 1;
 }
 
 /* Firefox */
@@ -116,8 +118,8 @@
   color: var(--text);
   text-transform: uppercase;
   letter-spacing:.03em;
-  line-height: var(--btn-h);
   text-align: center;
+  opacity: 1;
 }
 
 /* Edge */
@@ -125,8 +127,8 @@
   color: var(--text);
   text-transform: uppercase;
   letter-spacing:.03em;
-  line-height: var(--btn-h);
   text-align: center;
+  opacity: 1;
 }
 
 /* Botones */
@@ -220,8 +222,11 @@
 
 @media (max-width: 768px) {
   .rsvp__btn--primary { width: 300px; flex-basis: 300px; }
-  .vestimenta__decor--left1 { left: -12vw;}
-  .vestimenta__decor--right1 { right: -12px; }
+  /* Ocultar flores decorativas en tablets/móviles donde se ven cortadas */
+  .vestimenta__decor--left1,
+  .vestimenta__decor--right1 {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {

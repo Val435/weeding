@@ -208,7 +208,7 @@ export default function SelectPerson() {
         <div className="selectArea selectArea--perRowBtn">
           <ul ref={listRef} className="selectList">
             {guest?.map((g) => (
-              <li key={g.id} className="selectRow">
+              <li key={g.id} className="selectRow" style={{ opacity: 0 }}>
                 <span className="selectRow__name">{g.fullName}</span>
                 <div className="selectRow__buttons">
                   <button
