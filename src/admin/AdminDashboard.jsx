@@ -8,6 +8,7 @@ export default function AdminDashboard() {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all"); // all, confirmed, pending, declined, notes
+  const [statsExpanded, setStatsExpanded] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -89,7 +90,33 @@ export default function AdminDashboard() {
 
       <div className="admin-content">
         {/* Stats Cards */}
-        <div className="admin-stats">
+        <div className="admin-stats-wrapper">
+          <button
+            className="admin-stats__toggle"
+            onClick={() => setStatsExpanded(!statsExpanded)}
+          >
+            <div className="admin-stats__toggle-content">
+              <div className="admin-stats__toggle-icon">📊</div>
+              <div className="admin-stats__toggle-info">
+                <span className="admin-stats__toggle-title">Estadísticas</span>
+                <span className="admin-stats__toggle-subtitle">
+                  {totalGuests} invitados · {confirmedCount} confirmados
+                </span>
+              </div>
+            </div>
+            <svg
+              className={`admin-stats__toggle-arrow ${statsExpanded ? 'expanded' : ''}`}
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          <div className={`admin-stats ${statsExpanded ? 'expanded' : ''}`}>
           <div className="stat-card stat-card--total">
             <div className="stat-card__icon">👥</div>
             <div className="stat-card__content">
@@ -136,6 +163,7 @@ export default function AdminDashboard() {
               <div className="stat-card__value">{confirmationRate}%</div>
               <div className="stat-card__label">Tasa de Confirmación</div>
             </div>
+          </div>
           </div>
         </div>
 
