@@ -29,7 +29,6 @@ export default function RSVPSection() {
   const actionsRef = useRef(null);
   const leftDecorRef = useRef(null);
   const rightDecorRef = useRef(null);
-  const initialVisibilityStyle = hasAnimated ? undefined : { opacity: 0 };
 
   const handleFind = async () => {
     if (!fullName.trim()) return;
@@ -79,7 +78,7 @@ export default function RSVPSection() {
 
   const handleCloseError = () => setShowError(false);
 
-  // Animación con Intersection Observer
+  // Animación con Intersection Observer (estilo Hero - simple fade in)
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
 
@@ -93,63 +92,73 @@ export default function RSVPSection() {
               defaults: { ease: "out(3)" },
             });
 
+            // Card con fade in simple (como Hero)
             timeline.add(
               cardRef.current,
               {
                 opacity: [0, 1],
-                translateY: isMobile ? [150, 0] : [100, 0],
-                scale: isMobile ? [0.7, 1] : [0.9, 1],
-                rotate: isMobile ? [5, 0] : [0, 0],
-                duration: isMobile ? 1400 : 1200,
-                ease: "out(3)",
+                translateY: isMobile ? [100, 0] : [60, 0],
+                scale: isMobile ? [0.8, 1] : [1, 1],
+                duration: isMobile ? 1100 : 1000
               },
-              0
+              isMobile ? 400 : 500
             );
 
+            // Título simple fade in
             timeline.add(
               titleRef.current,
               {
                 opacity: [0, 1],
-                translateY: isMobile ? [-50, 0] : [-30, 0],
+                translateY: isMobile ? [100, 0] : [60, 0],
                 scale: isMobile ? [0.8, 1] : [1, 1],
-                duration: isMobile ? 700 : 600,
+                duration: isMobile ? 1100 : 1000
               },
-              400
+              isMobile ? 500 : 600
             );
 
+            // Descripción
             timeline.add(
               descRef.current,
               {
                 opacity: [0, 1],
-                translateY: isMobile ? [20, 0] : [0, 0],
-                duration: isMobile ? 700 : 600,
+                scale: isMobile ? [0.8, 1] : [1, 1],
+                duration: isMobile ? 1000 : 800
               },
-              600
+              isMobile ? 700 : 800
+            );
+
+            // Label e Input
+            timeline.add(
+              labelRef.current,
+              {
+                opacity: [0, 1],
+                translateY: isMobile ? [100, 0] : [60, 0],
+                scale: isMobile ? [0.8, 1] : [1, 1],
+                duration: isMobile ? 1100 : 1000
+              },
+              isMobile ? 800 : 900
             );
 
             timeline.add(
-              [labelRef.current, inputRef.current],
+              inputRef.current,
               {
                 opacity: [0, 1],
-                translateX: isMobile ? [-80, 0] : [-50, 0],
-                scale: isMobile ? [0.95, 1] : [1, 1],
-                duration: isMobile ? 700 : 600,
-                delay: stagger(isMobile ? 120 : 100),
+                translateY: isMobile ? [100, 0] : [60, 0],
+                scale: isMobile ? [0.8, 1] : [1, 1],
+                duration: isMobile ? 1100 : 1000
               },
-              700
+              isMobile ? 900 : 1000
             );
 
+            // Botón
             timeline.add(
               actionsRef.current?.querySelectorAll("button"),
               {
                 opacity: [0, 1],
-                scale: isMobile ? [0.5, 1.05, 1] : [0.8, 1],
-                translateY: isMobile ? [30, 0] : [0, 0],
-                duration: isMobile ? 800 : 600,
-                delay: stagger(isMobile ? 120 : 100),
-                ease: "out(3)",
+                scale: isMobile ? [0.5, 1] : [0.8, 1],
+                duration: isMobile ? 1000 : 800
               },
-              900
+              isMobile ? 1000 : 1100
             );
 
             if (showDecor && leftDecorRef.current && rightDecorRef.current) {
@@ -197,7 +206,7 @@ export default function RSVPSection() {
               alt=""
               aria-hidden="true"
               className="vestimenta__decor1 vestimenta__decor--left1"
-              style={initialVisibilityStyle}
+              style={{ opacity: 0 }}
             />
             <img
               ref={rightDecorRef}
@@ -205,7 +214,7 @@ export default function RSVPSection() {
               alt=""
               aria-hidden="true"
               className="vestimenta__decor1 vestimenta__decor--right1"
-              style={initialVisibilityStyle}
+              style={{ opacity: 0 }}
             />
           </>
         )}
@@ -213,19 +222,19 @@ export default function RSVPSection() {
         <div
           ref={cardRef}
           className="rsvp__card"
-          style={initialVisibilityStyle}
+          style={{ opacity: 0 }}
         >
           <h3
             ref={titleRef}
             className="rsvp__title"
-            style={initialVisibilityStyle}
+            style={{ opacity: 0 }}
           >
             RSVP
           </h3>
           <p
             ref={descRef}
             className="rsvp__desc"
-            style={initialVisibilityStyle}
+            style={{ opacity: 0 }}
           >
             Por favor ingresa el nombre y apellido de uno de los miembros de tu
             grupo a continuación.
@@ -235,7 +244,7 @@ export default function RSVPSection() {
             ref={labelRef}
             className="rsvp__label"
             htmlFor="fullname"
-            style={initialVisibilityStyle}
+            style={{ opacity: 0 }}
           >
             Nombre y apellido
           </label>
@@ -247,7 +256,7 @@ export default function RSVPSection() {
             placeholder="NOMBRE Y APELLIDO"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            style={initialVisibilityStyle}
+            style={{ opacity: 0 }}
           />
 
           <div ref={actionsRef} className="rsvp__actions">
@@ -255,7 +264,7 @@ export default function RSVPSection() {
               type="button"
               className="rsvp__btn rsvp__btn--primary"
               onClick={handleFind}
-              style={initialVisibilityStyle}
+              style={{ opacity: 0 }}
             >
               ENCUENTRA TUS INVITACIONES
             </button>

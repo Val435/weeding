@@ -8,6 +8,13 @@ export default function Footer() {
   const footerRef = useRef(null);
   const [hasAnimated, setHasAnimated] = useState(false);
 
+  // Resetear animación cuando cambias de página
+  useEffect(() => {
+    if (pathname === "/") {
+      setHasAnimated(false);
+    }
+  }, [pathname]);
+
   useEffect(() => {
     if (pathname !== "/") return;
     if (hasAnimated) return;

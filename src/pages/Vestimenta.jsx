@@ -193,6 +193,7 @@ export default function Vestimenta() {
 
             const timeline = createTimeline({ defaults: { ease: "out(4)" } });
 
+            // Anima el título con efecto de letras (igual que MesaRegalo)
             if (titleRef.current) {
               const titleChars = titleRef.current.textContent.split("");
               titleRef.current.innerHTML = titleChars
@@ -229,11 +230,14 @@ export default function Vestimenta() {
               isMobile ? 400 : 500
             );
 
-            timeline.add(
-              ruleRef.current,
-              { opacity: [0, 1], scaleX: [0, 1], duration: isMobile ? 600 : 500 },
-              isMobile ? 600 : 700
-            );
+            // Anima la línea decorativa (igual que en MesaRegalo)
+            if (ruleRef.current) {
+              timeline.add(
+                ruleRef.current,
+                { opacity: [0, 1], scaleX: [0, 1], duration: isMobile ? 600 : 500 },
+                isMobile ? 600 : 700
+              );
+            }
 
             timeline.add(
               noteRef.current,
@@ -281,20 +285,20 @@ export default function Vestimenta() {
     <section id="vestimenta" className="vst">
       <div className="vst__container">
         <header className="v-header">
-          <h1 ref={titleRef} className="v-title" style={{ opacity: 1 }}>
+          <h1 ref={titleRef} className="v-title">
             VESTIMENTA
           </h1>
-          <h2 ref={subtitleRef} className="v-subtitle" style={hiddenUntilAnimatedStyle}>
+          <h2 ref={subtitleRef} className="v-subtitle" style={{ opacity: 0 }}>
             Etiqueta <span className="v-subtle">(Black Tie)</span>
           </h2>
-          <div ref={ruleRef} className="v-rule" style={hiddenUntilAnimatedStyle} />
+          <div ref={ruleRef} className="v-rule" style={{ opacity: 0 }} />
         </header>
 
-        <p ref={noteRef} className="v-note" style={hiddenUntilAnimatedStyle}>
+        <p ref={noteRef} className="v-note" style={{ opacity: 0 }}>
           Invitadas:
           <span className="v-chip">Agradecemos evitar vestidos color negro</span>
         </p>
-        <p ref={leadRef} className="v-lead" style={hiddenUntilAnimatedStyle}>
+        <p ref={leadRef} className="v-lead" style={{ opacity: 0 }}>
           Para inspirarse, les dejamos algunas ideas:
         </p>
 
@@ -303,7 +307,7 @@ export default function Vestimenta() {
           className="vst__pinterestBoard"
           data-cols={boardDims.cols}
           data-rows={boardDims.rows}
-          style={hiddenUntilAnimatedStyle}
+          style={{ opacity: 0 }}
         >
           <a
             data-pin-do="embedBoard"
