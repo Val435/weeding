@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useMemo } from "react";
 import NavBar from "./components/NavBar";
@@ -17,6 +18,19 @@ export default function App() {
 
   // Ocultar navbar y footer en la página de galería
   const isGalleryPage = location.pathname === "/galeria";
+
+  // Quitar padding del body en la página de galería
+  React.useEffect(() => {
+    if (isGalleryPage) {
+      document.body.style.paddingTop = '0';
+    } else {
+      document.body.style.paddingTop = '';
+    }
+
+    return () => {
+      document.body.style.paddingTop = '';
+    };
+  }, [isGalleryPage]);
 
   return (
     <>
