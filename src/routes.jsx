@@ -11,6 +11,9 @@ import SendRSVP from "./components/SendRSVP";
 import AllSet from "./components/AllSet";
 import Note from "./components/Note";
 
+// Galería
+import GaleriaPage from "./pages/GaleriaPage";
+
 // Admin
 import AdminLogin from "./admin/AdminLogin";
 import AdminDashboard from "./admin/AdminDashboard";
@@ -37,6 +40,9 @@ export const appRoutes = (eventDate, countdown, goToRSVP) => [
   { path: "/send-rsvp", element: <SendRSVP /> },
   { path: "/all-set", element: <AllSet /> },
   { path: "/note", element: <Note /> },
+
+  // Gallery route
+  { path: "/galeria", element: <GaleriaPage /> },
 
   // Admin routes
   { path: "/admin", element: <AdminLogin /> },

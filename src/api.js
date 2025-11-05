@@ -45,3 +45,26 @@ export async function getAllNotes() {
   const res = await fetch(`${API_URL}/guests/notes/all`);
   return res.json();
 }
+
+// ========== GALLERY ENDPOINTS ==========
+
+// Subir fotos/videos a la galería
+export async function uploadPhotos(formData) {
+  const res = await fetch(`${API_URL}/gallery/upload`, {
+    method: "POST",
+    body: formData, // No agregar Content-Type, fetch lo hace automáticamente con FormData
+  });
+  if (!res.ok) {
+    throw new Error("Error al subir archivos");
+  }
+  return res.json();
+}
+
+// Obtener todas las fotos de la galería
+export async function getGalleryPhotos() {
+  const res = await fetch(`${API_URL}/gallery/photos`);
+  if (!res.ok) {
+    throw new Error("Error al cargar galería");
+  }
+  return res.json();
+}
