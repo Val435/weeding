@@ -15,4 +15,11 @@ export default defineConfig({
       include: '**/*.svg?react',
     }),
   ],
+  define: {
+    // Exponer variables de entorno sin el prefijo VITE_
+    'import.meta.env.ADMIN_USERNAME': JSON.stringify(process.env.ADMIN_USERNAME),
+    'import.meta.env.ADMIN_PASSWORD': JSON.stringify(process.env.ADMIN_PASSWORD),
+    'import.meta.env.ADMIN_USERNAME_ALT': JSON.stringify(process.env.ADMIN_USERNAME_ALT),
+    'import.meta.env.ADMIN_PASSWORD_ALT': JSON.stringify(process.env.ADMIN_PASSWORD_ALT),
+  },
 })

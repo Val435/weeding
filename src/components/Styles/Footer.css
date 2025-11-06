@@ -76,7 +76,7 @@
   transform: translateY(0);
 }
 
-/* Botón secreto para admin - casi invisible */
+/* Botón secreto para admin - casi invisible pero funcional en iOS */
 .footer__secret-btn {
   position: absolute;
   bottom: 8px;
@@ -91,6 +91,13 @@
   transition: all 0.3s ease;
   padding: 0;
   z-index: 10;
+  /* Fix para iOS/Safari - asegurar que sea clickeable */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  touch-action: manipulation;
+  /* Aumentar el área de toque sin cambiar visualmente el botón */
+  min-width: 44px;
+  min-height: 44px;
+  margin: -12px;
 }
 
 .footer__secret-btn:hover {
@@ -101,6 +108,7 @@
 
 .footer__secret-btn:active {
   transform: scale(0.9);
+  opacity: 0.5;
 }
 
 /* Responsive */

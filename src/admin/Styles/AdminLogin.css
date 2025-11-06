@@ -187,11 +187,15 @@
   padding: 14px 16px 14px 48px;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
-  font-size: 15px;
+  font-size: 16px; /* Cambiado de 15px a 16px para prevenir zoom en iOS */
   font-family: "Jost", sans-serif;
   transition: all 0.3s ease;
   outline: none;
   background: #f7fafc;
+  /* Fix para iOS/Safari */
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .admin-login__input::placeholder {
@@ -210,7 +214,7 @@
   border: none;
   padding: 16px 24px;
   border-radius: 12px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   font-family: "Jost", sans-serif;
   letter-spacing: 0.5px;
@@ -222,6 +226,11 @@
   justify-content: center;
   gap: 10px;
   box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  /* Fix para iOS/Safari */
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-height: 48px;
 }
 
 .admin-login__btn:hover {
@@ -258,6 +267,10 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  /* Fix para iOS/Safari */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-height: 44px;
 }
 
 .admin-login__back:hover {

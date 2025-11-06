@@ -12,10 +12,10 @@ export default function AdminLogin() {
     e.preventDefault();
 
     // Credenciales desde variables de entorno
-    const validUsername = import.meta.env.VITE_ADMIN_USERNAME;
-    const validPassword = import.meta.env.VITE_ADMIN_PASSWORD;
-    const validUsernameAlt = import.meta.env.VITE_ADMIN_USERNAME_ALT;
-    const validPasswordAlt = import.meta.env.VITE_ADMIN_PASSWORD_ALT;
+    const validUsername = import.meta.env.ADMIN_USERNAME;
+    const validPassword = import.meta.env.ADMIN_PASSWORD;
+    const validUsernameAlt = import.meta.env.ADMIN_USERNAME_ALT;
+    const validPasswordAlt = import.meta.env.ADMIN_PASSWORD_ALT;
 
     // Verificar credenciales principales o alternativas
     const isValidPrimary = username === validUsername && password === validPassword;
@@ -82,6 +82,10 @@ export default function AdminLogin() {
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Ingresa tu usuario"
                 required
+                autoComplete="username"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck="false"
               />
             </div>
           </div>
@@ -103,6 +107,10 @@ export default function AdminLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Ingresa tu contraseña"
                 required
+                autoComplete="current-password"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck="false"
               />
             </div>
           </div>

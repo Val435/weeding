@@ -305,6 +305,9 @@
   right: 8px;
   width: 24px;
   height: 24px;
+  min-width: 44px;
+  min-height: 44px;
+  margin: -10px;
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
@@ -317,6 +320,9 @@
   justify-content: center;
   transition: background 0.2s ease;
   z-index: 10;
+  /* Fix para iOS/Safari */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .preview-item__remove:hover {
@@ -334,6 +340,10 @@
   justify-content: center;
   transition: all 0.2s ease;
   padding: 0;
+  /* Fix para iOS/Safari */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-height: 100px;
 }
 
 .preview-add-more:hover {
@@ -362,13 +372,17 @@
 .galeria-form__input,
 .galeria-form__textarea {
   font-family: "Jost", sans-serif;
-  font-size: 15px;
+  font-size: 16px; /* 16px para prevenir zoom en iOS */
   padding: 14px 16px;
   border: 1px solid #E0E0E0;
   border-radius: 4px;
   background: #FFFFFF;
   transition: border-color 0.2s ease;
   width: 100%;
+  /* Fix para iOS/Safari */
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .galeria-form__input:focus,
@@ -392,6 +406,11 @@
   background: #3c4300;
   color: #FFFFFF;
   cursor: pointer;
+  /* Fix para iOS/Safari */
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-height: 48px;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -731,39 +750,271 @@
 }
 
 /* Mobile optimizations */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
+  /* Hero Section */
   .galeria-hero {
-    min-height: 40vh;
-    padding: 60px var(--page-gutter);
+    min-height: 50vh;
+    padding: 80px 20px 50px; /* Aumentado de 60px a 80px */
   }
 
+  .galeria-hero__title {
+    font-size: clamp(32px, 8vw, 42px);
+    margin-bottom: 20px;
+  }
+
+  .galeria-hero__text {
+    font-size: 15px;
+    padding: 0 10px;
+  }
+
+  /* Upload Section */
   .galeria-upload {
-    padding: 50px var(--page-gutter);
+    padding: 50px 20px;
   }
 
   .galeria-upload__heading {
-    margin-bottom: 35px;
+    margin-bottom: 30px;
+  }
+
+  .galeria-upload__title {
+    font-size: 28px;
+  }
+
+  .galeria-upload__subtitle {
+    font-size: 15px;
   }
 
   .drop-zone {
-    padding: 40px 24px;
+    padding: 40px 20px;
+    min-height: 200px;
   }
 
+  .drop-zone__icon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .drop-zone__title {
+    font-size: 16px;
+  }
+
+  .drop-zone__text {
+    font-size: 14px;
+  }
+
+  .drop-zone__hint {
+    font-size: 12px;
+  }
+
+  /* Preview Grid */
   .preview-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 10px;
+  }
+
+  .preview-item {
+    border-radius: 8px;
+  }
+
+  /* Form */
+  .galeria-form__row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .galeria-form__field {
+    width: 100%;
+  }
+
+  .galeria-form__input,
+  .galeria-form__textarea {
+    font-size: 16px; /* Prevenir zoom en iOS */
+    padding: 12px 16px;
   }
 
   .galeria-form__submit {
     width: 100%;
     min-width: unset;
+    padding: 14px 24px;
+    font-size: 16px;
   }
 
+  /* Gallery Grid */
   .galeria-grid-section {
-    padding: 60px var(--page-gutter);
+    padding: 50px 20px;
   }
 
   .galeria-grid-section__heading {
-    margin-bottom: 40px;
+    margin-bottom: 35px;
+  }
+
+  .galeria-grid-section__title {
+    font-size: 28px;
+  }
+
+  .masonry-grid {
+    column-count: 2;
+    column-gap: 16px;
+  }
+
+  .masonry-item {
+    margin-bottom: 16px;
+    border-radius: 8px;
+  }
+
+  /* Success Modal */
+  .success-modal__content {
+    padding: 40px 30px;
+    margin: 0 16px;
+  }
+
+  .success-modal__title {
+    font-size: 22px;
+  }
+
+  .success-modal__text {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Hero más compacto */
+  .galeria-hero {
+    min-height: 40vh;
+    padding: 70px 16px 40px; /* Aumentado de 50px a 70px */
+  }
+
+  .galeria-hero__title {
+    font-size: clamp(28px, 8vw, 36px);
+    margin-bottom: 16px;
+  }
+
+  .galeria-hero__divider {
+    width: 60px;
+    margin-bottom: 20px;
+  }
+
+  .galeria-hero__text {
+    font-size: 14px;
+  }
+
+  /* Upload más compacto */
+  .galeria-upload {
+    padding: 40px 16px;
+  }
+
+  .galeria-upload__title {
+    font-size: 24px;
+  }
+
+  .galeria-upload__subtitle {
+    font-size: 14px;
+  }
+
+  .drop-zone {
+    padding: 30px 16px;
+    min-height: 180px;
+  }
+
+  .drop-zone__icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .drop-zone__title {
+    font-size: 15px;
+  }
+
+  .drop-zone__text {
+    font-size: 13px;
+  }
+
+  .drop-zone__hint {
+    font-size: 11px;
+    margin-top: 8px;
+  }
+
+  /* Preview en una sola columna en pantallas muy pequeñas */
+  .preview-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+  }
+
+  .preview-item__remove {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Form más compacto */
+  .galeria-form__label {
+    font-size: 13px;
+  }
+
+  .galeria-form__input,
+  .galeria-form__textarea {
+    font-size: 16px;
+    padding: 10px 14px;
+  }
+
+  .galeria-form__submit {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+
+  /* Gallery más compacto */
+  .galeria-grid-section {
+    padding: 40px 16px;
+  }
+
+  .galeria-grid-section__title {
+    font-size: 24px;
+  }
+
+  .galeria-grid-section__subtitle {
+    font-size: 14px;
+  }
+
+  .masonry-grid {
+    column-count: 1;
+    column-gap: 0;
+  }
+
+  .masonry-item {
+    margin-bottom: 20px;
+  }
+
+  .masonry-item__info {
+    padding: 12px;
+  }
+
+  .masonry-item__name {
+    font-size: 13px;
+  }
+
+  .masonry-item__message {
+    font-size: 12px;
+  }
+
+  /* Modal más compacto */
+  .success-modal__content {
+    padding: 35px 24px;
+    margin: 0 12px;
+  }
+
+  .success-modal__icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 24px;
+  }
+
+  .success-modal__title {
+    font-size: 20px;
+  }
+
+  .success-modal__text {
+    font-size: 13px;
   }
 }

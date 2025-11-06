@@ -249,6 +249,9 @@ export default function GaleriaPage() {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 className="galeria-form__input"
+                autoComplete="name"
+                autoCapitalize="words"
+                autoCorrect="on"
               />
               <textarea
                 placeholder="Describe este momento (opcional)"
@@ -256,6 +259,9 @@ export default function GaleriaPage() {
                 onChange={(e) => setMessage(e.target.value)}
                 className="galeria-form__textarea"
                 rows={3}
+                autoCapitalize="sentences"
+                autoCorrect="on"
+                spellCheck="true"
               />
 
               <button
