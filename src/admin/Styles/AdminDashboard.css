@@ -359,6 +359,36 @@
   padding: 24px;
 }
 
+/* Gallery Empty State */
+.admin-gallery-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.admin-gallery-empty__icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.admin-gallery-empty__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 8px;
+}
+
+.admin-gallery-empty__message {
+  font-size: 16px;
+  color: #718096;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
 .admin-gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

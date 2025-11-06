@@ -245,68 +245,76 @@ export default function AdminDashboard() {
               💌 Mensajes ({notesCount})
             </button>
           )}
-          {gallery.length > 0 && (
-            <button
-              className={`filter-btn filter-btn--gallery ${filter === "gallery" ? "filter-btn--active" : ""}`}
-              onClick={() => setFilter("gallery")}
-            >
-              📸 Galería ({galleryCount})
-            </button>
-          )}
+          <button
+            className={`filter-btn filter-btn--gallery ${filter === "gallery" ? "filter-btn--active" : ""}`}
+            onClick={() => setFilter("gallery")}
+          >
+            📸 Galería ({galleryCount})
+          </button>
         </div>
 
         {/* Content Area - Table, Notes, or Gallery */}
         {filter === "gallery" ? (
           /* Gallery Section */
           <div className="admin-gallery-section">
-            <div className="admin-gallery-grid">
-              {gallery.map((photo) => (
-                <div
-                  key={photo.id}
-                  className="gallery-photo-card"
-                  onClick={() => setSelectedPhoto(photo)}
-                >
-                  <div className="gallery-photo-card__media">
-                    {photo.type === "image" ? (
-                      <img
-                        src={photo.thumbnailUrl || photo.url}
-                        alt={photo.message || "Foto de la boda"}
-                        loading="lazy"
-                      />
-                    ) : (
-                      <video
-                        src={photo.url}
-                        preload="metadata"
-                      />
-                    )}
-                    {photo.type === "video" && (
-                      <div className="gallery-photo-card__play-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
-                          <path d="M8 5v14l11-7z"/>
-                        </svg>
+            {gallery.length === 0 ? (
+              <div className="admin-gallery-empty">
+                <div className="admin-gallery-empty__icon">📸</div>
+                <h3 className="admin-gallery-empty__title">Aún no hay fotos o videos</h3>
+                <p className="admin-gallery-empty__message">
+                  Cuando los invitados empiecen a subir sus fotos y videos, aparecerán aquí.
+                </p>
+              </div>
+            ) : (
+              <div className="admin-gallery-grid">
+                {gallery.map((photo) => (
+                  <div
+                    key={photo.id}
+                    className="gallery-photo-card"
+                    onClick={() => setSelectedPhoto(photo)}
+                  >
+                    <div className="gallery-photo-card__media">
+                      {photo.type === "image" ? (
+                        <img
+                          src={photo.thumbnailUrl || photo.url}
+                          alt={photo.message || "Foto de la boda"}
+                          loading="lazy"
+                        />
+                      ) : (
+                        <video
+                          src={photo.url}
+                          preload="metadata"
+                        />
+                      )}
+                      {photo.type === "video" && (
+                        <div className="gallery-photo-card__play-icon">
+                          <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                    {(photo.userName || photo.message) && (
+                      <div className="gallery-photo-card__info">
+                        {photo.userName && (
+                          <p className="gallery-photo-card__user">{photo.userName}</p>
+                        )}
+                        {photo.message && (
+                          <p className="gallery-photo-card__message">{photo.message}</p>
+                        )}
+                        <p className="gallery-photo-card__date">
+                          {new Date(photo.uploadedAt).toLocaleDateString('es-ES', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric'
+                          })}
+                        </p>
                       </div>
                     )}
                   </div>
-                  {(photo.userName || photo.message) && (
-                    <div className="gallery-photo-card__info">
-                      {photo.userName && (
-                        <p className="gallery-photo-card__user">{photo.userName}</p>
-                      )}
-                      {photo.message && (
-                        <p className="gallery-photo-card__message">{photo.message}</p>
-                      )}
-                      <p className="gallery-photo-card__date">
-                        {new Date(photo.uploadedAt).toLocaleDateString('es-ES', {
-                          day: '2-digit',
-                          month: 'short',
-                          year: 'numeric'
-                        })}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         ) : filter === "notes" ? (
           /* Notes Section */
