@@ -12,6 +12,8 @@ export default function AdminDashboard() {
   const [statsExpanded, setStatsExpanded] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [downloadModal, setDownloadModal] = useState({ show: false, downloading: false, progress: 0, total: 0 });
+  const [selectedPhotos, setSelectedPhotos] = useState(new Set());
+  const [selectionMode, setSelectionMode] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -113,6 +115,62 @@ export default function AdminDashboard() {
 
   const closeDownloadModal = () => {
     setDownloadModal({ show: false, downloading: false, progress: 0, total: 0 });
+  };
+
+  const toggleSelectionMode = () => {
+    setSelectionMode(!selectionMode);
+    if (selectionMode) {
+      // Si salimos del modo selección, limpiamos las seleccionadas
+      setSelectedPhotos(new Set());
+    }
+  };
+
+  const togglePhotoSelection = (photoId) => {
+    const newSelection = new Set(selectedPhotos);
+    if (newSelection.has(photoId)) {
+      newSelection.delete(photoId);
+    } else {
+      newSelection.add(photoId);
+    }
+    setSelectedPhotos(newSelection);
+  };
+
+  const selectAllPhotos = () => {
+    const allIds = new Set(gallery.map(p => p.id));
+    setSelectedPhotos(allIds);
+  };
+
+  const deselectAllPhotos = () => {
+    setSelectedPhotos(new Set());
+  };
+
+  const handleDownloadSelected = async () => {
+    if (selectedPhotos.size === 0) return;
+
+    const photosToDownload = gallery.filter(p => selectedPhotos.has(p.id));
+    setDownloadModal({ show: true, downloading: false, progress: 0, total: photosToDownload.length });
+  };
+
+  const startDownloadSelected = async () => {
+    const photosToDownload = gallery.filter(p => selectedPhotos.has(p.id));
+    const total = photosToDownload.length;
+    setDownloadModal({ show: true, downloading: true, progress: 0, total });
+
+    let downloaded = 0;
+    for (const photo of photosToDownload) {
+      try {
+        await handleDownload(photo);
+        downloaded++;
+        setDownloadModal({ show: true, downloading: true, progress: downloaded, total });
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } catch (error) {
+        console.error(`Error descargando foto ${photo.id}:`, error);
+      }
+    }
+
+    setDownloadModal({ show: true, downloading: false, progress: downloaded, total, completed: true });
+    setSelectedPhotos(new Set());
+    setSelectionMode(false);
   };
 
   const filteredGuests = guests.filter((g) => {
@@ -303,27 +361,96 @@ export default function AdminDashboard() {
                 <div className="admin-gallery-header">
                   <h3 className="admin-gallery-header__title">
                     Galería de Fotos y Videos ({gallery.length})
+                    {selectionMode && selectedPhotos.size > 0 && (
+                      <span className="admin-gallery-header__selected">
+                        {selectedPhotos.size} seleccionadas
+                      </span>
+                    )}
                   </h3>
-                  <button
-                    className="admin-gallery-header__download-all"
-                    onClick={handleDownloadAll}
-                    title="Descargar todas las fotos y videos"
-                  >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    Descargar Todas
-                  </button>
+                  <div className="admin-gallery-header__actions">
+                    {!selectionMode ? (
+                      <>
+                        <button
+                          className="admin-gallery-header__btn admin-gallery-header__btn--select"
+                          onClick={toggleSelectionMode}
+                          title="Seleccionar fotos"
+                        >
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 11l3 3L22 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                          Seleccionar
+                        </button>
+                        <button
+                          className="admin-gallery-header__btn admin-gallery-header__btn--download"
+                          onClick={handleDownloadAll}
+                          title="Descargar todas las fotos y videos"
+                        >
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                          Todas
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className="admin-gallery-header__btn admin-gallery-header__btn--secondary"
+                          onClick={selectedPhotos.size === gallery.length ? deselectAllPhotos : selectAllPhotos}
+                          title={selectedPhotos.size === gallery.length ? "Deseleccionar todas" : "Seleccionar todas"}
+                        >
+                          {selectedPhotos.size === gallery.length ? "Deseleccionar todas" : "Seleccionar todas"}
+                        </button>
+                        <button
+                          className="admin-gallery-header__btn admin-gallery-header__btn--download"
+                          onClick={handleDownloadSelected}
+                          disabled={selectedPhotos.size === 0}
+                          title="Descargar seleccionadas"
+                        >
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                          Descargar ({selectedPhotos.size})
+                        </button>
+                        <button
+                          className="admin-gallery-header__btn admin-gallery-header__btn--cancel"
+                          onClick={toggleSelectionMode}
+                          title="Cancelar selección"
+                        >
+                          Cancelar
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div className="admin-gallery-grid">
                 {gallery.map((photo) => (
                   <div
                     key={photo.id}
-                    className="gallery-photo-card"
-                    onClick={() => setSelectedPhoto(photo)}
+                    className={`gallery-photo-card ${selectionMode ? 'gallery-photo-card--selectable' : ''} ${selectedPhotos.has(photo.id) ? 'gallery-photo-card--selected' : ''}`}
+                    onClick={() => selectionMode ? togglePhotoSelection(photo.id) : setSelectedPhoto(photo)}
                   >
+                    {selectionMode && (
+                      <div className="gallery-photo-card__checkbox">
+                        <input
+                          type="checkbox"
+                          checked={selectedPhotos.has(photo.id)}
+                          onChange={() => {}}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <div className="gallery-photo-card__checkbox-custom">
+                          {selectedPhotos.has(photo.id) && (
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          )}
+                        </div>
+                      </div>
+                    )}
                     <div className="gallery-photo-card__media">
                       {photo.type === "image" ? (
                         <img
@@ -542,9 +669,11 @@ export default function AdminDashboard() {
               /* Confirmación */
               <>
                 <div className="download-modal__icon">📥</div>
-                <h3 className="download-modal__title">Descargar Todas las Fotos</h3>
+                <h3 className="download-modal__title">
+                  {selectedPhotos.size > 0 && selectionMode ? 'Descargar Fotos Seleccionadas' : 'Descargar Todas las Fotos'}
+                </h3>
                 <p className="download-modal__message">
-                  ¿Deseas descargar todas las {downloadModal.total} fotos y videos?
+                  ¿Deseas descargar {selectedPhotos.size > 0 && selectionMode ? `las ${downloadModal.total} fotos seleccionadas` : `todas las ${downloadModal.total} fotos y videos`}?
                   <br />
                   Esto puede tomar algunos minutos.
                 </p>
@@ -552,7 +681,10 @@ export default function AdminDashboard() {
                   <button className="download-modal__btn download-modal__btn--cancel" onClick={closeDownloadModal}>
                     Cancelar
                   </button>
-                  <button className="download-modal__btn download-modal__btn--confirm" onClick={startDownloadAll}>
+                  <button
+                    className="download-modal__btn download-modal__btn--confirm"
+                    onClick={selectedPhotos.size > 0 && selectionMode ? startDownloadSelected : startDownloadAll}
+                  >
                     Descargar
                   </button>
                 </div>

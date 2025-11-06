@@ -405,15 +405,31 @@
   font-weight: 600;
   color: #2d3748;
   margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.admin-gallery-header__download-all {
+.admin-gallery-header__selected {
+  font-size: 14px;
+  font-weight: 500;
+  color: #667eea;
+  background: #f0f4ff;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.admin-gallery-header__actions {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+}
+
+.admin-gallery-header__btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
   border: none;
   border-radius: 8px;
   font-family: "Jost", sans-serif;
@@ -421,20 +437,61 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.admin-gallery-header__btn svg {
+  flex-shrink: 0;
+}
+
+.admin-gallery-header__btn--select {
+  background: #e2e8f0;
+  color: #4a5568;
+}
+
+.admin-gallery-header__btn--select:hover {
+  background: #cbd5e0;
+}
+
+.admin-gallery-header__btn--download {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
-.admin-gallery-header__download-all:hover {
+.admin-gallery-header__btn--download:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
 }
 
-.admin-gallery-header__download-all:active {
+.admin-gallery-header__btn--download:active {
   transform: translateY(0);
 }
 
-.admin-gallery-header__download-all svg {
-  flex-shrink: 0;
+.admin-gallery-header__btn--download:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.admin-gallery-header__btn--secondary {
+  background: white;
+  color: #4a5568;
+  border: 2px solid #e2e8f0;
+}
+
+.admin-gallery-header__btn--secondary:hover {
+  border-color: #cbd5e0;
+  background: #f7fafc;
+}
+
+.admin-gallery-header__btn--cancel {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.admin-gallery-header__btn--cancel:hover {
+  background: #fecaca;
 }
 
 .admin-gallery-grid {
@@ -450,11 +507,66 @@
   cursor: pointer;
   transition: all 0.2s;
   border: 2px solid transparent;
+  position: relative;
 }
 
 .gallery-photo-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: #667eea;
+}
+
+.gallery-photo-card--selectable {
+  border-color: #cbd5e0;
+}
+
+.gallery-photo-card--selectable:hover {
+  border-color: #667eea;
+}
+
+.gallery-photo-card--selected {
+  border-color: #667eea;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+
+.gallery-photo-card--selected .gallery-photo-card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(102, 126, 234, 0.2);
+  pointer-events: none;
+}
+
+.gallery-photo-card__checkbox {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+}
+
+.gallery-photo-card__checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.gallery-photo-card__checkbox-custom {
+  width: 24px;
+  height: 24px;
+  background: white;
+  border: 2px solid #cbd5e0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-photo-card--selected .gallery-photo-card__checkbox-custom {
+  background: #667eea;
   border-color: #667eea;
 }
 
@@ -1021,12 +1133,26 @@
   .admin-gallery-header__title {
     font-size: 18px;
     text-align: center;
+    flex-direction: column;
   }
 
-  .admin-gallery-header__download-all {
-    width: 100%;
+  .admin-gallery-header__selected {
+    font-size: 12px;
+  }
+
+  .admin-gallery-header__actions {
+    flex-wrap: wrap;
     justify-content: center;
-    padding: 14px 20px;
+  }
+
+  .admin-gallery-header__btn {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  .admin-gallery-header__btn svg {
+    width: 16px;
+    height: 16px;
   }
 
   .admin-gallery-grid {
