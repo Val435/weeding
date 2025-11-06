@@ -27,18 +27,25 @@ export default function AdminDashboard() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [guestsData, notesData, galleryData] = await Promise.all([
+      const [guestsData, notesData] = await Promise.all([
         getAllGuests(),
-        getAllNotes(),
-        getGalleryPhotos()
+        getAllNotes()
       ]);
       console.log("📊 Datos recibidos:");
       console.log("Guests:", guestsData);
       console.log("Notes:", notesData);
-      console.log("Gallery:", galleryData);
       setGuests(guestsData);
       setNotes(notesData);
-      setGallery(galleryData.photos || []);
+
+      // Cargar galería de forma opcional (no romper si falla)
+      try {
+        const galleryData = await getGalleryPhotos();
+        console.log("Gallery:", galleryData);
+        setGallery(galleryData.photos || []);
+      } catch (galleryError) {
+        console.log("Galería no disponible aún:", galleryError);
+        setGallery([]);
+      }
     } catch (error) {
       console.error("Error cargando datos:", error);
     } finally {
