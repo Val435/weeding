@@ -11,6 +11,7 @@ export default function AdminDashboard() {
   const [filter, setFilter] = useState("all"); // all, confirmed, pending, declined, notes, gallery
   const [statsExpanded, setStatsExpanded] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [downloadModal, setDownloadModal] = useState({ show: false, downloading: false, progress: 0, total: 0 });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -83,24 +84,22 @@ export default function AdminDashboard() {
   };
 
   const handleDownloadAll = async () => {
-    if (gallery.length === 0) {
-      alert('No hay fotos para descargar');
-      return;
-    }
+    if (gallery.length === 0) return;
 
-    const confirmed = window.confirm(
-      `¿Deseas descargar todas las ${gallery.length} fotos/videos? Esto puede tomar algunos minutos.`
-    );
+    // Mostrar modal de confirmación
+    setDownloadModal({ show: true, downloading: false, progress: 0, total: gallery.length });
+  };
 
-    if (!confirmed) return;
-
-    alert(`Iniciando descarga de ${gallery.length} archivos. Por favor espera...`);
+  const startDownloadAll = async () => {
+    const total = gallery.length;
+    setDownloadModal({ show: true, downloading: true, progress: 0, total });
 
     let downloaded = 0;
     for (const photo of gallery) {
       try {
         await handleDownload(photo);
         downloaded++;
+        setDownloadModal({ show: true, downloading: true, progress: downloaded, total });
         // Pequeña pausa entre descargas para no saturar el navegador
         await new Promise(resolve => setTimeout(resolve, 500));
       } catch (error) {
@@ -108,7 +107,12 @@ export default function AdminDashboard() {
       }
     }
 
-    alert(`Descarga completada: ${downloaded} de ${gallery.length} archivos descargados.`);
+    // Mostrar completado
+    setDownloadModal({ show: true, downloading: false, progress: downloaded, total, completed: true });
+  };
+
+  const closeDownloadModal = () => {
+    setDownloadModal({ show: false, downloading: false, progress: 0, total: 0 });
   };
 
   const filteredGuests = guests.filter((g) => {
@@ -525,6 +529,64 @@ export default function AdminDashboard() {
                   </p>
                 )}
               </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Download All Modal */}
+      {downloadModal.show && (
+        <div className="download-modal" onClick={downloadModal.downloading ? null : closeDownloadModal}>
+          <div className="download-modal__content" onClick={(e) => e.stopPropagation()}>
+            {!downloadModal.downloading && !downloadModal.completed ? (
+              /* Confirmación */
+              <>
+                <div className="download-modal__icon">📥</div>
+                <h3 className="download-modal__title">Descargar Todas las Fotos</h3>
+                <p className="download-modal__message">
+                  ¿Deseas descargar todas las {downloadModal.total} fotos y videos?
+                  <br />
+                  Esto puede tomar algunos minutos.
+                </p>
+                <div className="download-modal__actions">
+                  <button className="download-modal__btn download-modal__btn--cancel" onClick={closeDownloadModal}>
+                    Cancelar
+                  </button>
+                  <button className="download-modal__btn download-modal__btn--confirm" onClick={startDownloadAll}>
+                    Descargar
+                  </button>
+                </div>
+              </>
+            ) : downloadModal.downloading ? (
+              /* Descargando */
+              <>
+                <div className="download-modal__spinner"></div>
+                <h3 className="download-modal__title">Descargando...</h3>
+                <p className="download-modal__message">
+                  {downloadModal.progress} de {downloadModal.total} archivos descargados
+                </p>
+                <div className="download-modal__progress">
+                  <div
+                    className="download-modal__progress-bar"
+                    style={{ width: `${(downloadModal.progress / downloadModal.total) * 100}%` }}
+                  ></div>
+                </div>
+                <p className="download-modal__note">Por favor no cierres esta ventana</p>
+              </>
+            ) : (
+              /* Completado */
+              <>
+                <div className="download-modal__icon download-modal__icon--success">✓</div>
+                <h3 className="download-modal__title">Descarga Completada</h3>
+                <p className="download-modal__message">
+                  Se han descargado {downloadModal.progress} de {downloadModal.total} archivos exitosamente.
+                </p>
+                <div className="download-modal__actions">
+                  <button className="download-modal__btn download-modal__btn--confirm" onClick={closeDownloadModal}>
+                    Cerrar
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>

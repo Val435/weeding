@@ -649,6 +649,180 @@
   font-weight: 600;
 }
 
+/* Download Modal */
+.download-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.download-modal__content {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.download-modal__icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  animation: bounce 0.5s ease;
+}
+
+.download-modal__icon--success {
+  color: #48bb78;
+  background: #f0fff4;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.download-modal__title {
+  font-family: "Jost", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 12px 0;
+}
+
+.download-modal__message {
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+
+.download-modal__note {
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  color: #718096;
+  margin: 16px 0 0 0;
+  font-style: italic;
+}
+
+.download-modal__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.download-modal__btn {
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  min-width: 120px;
+}
+
+.download-modal__btn--cancel {
+  background: #e2e8f0;
+  color: #4a5568;
+}
+
+.download-modal__btn--cancel:hover {
+  background: #cbd5e0;
+}
+
+.download-modal__btn--confirm {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.download-modal__btn--confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.download-modal__btn--confirm:active {
+  transform: translateY(0);
+}
+
+/* Progress Bar */
+.download-modal__progress {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+.download-modal__progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* Spinner */
+.download-modal__spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .admin-content {
@@ -925,6 +1099,28 @@
 
   .admin-header__subtitle {
     font-size: 12px;
+  }
+
+  /* Download modal responsive */
+  .download-modal__content {
+    padding: 30px 20px;
+  }
+
+  .download-modal__title {
+    font-size: 20px;
+  }
+
+  .download-modal__message {
+    font-size: 14px;
+  }
+
+  .download-modal__actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .download-modal__btn {
+    width: 100%;
   }
 
   /* Stats en una sola columna en pantallas muy pequeñas */

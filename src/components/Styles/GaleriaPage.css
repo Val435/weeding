@@ -675,6 +675,88 @@
   line-height: 1.6;
 }
 
+/* Error Modal */
+.error-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.error-modal__content {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.error-modal__icon {
+  margin: 0 auto 20px;
+  animation: shake 0.5s ease;
+}
+
+.error-modal__title {
+  font-family: "Against", serif;
+  font-size: 24px;
+  color: #991b1b;
+  margin: 0 0 12px 0;
+  font-weight: 400;
+}
+
+.error-modal__message {
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+
+.error-modal__btn {
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-family: "Jost", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.error-modal__btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+.error-modal__btn:active {
+  transform: translateY(0);
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -1016,5 +1098,23 @@
 
   .success-modal__text {
     font-size: 13px;
+  }
+
+  /* Error Modal responsive */
+  .error-modal__content {
+    padding: 30px 20px;
+    margin: 0 12px;
+  }
+
+  .error-modal__title {
+    font-size: 20px;
+  }
+
+  .error-modal__message {
+    font-size: 14px;
+  }
+
+  .error-modal__btn {
+    width: 100%;
   }
 }

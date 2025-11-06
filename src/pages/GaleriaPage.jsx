@@ -13,6 +13,7 @@ export default function GaleriaPage() {
   const [gallery, setGallery] = useState([]);
   const [dragActive, setDragActive] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [errorModal, setErrorModal] = useState({ show: false, message: "" });
 
   const heroRef = useRef(null);
   const titleRef = useRef(null);
@@ -151,7 +152,16 @@ export default function GaleriaPage() {
       clearInterval(progressInterval);
       setUploadProgress(0);
       console.error("Error uploading:", error);
-      alert("Hubo un error al subir los archivos. Intenta de nuevo.");
+
+      // Mostrar modal de error con mensaje específico
+      let errorMessage = "Hubo un error al subir los archivos. Por favor intenta de nuevo.";
+      if (error.message && error.message.includes("cloud_name")) {
+        errorMessage = "Error de configuración del servidor. Por favor contacta al administrador.";
+      } else if (error.message && error.message.includes("500")) {
+        errorMessage = "El servidor está teniendo problemas. Por favor intenta más tarde.";
+      }
+
+      setErrorModal({ show: true, message: errorMessage });
     } finally {
       setUploading(false);
     }
@@ -331,6 +341,25 @@ export default function GaleriaPage() {
             </div>
             <h3 className="success-modal__title">Gracias por compartir</h3>
             <p className="success-modal__text">Tus recuerdos se han guardado exitosamente</p>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {errorModal.show && (
+        <div className="error-modal" onClick={() => setErrorModal({ show: false, message: "" })}>
+          <div className="error-modal__content" onClick={(e) => e.stopPropagation()}>
+            <div className="error-modal__icon">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="#ef4444" strokeWidth="2"/>
+                <path d="M12 8v4m0 4h.01" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <h3 className="error-modal__title">Error al subir archivos</h3>
+            <p className="error-modal__message">{errorModal.message}</p>
+            <button className="error-modal__btn" onClick={() => setErrorModal({ show: false, message: "" })}>
+              Entendido
+            </button>
           </div>
         </div>
       )}
