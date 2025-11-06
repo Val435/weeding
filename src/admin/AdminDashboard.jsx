@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllGuests, getAllNotes } from "../api";
+import { getAllGuests, getAllNotes, getGalleryPhotos } from "../api";
 import "./Styles/AdminDashboard.css";
 
 export default function AdminDashboard() {
   const [guests, setGuests] = useState([]);
   const [notes, setNotes] = useState([]);
+  const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("all"); // all, confirmed, pending, declined, notes
+  const [filter, setFilter] = useState("all"); // all, confirmed, pending, declined, notes, gallery
   const [statsExpanded, setStatsExpanded] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,16 +27,18 @@ export default function AdminDashboard() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [guestsData, notesData] = await Promise.all([
+      const [guestsData, notesData, galleryData] = await Promise.all([
         getAllGuests(),
-        getAllNotes()
+        getAllNotes(),
+        getGalleryPhotos()
       ]);
       console.log("📊 Datos recibidos:");
       console.log("Guests:", guestsData);
       console.log("Notes:", notesData);
-      console.log("Primera nota:", notesData[0]);
+      console.log("Gallery:", galleryData);
       setGuests(guestsData);
       setNotes(notesData);
+      setGallery(galleryData.photos || []);
     } catch (error) {
       console.error("Error cargando datos:", error);
     } finally {
@@ -45,6 +49,30 @@ export default function AdminDashboard() {
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
     navigate("/admin");
+  };
+
+  const handleDownload = async (photo) => {
+    try {
+      const response = await fetch(photo.url);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+
+      // Nombre del archivo con fecha y usuario
+      const date = new Date(photo.uploadedAt).toISOString().split('T')[0];
+      const userName = photo.userName ? photo.userName.replace(/\s+/g, '_') : 'invitado';
+      const extension = photo.type === 'image' ? 'jpg' : 'mp4';
+      link.download = `boda_${date}_${userName}_${photo.id}.${extension}`;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error al descargar:', error);
+      alert('Error al descargar el archivo. Por favor intenta de nuevo.');
+    }
   };
 
   const filteredGuests = guests.filter((g) => {
@@ -68,6 +96,7 @@ export default function AdminDashboard() {
   const declinedCount = guests.filter((g) => g.attending === false).length;
   const pendingCount = guests.filter((g) => g.attending === null).length;
   const notesCount = notes.length;
+  const galleryCount = gallery.length;
 
   const confirmationRate = totalGuests > 0
     ? Math.round((confirmedCount / totalGuests) * 100)
@@ -164,6 +193,14 @@ export default function AdminDashboard() {
               <div className="stat-card__label">Tasa de Confirmación</div>
             </div>
           </div>
+
+          <div className="stat-card stat-card--gallery">
+            <div className="stat-card__icon">📸</div>
+            <div className="stat-card__content">
+              <div className="stat-card__value">{galleryCount}</div>
+              <div className="stat-card__label">Fotos & Videos</div>
+            </div>
+          </div>
           </div>
         </div>
 
@@ -201,10 +238,70 @@ export default function AdminDashboard() {
               💌 Mensajes ({notesCount})
             </button>
           )}
+          {gallery.length > 0 && (
+            <button
+              className={`filter-btn filter-btn--gallery ${filter === "gallery" ? "filter-btn--active" : ""}`}
+              onClick={() => setFilter("gallery")}
+            >
+              📸 Galería ({galleryCount})
+            </button>
+          )}
         </div>
 
-        {/* Content Area - Table or Notes */}
-        {filter === "notes" ? (
+        {/* Content Area - Table, Notes, or Gallery */}
+        {filter === "gallery" ? (
+          /* Gallery Section */
+          <div className="admin-gallery-section">
+            <div className="admin-gallery-grid">
+              {gallery.map((photo) => (
+                <div
+                  key={photo.id}
+                  className="gallery-photo-card"
+                  onClick={() => setSelectedPhoto(photo)}
+                >
+                  <div className="gallery-photo-card__media">
+                    {photo.type === "image" ? (
+                      <img
+                        src={photo.thumbnailUrl || photo.url}
+                        alt={photo.message || "Foto de la boda"}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <video
+                        src={photo.url}
+                        preload="metadata"
+                      />
+                    )}
+                    {photo.type === "video" && (
+                      <div className="gallery-photo-card__play-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="white">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                  {(photo.userName || photo.message) && (
+                    <div className="gallery-photo-card__info">
+                      {photo.userName && (
+                        <p className="gallery-photo-card__user">{photo.userName}</p>
+                      )}
+                      {photo.message && (
+                        <p className="gallery-photo-card__message">{photo.message}</p>
+                      )}
+                      <p className="gallery-photo-card__date">
+                        {new Date(photo.uploadedAt).toLocaleDateString('es-ES', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric'
+                        })}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : filter === "notes" ? (
           /* Notes Section */
           <div className="admin-notes-section">
             <div className="admin-notes-grid">
@@ -301,6 +398,74 @@ export default function AdminDashboard() {
           </div>
         )}
       </div>
+
+      {/* Photo Modal */}
+      {selectedPhoto && (
+        <div className="photo-modal" onClick={() => setSelectedPhoto(null)}>
+          <div className="photo-modal__content" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="photo-modal__close"
+              onClick={() => setSelectedPhoto(null)}
+            >
+              ×
+            </button>
+            <button
+              className="photo-modal__download"
+              onClick={() => handleDownload(selectedPhoto)}
+              title="Descargar en HD"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <div className="photo-modal__media">
+              {selectedPhoto.type === "image" ? (
+                <img
+                  src={selectedPhoto.url}
+                  alt={selectedPhoto.message || "Foto de la boda"}
+                />
+              ) : (
+                <video
+                  src={selectedPhoto.url}
+                  controls
+                  autoPlay
+                />
+              )}
+            </div>
+            {(selectedPhoto.userName || selectedPhoto.message) && (
+              <div className="photo-modal__info">
+                {selectedPhoto.userName && (
+                  <p className="photo-modal__user">
+                    <strong>Subido por:</strong> {selectedPhoto.userName}
+                  </p>
+                )}
+                {selectedPhoto.message && (
+                  <p className="photo-modal__message">
+                    <strong>Mensaje:</strong> {selectedPhoto.message}
+                  </p>
+                )}
+                <p className="photo-modal__date">
+                  <strong>Fecha:</strong>{" "}
+                  {new Date(selectedPhoto.uploadedAt).toLocaleString('es-ES', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </p>
+                {selectedPhoto.width && selectedPhoto.height && (
+                  <p className="photo-modal__dimensions">
+                    <strong>Dimensiones:</strong> {selectedPhoto.width} × {selectedPhoto.height}px
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
