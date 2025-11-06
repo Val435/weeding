@@ -82,6 +82,35 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDownloadAll = async () => {
+    if (gallery.length === 0) {
+      alert('No hay fotos para descargar');
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `¿Deseas descargar todas las ${gallery.length} fotos/videos? Esto puede tomar algunos minutos.`
+    );
+
+    if (!confirmed) return;
+
+    alert(`Iniciando descarga de ${gallery.length} archivos. Por favor espera...`);
+
+    let downloaded = 0;
+    for (const photo of gallery) {
+      try {
+        await handleDownload(photo);
+        downloaded++;
+        // Pequeña pausa entre descargas para no saturar el navegador
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } catch (error) {
+        console.error(`Error descargando foto ${photo.id}:`, error);
+      }
+    }
+
+    alert(`Descarga completada: ${downloaded} de ${gallery.length} archivos descargados.`);
+  };
+
   const filteredGuests = guests.filter((g) => {
     if (filter === "all") return true;
     if (filter === "confirmed") return g.attending === true;
@@ -266,7 +295,25 @@ export default function AdminDashboard() {
                 </p>
               </div>
             ) : (
-              <div className="admin-gallery-grid">
+              <>
+                <div className="admin-gallery-header">
+                  <h3 className="admin-gallery-header__title">
+                    Galería de Fotos y Videos ({gallery.length})
+                  </h3>
+                  <button
+                    className="admin-gallery-header__download-all"
+                    onClick={handleDownloadAll}
+                    title="Descargar todas las fotos y videos"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    Descargar Todas
+                  </button>
+                </div>
+                <div className="admin-gallery-grid">
                 {gallery.map((photo) => (
                   <div
                     key={photo.id}
@@ -314,6 +361,7 @@ export default function AdminDashboard() {
                   </div>
                 ))}
               </div>
+              </>
             )}
           </div>
         ) : filter === "notes" ? (
