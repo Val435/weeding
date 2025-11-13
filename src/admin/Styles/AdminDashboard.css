@@ -167,8 +167,14 @@
 /* Filters */
 .admin-filters {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 16px;
   margin-bottom: 24px;
+}
+
+.admin-filters__row {
+  display: flex;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -222,6 +228,37 @@
   background: #f3f4f6;
   border-color: #d1d5db;
   color: #4b5563;
+}
+
+/* Download Button */
+.admin-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: "Jost", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.admin-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+}
+
+.admin-download-btn:active {
+  transform: translateY(0);
+}
+
+.admin-download-btn svg {
+  flex-shrink: 0;
 }
 
 /* Table */

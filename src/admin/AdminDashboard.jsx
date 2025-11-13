@@ -61,6 +61,58 @@ export default function AdminDashboard() {
     navigate("/admin");
   };
 
+  const downloadExcel = () => {
+    // Crear CSV con los invitados filtrados
+    const headers = ["Nombre", "Estado", "Preferencia de Comida", "Grupo", "Mensaje"];
+    const rows = filteredGuests.map(guest => {
+      const estado = guest.attending === true
+        ? "Confirmado"
+        : guest.attending === false
+        ? "No asistirá"
+        : "Sin respuesta";
+
+      const preferencia = guest.attending === true
+        ? (guest.foodPreference === "pasta" ? "Pasta" : guest.foodPreference === "carne" ? "Carne" : "Sin especificar")
+        : "-";
+
+      const mensaje = notes.find(n => n.guestId === guest.id)?.message || "Sin mensaje";
+
+      return [
+        guest.fullName,
+        estado,
+        preferencia,
+        `Grupo #${guest.groupId || "-"}`,
+        mensaje
+      ];
+    });
+
+    // Convertir a CSV
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(","))
+    ].join("\n");
+
+    // Crear y descargar archivo
+    const blob = new Blob(["\ufeff" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+
+    const filterName = filter === "all" ? "todos"
+      : filter === "confirmed" ? "confirmados"
+      : filter === "declined" ? "no-asistiran"
+      : filter === "pending" ? "sin-respuesta"
+      : filter === "pasta" ? "pasta"
+      : filter === "carne" ? "carne"
+      : filter;
+
+    link.setAttribute("href", url);
+    link.setAttribute("download", `invitados-${filterName}-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleDownload = async (photo) => {
     try {
       const response = await fetch(photo.url);
@@ -311,12 +363,13 @@ export default function AdminDashboard() {
 
         {/* Filters */}
         <div className="admin-filters">
-          <button
-            className={`filter-btn ${filter === "all" ? "filter-btn--active" : ""}`}
-            onClick={() => setFilter("all")}
-          >
-            Todos ({totalGuests})
-          </button>
+          <div className="admin-filters__row">
+            <button
+              className={`filter-btn ${filter === "all" ? "filter-btn--active" : ""}`}
+              onClick={() => setFilter("all")}
+            >
+              Todos ({totalGuests})
+            </button>
           <button
             className={`filter-btn ${filter === "confirmed" ? "filter-btn--active" : ""}`}
             onClick={() => setFilter("confirmed")}
@@ -361,6 +414,21 @@ export default function AdminDashboard() {
           >
             📸 Galería ({galleryCount})
           </button>
+          </div>
+          {filter !== "gallery" && filter !== "notes" && filteredGuests.length > 0 && (
+            <button
+              className="admin-download-btn"
+              onClick={downloadExcel}
+              title="Descargar lista en Excel"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Descargar Excel
+            </button>
+          )}
         </div>
 
         {/* Content Area - Table, Notes, or Gallery */}
