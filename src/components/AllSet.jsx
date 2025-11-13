@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { animate, createTimeline, stagger } from "animejs";
 import { useGuest } from "../GuestContext";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import { useNavigate } from "react-router-dom";
 import "../components/Styles/AllSet.css";
 import simanImg from "../assets/siman.png";
 import porticoImg from "../assets/portico.png";
@@ -11,6 +12,7 @@ import avionImg from "../assets/avion.png";
 export default function AllSet() {
   const { clearGuest } = useGuest();
   const [confetti, setConfetti] = useState([]);
+  const navigate = useNavigate();
 
   // Hook para activar animaciones solo cuando la sección es visible
   const { ref: sectionScrollRef, isVisible: sectionVisible } = useScrollAnimation({
@@ -105,6 +107,11 @@ export default function AllSet() {
   const PORTICO_URL = "https://www.porticoreal.com.sv/boda-pocasangre-portillo-martin-valeria-te-15-de-noviembre-de-2025"; // mismo enlace que en MesaRegalo.jsx
   const HOME_URL = "/"; // ajusta según tu router
 
+  // Función para abrir el modal de Honeymoon Fund
+  const handleHoneymoonClick = () => {
+    navigate("/gift?modal=honeymoon");
+  };
+
 
   return (
     <section
@@ -150,7 +157,12 @@ export default function AllSet() {
           </div>
           <div className="giftLink" style={{ opacity: 0 }}>
             <img src={avionImg} alt="Honeymoon Fund" />
-            <span className="giftLink__disabled">Honeymoon Fund</span>
+            <button
+              className="giftLink__button"
+              onClick={handleHoneymoonClick}
+            >
+              Honeymoon Fund
+            </button>
           </div>
         </div>
 

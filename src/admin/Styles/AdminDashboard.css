@@ -133,6 +133,18 @@
   background: #bee3f8;
 }
 
+.stat-card--pasta .stat-card__icon {
+  background: #e6f7ff;
+}
+
+.stat-card--carne .stat-card__icon {
+  background: #fff1f0;
+}
+
+.stat-card--no-preference .stat-card__icon {
+  background: #f3f4f6;
+}
+
 .stat-card__content {
   flex: 1;
 }
@@ -186,6 +198,30 @@
 
 .filter-btn--notes {
   font-weight: 600;
+}
+
+.filter-btn--pasta,
+.filter-btn--carne,
+.filter-btn--no-preference {
+  font-weight: 600;
+}
+
+.filter-btn--pasta.filter-btn--active {
+  background: #e6f7ff;
+  border-color: #91d5ff;
+  color: #0050b3;
+}
+
+.filter-btn--carne.filter-btn--active {
+  background: #fff1f0;
+  border-color: #ffccc7;
+  color: #a8071a;
+}
+
+.filter-btn--no-preference.filter-btn--active {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #4b5563;
 }
 
 /* Table */

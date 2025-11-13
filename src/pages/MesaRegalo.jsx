@@ -153,6 +153,17 @@ export default function GiftsSection() {
   const card2Ref = useRef(null);
   const card3Ref = useRef(null);
 
+  // Detectar si viene del parámetro de URL para abrir el modal
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const modalParam = params.get('modal');
+    if (modalParam === 'honeymoon') {
+      setOpenModal('bank');
+      // Limpiar el parámetro de la URL sin recargar la página
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
+
   // Links reales / placeholders
   const SIMAN_URL = "https://simangiftregistry.web.app/table/10016317";
   // Por ahora, usar el mismo enlace para Pórtico (lo cambiarás cuando lo tengas).

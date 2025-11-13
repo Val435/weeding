@@ -7,60 +7,75 @@
   --food-green-hover: #2d3200;
   --font-serif: Georgia, "Times New Roman", Times, serif;
   --font-sans: "Jost", "Inter", sans-serif;
-  --page-max-w: 815px;
+  --page-max-w: 880px;
+  --bg: #ffffff;
+  --bg-soft: #fbfaf8;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(0,0,0,.06);
 }
 
 /* ================================
    LAYOUT GENERAL
 ================================ */
 .foodPreference {
+  position: relative;
+  min-height: 100vh;
   background:
-    radial-gradient(1000px 700px at -10% 0%, rgba(60, 67, 0, .05), transparent 60%),
-    radial-gradient(1000px 700px at 110% 5%, rgba(74, 82, 0, .05), transparent 60%),
-    linear-gradient(180deg, #ffffff, #fbfaf8);
+    radial-gradient(1000px 700px at -10% 0%, rgba(60, 67, 0, .08), transparent 60%),
+    radial-gradient(1000px 700px at 110% 5%, rgba(74, 82, 0, .08), transparent 60%),
+    linear-gradient(180deg, var(--bg), var(--bg-soft));
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  min-height: 100vh;
-  padding: 40px var(--page-gutter-tight) 60px;
+  padding: 64px clamp(16px, 5vw, 24px) 72px;
 }
 
 .foodBox {
-  width: min(var(--page-max-w), 100%);
-  background: #fff;
-  padding: 32px clamp(18px, 5vw, 40px) 32px;
+  width: 100%;
+  max-width: var(--page-max-w);
+  background: rgba(255, 255, 255, 0.96);
+  padding: clamp(32px, 5vw, 48px) clamp(24px, 5vw, 56px);
   color: var(--food-green);
   font-family: var(--font-serif);
   position: relative;
-  border-radius: 16px;
-  box-shadow:
-    0 4px 24px rgba(60, 67, 0, 0.08),
-    0 0 0 1px rgba(60, 67, 0, 0.05);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: 0 18px 44px rgba(31, 31, 31, .08);
+  z-index: 1;
 }
 
 /* ================================
    TÍTULOS
 ================================ */
 .foodBox__title {
-  color: var(--food-green);
-  font-size: 36px;
-  line-height: 1.3;
-  margin: 0 0 16px;
+  margin: 0 0 8px;
   font-family: "Against", serif;
-  font-weight: 500;
+  font-weight: 400;
+  letter-spacing: .12em;
+  color: var(--food-green);
+  font-size: clamp(32px, 8vw, 48px);
+  line-height: 1.1;
   text-align: center;
-  letter-spacing: 0.02em;
 }
 
 .foodBox__subtitle {
-  color: #000;
-  font-size: 16px;
-  line-height: 1.6;
-  margin: 0 0 32px;
-  font-family: var(--font-sans);
-  font-weight: 400;
+  margin: 8px auto 32px;
+  color: #5a5a5a;
+  font-family: "Jost", sans-serif;
+  font-size: clamp(15px, 2.5vw, 17px);
+  line-height: 1.8;
+  font-weight: 500;
+  letter-spacing: .04em;
   text-align: center;
+  max-width: 600px;
+}
+
+.foodBox__rule {
+  width: 160px;
+  height: 3px;
+  margin: 16px auto 32px;
+  background: linear-gradient(90deg, transparent, var(--food-green-light), var(--food-green), transparent);
+  border-radius: 2px;
 }
 
 /* ================================
@@ -68,6 +83,7 @@
 ================================ */
 .foodArea {
   width: 100%;
+  margin-top: 12px;
 }
 
 .foodList {
@@ -81,9 +97,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid rgba(60, 67, 0, 0.1);
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(60, 67, 0, 0.12);
+  transition: background 0.3s ease;
 }
 
 .foodRow:last-child {
@@ -93,39 +110,43 @@
 .foodRow__name {
   font-family: var(--font-sans);
   text-transform: uppercase;
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: .02em;
-  color: #000;
+  font-size: clamp(14px, 2.5vw, 16px);
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: #1f1f1f;
   flex-shrink: 0;
 }
 
 .foodRow__buttons {
   display: flex;
-  gap: 12px;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
 .foodRow__btn {
-  background: var(--food-green);
-  color: #FFF;
+  background: transparent;
+  color: var(--food-green);
   border: 2px solid var(--food-green);
-  border-radius: 14px;
-  font-size: 14px;
+  border-radius: 12px;
+  font-size: clamp(13px, 2vw, 15px);
   cursor: pointer;
-  padding: 12px 20px;
+  padding: 13px 24px;
   min-width: 140px;
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
   transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .foodRow__btn::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: #ffffff;
+  background: var(--food-green);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -133,9 +154,9 @@
 }
 
 .foodRow__btn:hover {
-  color: var(--food-green);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(60, 67, 0, 0.15);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(60, 67, 0, 0.2);
 }
 
 .foodRow__btn:hover::before {
@@ -144,24 +165,28 @@
 }
 
 .foodRow__btn:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
 }
 
 /* Estado seleccionado */
 .foodRow__btn.is-selected {
-  background: #fff;
-  color: var(--food-green);
+  background: var(--food-green);
+  color: #ffffff;
   border: 2px solid var(--food-green);
   box-shadow:
-    inset 0 0 0 1px var(--food-green),
-    0 4px 16px rgba(60, 67, 0, 0.15);
+    0 6px 20px rgba(60, 67, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.foodRow__btn.is-selected::before {
+  transform: scaleX(1);
 }
 
 .foodRow__btn.is-selected:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow:
-    inset 0 0 0 1px var(--food-green),
-    0 8px 24px rgba(60, 67, 0, 0.2);
+    0 10px 30px rgba(60, 67, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 /* ================================
@@ -171,69 +196,84 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-top: 32px;
-  width: min(var(--page-max-w), 100%);
+  gap: 16px;
+  margin-top: 40px;
+  width: 100%;
+  max-width: var(--page-max-w);
 }
 
 .foodFooter__count {
   font-family: var(--font-sans);
   font-size: 14px;
-  color: #000;
-  opacity: .8;
+  color: #5a5a5a;
+  font-weight: 500;
 }
 
 .foodBtn {
-  width: 336px;
-  height: 74px;
+  min-width: 240px;
+  padding: 18px 40px;
   flex-shrink: 0;
-  border-radius: 20px;
+  border-radius: 14px;
   background: var(--food-green);
   color: #FFF;
   border: 2px solid var(--food-green);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: clamp(14px, 2vw, 16px);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
   cursor: pointer;
   font-family: var(--font-sans);
   transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  box-shadow:
+    0 8px 20px rgba(60, 67, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .foodBtn::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: #ffffff;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, var(--food-green-light), var(--food-green-hover));
+  opacity: 0;
+  transition: opacity .4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: -1;
 }
 
 .foodBtn:hover {
-  color: var(--food-green);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(60, 67, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 30px rgba(60, 67, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .foodBtn:hover::before {
-  transform: scaleX(1);
-  transform-origin: left;
+  opacity: 1;
 }
 
 .foodBtn:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 16px rgba(60, 67, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .foodBtn:disabled {
   opacity: .5;
   cursor: not-allowed;
+  transform: none;
 }
 
 .foodBtn:disabled:hover {
   transform: none;
-  box-shadow: none;
+  box-shadow:
+    0 8px 20px rgba(60, 67, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.foodBtn:disabled:hover::before {
+  opacity: 0;
 }
 
 /* ================================

@@ -150,8 +150,10 @@ export default function FoodPreference() {
           SELECCIONA TU PREFERENCIA
         </h3>
 
+        <div className="foodBox__rule"></div>
+
         <p ref={subtitleRef} className="foodBox__subtitle" style={{ opacity: 0 }}>
-          Por favor, elige tu opción de menú
+          Por favor, elige tu opción de menú para la cena
         </p>
 
         <div className="foodArea">
@@ -166,7 +168,7 @@ export default function FoodPreference() {
                     onClick={() => setPreference(g.id, "pasta")}
                     aria-pressed={getPreference(g.id) === "pasta"}
                   >
-                    🍝 PASTA
+                    PASTA
                   </button>
                   <button
                     type="button"
@@ -174,7 +176,7 @@ export default function FoodPreference() {
                     onClick={() => setPreference(g.id, "carne")}
                     aria-pressed={getPreference(g.id) === "carne"}
                   >
-                    🥩 CARNE
+                    CARNE
                   </button>
                 </div>
               </li>
