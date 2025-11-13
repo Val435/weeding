@@ -146,6 +146,7 @@ function CopyRow({ value, label }) {
 export default function GiftsSection() {
   const [openModal, setOpenModal] = useState(null);
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [copiedAccount, setCopiedAccount] = useState(false);
 
   const titleRef = useRef(null);
   const ruleRef = useRef(null);
@@ -175,6 +176,12 @@ export default function GiftsSection() {
     account: "3119184228",
     type: "Cuenta de ahorro",
     reference: "Honeymoon Fund",
+  };
+
+  const copyAccountNumber = () => {
+    navigator.clipboard?.writeText(BANK.account);
+    setCopiedAccount(true);
+    setTimeout(() => setCopiedAccount(false), 1600);
   };
 
   // Intersection Observer para animaciones épicas optimizadas para móvil
@@ -328,9 +335,15 @@ export default function GiftsSection() {
         {/* HONEYMOON FUND */}
         <div ref={card3Ref} className="gifts__card" style={{ opacity: 0 }}>
           <img src={avionImg} alt="Honeymoon Fund" className="gifts__logo gifts__logo--large" style={{ opacity: 0 }} />
-          <p className="gifts__hl" style={{ opacity: 0 }}>Banco Agricola</p>
-          <p className="gifts__hl" style={{ opacity: 0 }}>Valeria Portillo</p>
-          <p className="gifts__hl" style={{ opacity: 0 }}>3119184228</p>
+          <p className="gifts__hl" style={{ opacity: 0 }}>Honeymoon Fund</p>
+          <p
+            className="gifts__hl gifts__hl--copyable"
+            style={{ opacity: 0, cursor: 'pointer' }}
+            onClick={copyAccountNumber}
+            title="Click para copiar"
+          >
+            {BANK.account} {copiedAccount && '✓'}
+          </p>
           <button className="gifts__button" onClick={() => setOpenModal("bank")} style={{ opacity: 0 }}>
             Ver detalles
           </button>
@@ -382,15 +395,20 @@ export default function GiftsSection() {
       <Modal
         open={openModal === "bank"}
         onClose={() => setOpenModal(null)}
-        title={BANK.name}
-        subtitle="Datos para transferencia"
+        title="Honeymoon Fund"
+        subtitle="Luna de Miel"
+        logo={avionImg}
         actions={[
           { label: "Cerrar", onClick: () => setOpenModal(null), variant: "ghost" },
         ]}
       >
+        <p className="modalX__text" style={{ textAlign: 'center', marginBottom: '24px', fontSize: '15px', color: '#4a5568' }}>
+          Tu contribución nos ayudará a crear recuerdos inolvidables en nuestra luna de miel
+        </p>
         <ul className="bank__list">
+          <li><span>Banco</span><b>{BANK.name}</b></li>
           <li><span>Titular</span><b>{BANK.holder}</b></li>
-          <li><span>Tipo</span><b>{BANK.type}</b></li>
+          <li><span>Tipo de cuenta</span><b>{BANK.type}</b></li>
           <li>
             <span>No. de cuenta</span>
             <CopyRow value={BANK.account} />

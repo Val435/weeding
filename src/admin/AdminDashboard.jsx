@@ -309,7 +309,6 @@ export default function AdminDashboard() {
           </div>
 
           <div className="stat-card stat-card--pasta">
-            <div className="stat-card__icon">🍝</div>
             <div className="stat-card__content">
               <div className="stat-card__value">{pastaCount}</div>
               <div className="stat-card__label">Pasta</div>
@@ -317,22 +316,11 @@ export default function AdminDashboard() {
           </div>
 
           <div className="stat-card stat-card--carne">
-            <div className="stat-card__icon">🥩</div>
             <div className="stat-card__content">
               <div className="stat-card__value">{carneCount}</div>
               <div className="stat-card__label">Carne</div>
             </div>
           </div>
-
-          {noPreferenceCount > 0 && (
-            <div className="stat-card stat-card--no-preference">
-              <div className="stat-card__icon">❓</div>
-              <div className="stat-card__content">
-                <div className="stat-card__value">{noPreferenceCount}</div>
-                <div className="stat-card__label">Sin Preferencia</div>
-              </div>
-            </div>
-          )}
           </div>
         </div>
 
@@ -366,22 +354,14 @@ export default function AdminDashboard() {
             className={`filter-btn filter-btn--pasta ${filter === "pasta" ? "filter-btn--active" : ""}`}
             onClick={() => setFilter("pasta")}
           >
-            🍝 Pasta ({pastaCount})
+            Pasta ({pastaCount})
           </button>
           <button
             className={`filter-btn filter-btn--carne ${filter === "carne" ? "filter-btn--active" : ""}`}
             onClick={() => setFilter("carne")}
           >
-            🥩 Carne ({carneCount})
+            Carne ({carneCount})
           </button>
-          {noPreferenceCount > 0 && (
-            <button
-              className={`filter-btn filter-btn--no-preference ${filter === "no-preference" ? "filter-btn--active" : ""}`}
-              onClick={() => setFilter("no-preference")}
-            >
-              ❓ Sin Pref. ({noPreferenceCount})
-            </button>
-          )}
           {notes.length > 0 && (
             <button
               className={`filter-btn filter-btn--notes ${filter === "notes" ? "filter-btn--active" : ""}`}
@@ -631,7 +611,7 @@ export default function AdminDashboard() {
                         {guest.attending === true ? (
                           guest.foodPreference ? (
                             <span className={`food-badge food-badge--${guest.foodPreference}`}>
-                              {guest.foodPreference === "pasta" ? "🍝 Pasta" : "🥩 Carne"}
+                              {guest.foodPreference === "pasta" ? "Pasta" : "Carne"}
                             </span>
                           ) : (
                             <span className="text-muted">Sin especificar</span>
