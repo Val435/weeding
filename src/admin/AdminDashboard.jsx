@@ -199,10 +199,9 @@ export default function AdminDashboard() {
   const notesCount = notes.length;
   const galleryCount = gallery.length;
 
-  // Estadísticas de preferencias de comida
+  // Estadísticas de preferencias de comida (solo para filtros internos)
   const pastaCount = guests.filter((g) => g.attending === true && g.foodPreference === "pasta").length;
   const carneCount = guests.filter((g) => g.attending === true && g.foodPreference === "carne").length;
-  const noPreferenceCount = guests.filter((g) => g.attending === true && !g.foodPreference).length;
 
   const confirmationRate = totalGuests > 0
     ? Math.round((confirmedCount / totalGuests) * 100)
@@ -305,20 +304,6 @@ export default function AdminDashboard() {
             <div className="stat-card__content">
               <div className="stat-card__value">{galleryCount}</div>
               <div className="stat-card__label">Fotos & Videos</div>
-            </div>
-          </div>
-
-          <div className="stat-card stat-card--pasta">
-            <div className="stat-card__content">
-              <div className="stat-card__value">{pastaCount}</div>
-              <div className="stat-card__label">Pasta</div>
-            </div>
-          </div>
-
-          <div className="stat-card stat-card--carne">
-            <div className="stat-card__content">
-              <div className="stat-card__value">{carneCount}</div>
-              <div className="stat-card__label">Carne</div>
             </div>
           </div>
           </div>
