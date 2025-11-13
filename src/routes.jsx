@@ -10,6 +10,7 @@ import Vestimenta from "./pages/Vestimenta";
 import SendRSVP from "./components/SendRSVP";
 import AllSet from "./components/AllSet";
 import Note from "./components/Note";
+import FoodPreference from "./components/FoodPreference";
 
 // Galería
 import GaleriaPage from "./pages/GaleriaPage";
@@ -38,8 +39,9 @@ export const appRoutes = (eventDate, countdown, goToRSVP) => [
   { path: "/gift", element: <MesaRegalo /> },
   { path: "/dress-code", element: <Vestimenta /> },
   { path: "/send-rsvp", element: <SendRSVP /> },
-  { path: "/all-set", element: <AllSet /> },
+  { path: "/food-preference", element: <FoodPreference /> },
   { path: "/note", element: <Note /> },
+  { path: "/all-set", element: <AllSet /> },
 
   // Gallery route
   { path: "/galeria", element: <GaleriaPage /> },

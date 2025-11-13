@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import "./Styles/Note.css";
 import { useNavigate } from "react-router-dom";
-import { addNote } from "../api";
+import { addNote, confirmGuest } from "../api";
 import { useGuest } from "../GuestContext";
 import { animate, createTimeline, stagger } from "animejs";
 
@@ -19,14 +19,43 @@ export default function Note({ maxLength = 280 }) {
   const footerRef = useRef(null);
 
   const handleNext = async () => {
-    if (!note.trim()) return;
+    // Enviar las confirmaciones de asistencia y preferencias de comida al backend
     if (guest && guest.length > 0) {
-      await addNote(guest[0].id, note.trim());
+      // Obtener las preferencias de comida guardadas
+      const foodPreferences = window.guestFoodPreferences || new Map();
+
+      // Enviar confirmaciones con preferencias de comida
+      for (const g of guest) {
+        if (g.attending !== undefined) {
+          const foodPref = foodPreferences.get(g.id);
+          await confirmGuest(g.id, g.attending, foodPref);
+        }
+      }
+
+      // Enviar nota si existe
+      if (note.trim()) {
+        await addNote(guest[0].id, note.trim());
+      }
     }
+
     navigate("/all-set");
   };
 
-  const handleSkip = () => {
+  const handleSkip = async () => {
+    // Enviar las confirmaciones de asistencia y preferencias de comida al backend
+    if (guest && guest.length > 0) {
+      // Obtener las preferencias de comida guardadas
+      const foodPreferences = window.guestFoodPreferences || new Map();
+
+      // Enviar confirmaciones con preferencias de comida
+      for (const g of guest) {
+        if (g.attending !== undefined) {
+          const foodPref = foodPreferences.get(g.id);
+          await confirmGuest(g.id, g.attending, foodPref);
+        }
+      }
+    }
+
     navigate("/all-set");
   };
 

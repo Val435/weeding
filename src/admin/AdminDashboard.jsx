@@ -540,6 +540,7 @@ export default function AdminDashboard() {
                 <tr>
                   <th>Nombre</th>
                   <th>Estado</th>
+                  <th>Preferencia</th>
                   <th>Grupo</th>
                   <th>Mensaje</th>
                 </tr>
@@ -547,7 +548,7 @@ export default function AdminDashboard() {
               <tbody>
                 {filteredGuests.length === 0 ? (
                   <tr>
-                    <td colSpan="4" className="admin-table__empty">
+                    <td colSpan="5" className="admin-table__empty">
                       No hay invitados en esta categoría
                     </td>
                   </tr>
@@ -571,6 +572,19 @@ export default function AdminDashboard() {
                             ? "✗ No asistirá"
                             : "⏳ Sin respuesta"}
                         </span>
+                      </td>
+                      <td className="admin-table__food">
+                        {guest.attending === true ? (
+                          guest.foodPreference ? (
+                            <span className={`food-badge food-badge--${guest.foodPreference}`}>
+                              {guest.foodPreference === "pasta" ? "🍝 Pasta" : "🥩 Carne"}
+                            </span>
+                          ) : (
+                            <span className="text-muted">Sin especificar</span>
+                          )
+                        ) : (
+                          <span className="text-muted">-</span>
+                        )}
                       </td>
                       <td className="admin-table__group">
                         Grupo #{guest.groupId || "-"}

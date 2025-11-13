@@ -1,0 +1,396 @@
+/* ================================
+   TOKENS - TEMA VERDE
+================================ */
+:root {
+  --food-green: #3c4300;
+  --food-green-light: #4a5200;
+  --food-green-hover: #2d3200;
+  --font-serif: Georgia, "Times New Roman", Times, serif;
+  --font-sans: "Jost", "Inter", sans-serif;
+  --page-max-w: 815px;
+}
+
+/* ================================
+   LAYOUT GENERAL
+================================ */
+.foodPreference {
+  background:
+    radial-gradient(1000px 700px at -10% 0%, rgba(60, 67, 0, .05), transparent 60%),
+    radial-gradient(1000px 700px at 110% 5%, rgba(74, 82, 0, .05), transparent 60%),
+    linear-gradient(180deg, #ffffff, #fbfaf8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 100vh;
+  padding: 40px var(--page-gutter-tight) 60px;
+}
+
+.foodBox {
+  width: min(var(--page-max-w), 100%);
+  background: #fff;
+  padding: 32px clamp(18px, 5vw, 40px) 32px;
+  color: var(--food-green);
+  font-family: var(--font-serif);
+  position: relative;
+  border-radius: 16px;
+  box-shadow:
+    0 4px 24px rgba(60, 67, 0, 0.08),
+    0 0 0 1px rgba(60, 67, 0, 0.05);
+}
+
+/* ================================
+   TÍTULOS
+================================ */
+.foodBox__title {
+  color: var(--food-green);
+  font-size: 36px;
+  line-height: 1.3;
+  margin: 0 0 16px;
+  font-family: "Against", serif;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.foodBox__subtitle {
+  color: #000;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 32px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  text-align: center;
+}
+
+/* ================================
+   LISTA DE PERSONAS
+================================ */
+.foodArea {
+  width: 100%;
+}
+
+.foodList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.foodRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(60, 67, 0, 0.1);
+}
+
+.foodRow:last-child {
+  border-bottom: none;
+}
+
+.foodRow__name {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: #000;
+  flex-shrink: 0;
+}
+
+.foodRow__buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.foodRow__btn {
+  background: var(--food-green);
+  color: #FFF;
+  border: 2px solid var(--food-green);
+  border-radius: 14px;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 12px 20px;
+  min-width: 140px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.foodRow__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.foodRow__btn:hover {
+  color: var(--food-green);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(60, 67, 0, 0.15);
+}
+
+.foodRow__btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.foodRow__btn:active {
+  transform: translateY(0);
+}
+
+/* Estado seleccionado */
+.foodRow__btn.is-selected {
+  background: #fff;
+  color: var(--food-green);
+  border: 2px solid var(--food-green);
+  box-shadow:
+    inset 0 0 0 1px var(--food-green),
+    0 4px 16px rgba(60, 67, 0, 0.15);
+}
+
+.foodRow__btn.is-selected:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px var(--food-green),
+    0 8px 24px rgba(60, 67, 0, 0.2);
+}
+
+/* ================================
+   FOOTER CON BOTÓN
+================================ */
+.foodFooter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+  width: min(var(--page-max-w), 100%);
+}
+
+.foodFooter__count {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #000;
+  opacity: .8;
+}
+
+.foodBtn {
+  width: 336px;
+  height: 74px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: var(--food-green);
+  color: #FFF;
+  border: 2px solid var(--food-green);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.foodBtn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: -1;
+}
+
+.foodBtn:hover {
+  color: var(--food-green);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(60, 67, 0, 0.2);
+}
+
+.foodBtn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.foodBtn:active {
+  transform: translateY(0);
+}
+
+.foodBtn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.foodBtn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 768px) {
+  .foodPreference {
+    padding: 30px 14px 50px;
+  }
+
+  .foodBox {
+    padding: 28px 20px 28px;
+    border-radius: 14px;
+  }
+
+  .foodBox__title {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .foodBox__subtitle {
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  .foodFooter {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .foodBtn {
+    width: 100%;
+    height: auto;
+    font-size: 15px;
+    padding: 16px 20px;
+    line-height: 1.5;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  .foodPreference {
+    padding: 24px 16px 40px;
+  }
+
+  .foodBox {
+    padding: 24px 20px 24px;
+    width: 100%;
+  }
+
+  .foodBox__title {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .foodBox__subtitle {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .foodRow {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 0;
+    gap: 14px;
+  }
+
+  .foodRow__name {
+    font-size: 15px;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .foodRow__buttons {
+    width: 100%;
+    display: flex;
+    gap: 12px;
+  }
+
+  .foodRow__btn {
+    flex: 1;
+    min-width: unset;
+    font-size: 14px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .foodFooter {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .foodFooter__count {
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .foodBtn {
+    width: 100%;
+    height: auto;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 16px 20px;
+    line-height: 1.5;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .foodPreference {
+    padding: 20px 12px 32px;
+  }
+
+  .foodBox {
+    padding: 20px 16px 20px;
+  }
+
+  .foodBox__title {
+    font-size: 24px;
+  }
+
+  .foodBox__subtitle {
+    font-size: 13px;
+  }
+
+  .foodRow {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 0;
+  }
+
+  .foodRow__name {
+    font-size: 14px;
+  }
+
+  .foodRow__buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .foodRow__btn {
+    width: 100%;
+    font-size: 13px;
+    padding: 12px 14px;
+  }
+
+  .foodBtn {
+    width: 100%;
+    height: auto;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 18px;
+  }
+}

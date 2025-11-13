@@ -60,10 +60,17 @@ export default function SelectPerson() {
   const totalPeople = guest?.length || 0;
 
   const handleNext = async () => {
+    // Guardar las respuestas de asistencia en el contexto global
     for (let [id, attending] of responses.entries()) {
-      await confirmGuest(id, attending);
+      // Guardamos temporalmente en el guest context
+      const guestToUpdate = guest.find(g => g.id === id);
+      if (guestToUpdate) {
+        guestToUpdate.attending = attending;
+      }
     }
-    navigate("/note");
+
+    // Navegar a la selección de comida
+    navigate("/food-preference");
   };
 
   // Animaciones épicas al montar

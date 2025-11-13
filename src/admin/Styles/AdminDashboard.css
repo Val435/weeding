@@ -266,6 +266,32 @@
   color: #7c2d12;
 }
 
+/* Food Preference Badge */
+.food-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.food-badge--pasta {
+  background: #e6f7ff;
+  color: #0050b3;
+}
+
+.food-badge--carne {
+  background: #fff1f0;
+  color: #a8071a;
+}
+
+.admin-table__food {
+  text-align: center;
+}
+
 /* Notes */
 .note-preview {
   max-width: 300px;
@@ -1101,6 +1127,11 @@
   }
 
   .status-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .food-badge {
     font-size: 11px;
     padding: 4px 8px;
   }

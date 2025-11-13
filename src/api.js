@@ -14,11 +14,16 @@ export async function createGuest(fullName) {
   return res.json();
 }
 
-export async function confirmGuest(id, attending) {
+export async function confirmGuest(id, attending, foodPreference = null) {
+  const body = { attending };
+  if (foodPreference) {
+    body.foodPreference = foodPreference;
+  }
+
   const res = await fetch(`${API_URL}/guests/${id}/confirm`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ attending }),
+    body: JSON.stringify(body),
   });
   return res.json();
 }
