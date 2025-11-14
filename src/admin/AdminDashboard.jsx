@@ -61,59 +61,7 @@ export default function AdminDashboard() {
     navigate("/admin");
   };
 
-  const downloadExcel = () => {
-    // Crear CSV con los invitados filtrados
-    const headers = ["Nombre", "Estado", "Preferencia de Comida", "Grupo", "Mensaje"];
-    const rows = filteredGuests.map(guest => {
-      const estado = guest.attending === true
-        ? "Confirmado"
-        : guest.attending === false
-        ? "No asistirá"
-        : "Sin respuesta";
-
-      const preferencia = guest.attending === true
-        ? (guest.foodPreference === "pasta" ? "Pasta" : guest.foodPreference === "carne" ? "Carne" : "Sin especificar")
-        : "-";
-
-      const mensaje = notes.find(n => n.guestId === guest.id)?.message || "Sin mensaje";
-
-      return [
-        guest.fullName,
-        estado,
-        preferencia,
-        `Grupo #${guest.groupId || "-"}`,
-        mensaje
-      ];
-    });
-
-    // Convertir a CSV
-    const csvContent = [
-      headers.join(","),
-      ...rows.map(row => row.map(cell => `"${cell}"`).join(","))
-    ].join("\n");
-
-    // Crear y descargar archivo
-    const blob = new Blob(["\ufeff" + csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-
-    const filterName = filter === "all" ? "todos"
-      : filter === "confirmed" ? "confirmados"
-      : filter === "declined" ? "no-asistiran"
-      : filter === "pending" ? "sin-respuesta"
-      : filter === "pasta" ? "pasta"
-      : filter === "carne" ? "carne"
-      : filter;
-
-    link.setAttribute("href", url);
-    link.setAttribute("download", `invitados-${filterName}-${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const downloadPDF = () => {
+  const downloadGuestsPDF = () => {
     const filterName = filter === "all" ? "Todos los invitados"
       : filter === "confirmed" ? "Invitados confirmados"
       : filter === "declined" ? "No asistirán"
@@ -296,6 +244,118 @@ export default function AdminDashboard() {
 
   const closeDownloadModal = () => {
     setDownloadModal({ show: false, downloading: false, progress: 0, total: 0 });
+  };
+
+  const downloadNotesPDF = () => {
+    const filteredNotes = notes.filter(note => {
+      const guest = guests.find(g => g.id === note.guestId);
+      return guest; // Solo incluir notas de invitados existentes
+    });
+
+    // Crear contenido HTML para el PDF de mensajes
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Mensajes de los Invitados</title>
+        <style>
+          body {
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+            color: #2d3748;
+          }
+          h1 {
+            color: #805ad5;
+            margin-bottom: 10px;
+            font-size: 24px;
+          }
+          .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 14px;
+          }
+          .message-card {
+            background: #f7fafc;
+            border-left: 4px solid #805ad5;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            page-break-inside: avoid;
+          }
+          .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e2e8f0;
+          }
+          .message-author {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 15px;
+          }
+          .message-group {
+            color: #805ad5;
+            font-size: 12px;
+            font-weight: 500;
+          }
+          .message-date {
+            color: #a0aec0;
+            font-size: 12px;
+          }
+          .message-content {
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.6;
+            font-style: italic;
+          }
+          .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+            font-size: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Boda Valeria & Martín - 9 de Enero, 2026</h1>
+        <div class="subtitle">Mensajes de los Invitados (${filteredNotes.length} ${filteredNotes.length === 1 ? 'mensaje' : 'mensajes'})</div>
+        ${filteredNotes.map(note => {
+          const guest = guests.find(g => g.id === note.guestId);
+          const dateObj = note.createdAt ? new Date(note.createdAt) : new Date();
+          const formattedDate = dateObj.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+
+          return `
+            <div class="message-card">
+              <div class="message-header">
+                <div>
+                  <div class="message-author">${guest?.fullName || 'Invitado'}</div>
+                  <div class="message-group">Grupo #${guest?.groupId || '-'}</div>
+                </div>
+                <div class="message-date">${formattedDate}</div>
+              </div>
+              <div class="message-content">${note.message}</div>
+            </div>
+          `;
+        }).join('')}
+        <div class="footer">
+          Generado el ${new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })} a las ${new Date().toLocaleTimeString('es-ES')}
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Crear ventana temporal para imprimir
+    const printWindow = window.open('', '', 'width=800,height=600');
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+
+    // Esperar a que se cargue y luego imprimir
+    printWindow.onload = () => {
+      printWindow.print();
+    };
   };
 
   const toggleSelectionMode = () => {
@@ -544,35 +604,21 @@ export default function AdminDashboard() {
             📸 Galería ({galleryCount})
           </button>
           </div>
-          {filter !== "gallery" && filter !== "notes" && filteredGuests.length > 0 && (
-            <div className="admin-download-buttons">
-              <button
-                className="admin-download-btn admin-download-btn--excel"
-                onClick={downloadExcel}
-                title="Descargar lista en Excel (CSV)"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Descargar Excel
-              </button>
-              <button
-                className="admin-download-btn admin-download-btn--pdf"
-                onClick={downloadPDF}
-                title="Descargar lista en PDF"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <polyline points="14 2 14 8 20 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <polyline points="10 9 9 9 8 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Descargar PDF
-              </button>
-            </div>
+          {filter !== "gallery" && ((filter === "notes" && notes.length > 0) || (filter !== "notes" && filteredGuests.length > 0)) && (
+            <button
+              className="admin-download-btn"
+              onClick={filter === "notes" ? downloadNotesPDF : downloadGuestsPDF}
+              title={filter === "notes" ? "Descargar mensajes en PDF" : "Descargar lista en PDF"}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <polyline points="14 2 14 8 20 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <polyline points="10 9 9 9 8 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Descargar PDF
+            </button>
           )}
         </div>
 

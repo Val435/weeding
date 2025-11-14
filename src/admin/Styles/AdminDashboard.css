@@ -230,13 +230,6 @@
   color: #4b5563;
 }
 
-/* Download Buttons Container */
-.admin-download-buttons {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
 /* Download Button */
 .admin-download-btn {
   display: inline-flex;
