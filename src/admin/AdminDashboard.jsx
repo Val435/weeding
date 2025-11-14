@@ -113,6 +113,135 @@ export default function AdminDashboard() {
     document.body.removeChild(link);
   };
 
+  const downloadPDF = () => {
+    const filterName = filter === "all" ? "Todos los invitados"
+      : filter === "confirmed" ? "Invitados confirmados"
+      : filter === "declined" ? "No asistirán"
+      : filter === "pending" ? "Sin respuesta"
+      : filter === "pasta" ? "Preferencia: Pasta"
+      : filter === "carne" ? "Preferencia: Carne"
+      : "Invitados";
+
+    // Crear contenido HTML para el PDF
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Lista de Invitados - ${filterName}</title>
+        <style>
+          body {
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+            color: #2d3748;
+          }
+          h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 24px;
+          }
+          .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 14px;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+          }
+          th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 13px;
+          }
+          tr:hover {
+            background: #f7fafc;
+          }
+          .status-confirmed { color: #10b981; font-weight: 600; }
+          .status-declined { color: #ef4444; font-weight: 600; }
+          .status-pending { color: #f59e0b; font-weight: 600; }
+          .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+            font-size: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Boda Valeria & Martín - 9 de Enero, 2026</h1>
+        <div class="subtitle">${filterName} (${filteredGuests.length} ${filteredGuests.length === 1 ? 'persona' : 'personas'})</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Estado</th>
+              <th>Preferencia</th>
+              <th>Grupo</th>
+              <th>Mensaje</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filteredGuests.map(guest => {
+              const estado = guest.attending === true
+                ? "Confirmado"
+                : guest.attending === false
+                ? "No asistirá"
+                : "Sin respuesta";
+
+              const statusClass = guest.attending === true
+                ? "status-confirmed"
+                : guest.attending === false
+                ? "status-declined"
+                : "status-pending";
+
+              const preferencia = guest.attending === true
+                ? (guest.foodPreference === "pasta" ? "Pasta" : guest.foodPreference === "carne" ? "Carne" : "Sin especificar")
+                : "-";
+
+              const mensaje = notes.find(n => n.guestId === guest.id)?.message || "Sin mensaje";
+
+              return `
+                <tr>
+                  <td><strong>${guest.fullName}</strong></td>
+                  <td class="${statusClass}">${estado}</td>
+                  <td>${preferencia}</td>
+                  <td>Grupo #${guest.groupId || "-"}</td>
+                  <td>${mensaje}</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+        <div class="footer">
+          Generado el ${new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })} a las ${new Date().toLocaleTimeString('es-ES')}
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Crear ventana temporal para imprimir
+    const printWindow = window.open('', '', 'width=800,height=600');
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+
+    // Esperar a que se cargue y luego imprimir
+    printWindow.onload = () => {
+      printWindow.print();
+    };
+  };
+
   const handleDownload = async (photo) => {
     try {
       const response = await fetch(photo.url);
@@ -416,18 +545,34 @@ export default function AdminDashboard() {
           </button>
           </div>
           {filter !== "gallery" && filter !== "notes" && filteredGuests.length > 0 && (
-            <button
-              className="admin-download-btn"
-              onClick={downloadExcel}
-              title="Descargar lista en Excel"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              Descargar Excel
-            </button>
+            <div className="admin-download-buttons">
+              <button
+                className="admin-download-btn admin-download-btn--excel"
+                onClick={downloadExcel}
+                title="Descargar lista en Excel (CSV)"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Descargar Excel
+              </button>
+              <button
+                className="admin-download-btn admin-download-btn--pdf"
+                onClick={downloadPDF}
+                title="Descargar lista en PDF"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <polyline points="14 2 14 8 20 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <polyline points="10 9 9 9 8 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Descargar PDF
+              </button>
+            </div>
           )}
         </div>
 
