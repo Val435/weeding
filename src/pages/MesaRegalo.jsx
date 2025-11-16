@@ -171,7 +171,7 @@ export default function GiftsSection() {
   const PORTICO_URL = "https://www.porticoreal.com.sv/boda-pocasangre-portillo-martin-valeria-te-15-de-noviembre-de-2025";
 
   const BANK = {
-    name: "Banco Agricola",
+    name: "Banco Agrícola",
     holder: "Valeria Portillo",
     account: "3119184228",
     type: "Cuenta de ahorro",
@@ -338,14 +338,12 @@ export default function GiftsSection() {
           <p className="gifts__hl" style={{ opacity: 0 }}>Honeymoon Fund</p>
           <p
             className="gifts__hl gifts__hl--copyable"
-            style={{ opacity: 0, cursor: 'pointer' }}
-            onClick={copyAccountNumber}
-            title="Click para copiar"
+            
           >
-            {BANK.account} {copiedAccount && '✓'}
+            {BANK.name}
           </p>
           <button className="gifts__button" onClick={() => setOpenModal("bank")} style={{ opacity: 0 }}>
-            Ver detalles
+            VER N° DE CUENTA
           </button>
         </div>
       </div>

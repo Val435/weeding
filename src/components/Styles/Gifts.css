@@ -63,17 +63,7 @@
 }
 
 .gifts__hl--copyable {
-  transition: all .3s ease;
   user-select: none;
-}
-
-.gifts__hl--copyable:hover {
-  color: #D33800;
-  transform: scale(1.05);
-}
-
-.gifts__hl--copyable:active {
-  transform: scale(0.98);
 }
 
 .gifts__stack {
