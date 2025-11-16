@@ -7,7 +7,9 @@
       "Bash(del tailwind.config.js)",
       "Bash(del postcss.config.js)",
       "Bash(npm run build)",
-      "Bash(npm audit:*)"
+      "Bash(npm audit:*)",
+      "Bash(git push)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

@@ -74,9 +74,7 @@
 }
 
 .rsvp__input {
-  display:flex;
-  align-items: center;
-  justify-content: center;
+  display:block;
   width:min(783px, 100%);
   max-width:100%;
   height: var(--btn-h);
@@ -89,9 +87,12 @@
   font-family: var(--font-sans);
   font-size:16px;
   font-weight:400;
+  line-height: var(--btn-h);
   padding: 0 clamp(16px, 4vw, 28px);
   outline:none;
   -webkit-appearance: none;
+  -webkit-text-fill-color: var(--text);
+  box-sizing: border-box;
 }
 
 /* Fix para placeholder centrado en todos los navegadores */
