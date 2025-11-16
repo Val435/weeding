@@ -143,9 +143,8 @@ export default function RSVPSection() {
               inputRef.current,
               {
                 opacity: [0, 1],
-                translateY: isMobile ? [100, 0] : [60, 0],
-                scale: isMobile ? [0.8, 1] : [1, 1],
-                duration: isMobile ? 1100 : 1000
+                translateY: [20, 0],
+                duration: isMobile ? 800 : 600
               },
               isMobile ? 900 : 1000
             );
