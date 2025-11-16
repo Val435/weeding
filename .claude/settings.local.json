@@ -6,7 +6,8 @@
       "Bash(npm uninstall:*)",
       "Bash(del tailwind.config.js)",
       "Bash(del postcss.config.js)",
-      "Bash(npm run build)"
+      "Bash(npm run build)",
+      "Bash(npm audit:*)"
     ],
     "deny": [],
     "ask": []

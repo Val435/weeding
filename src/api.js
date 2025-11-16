@@ -39,15 +39,41 @@ export async function addNote(id, message) {
 
 // ========== ADMIN ENDPOINTS ==========
 
+// Login de administrador
+export async function loginAdmin(username, password) {
+  const res = await fetch(`${API_URL}/admin/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Error de autenticación");
+  }
+
+  return res.json();
+}
+
 // Obtener todos los invitados (para dashboard admin)
 export async function getAllGuests() {
-  const res = await fetch(`${API_URL}/guests`);
+  const token = localStorage.getItem("adminToken");
+  const res = await fetch(`${API_URL}/guests`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
   return res.json();
 }
 
 // Obtener todas las notas
 export async function getAllNotes() {
-  const res = await fetch(`${API_URL}/guests/notes/all`);
+  const token = localStorage.getItem("adminToken");
+  const res = await fetch(`${API_URL}/guests/notes/all`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
   return res.json();
 }
 
@@ -71,5 +97,22 @@ export async function getGalleryPhotos() {
   if (!res.ok) {
     throw new Error("Error al cargar galería");
   }
+  return res.json();
+}
+
+// Eliminar foto de la galería (solo admin)
+export async function deletePhoto(photoId) {
+  const token = localStorage.getItem("adminToken");
+  const res = await fetch(`${API_URL}/gallery/photos/${photoId}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${token}`
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error("Error al eliminar foto");
+  }
+
   return res.json();
 }

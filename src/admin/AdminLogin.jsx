@@ -1,33 +1,38 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginAdmin } from "../api";
 import "./Styles/AdminLogin.css";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    // Credenciales desde variables de entorno
-    const validUsername = import.meta.env.ADMIN_USERNAME;
-    const validPassword = import.meta.env.ADMIN_PASSWORD;
-    const validUsernameAlt = import.meta.env.ADMIN_USERNAME_ALT;
-    const validPasswordAlt = import.meta.env.ADMIN_PASSWORD_ALT;
+    try {
+      // Autenticar con el backend
+      const response = await loginAdmin(username, password);
 
-    // Verificar credenciales principales o alternativas
-    const isValidPrimary = username === validUsername && password === validPassword;
-    const isValidAlt = username === validUsernameAlt && password === validPasswordAlt;
-
-    if (isValidPrimary || isValidAlt) {
-      // Guardar sesión
-      localStorage.setItem("adminAuth", "true");
-      navigate("/admin/dashboard");
-    } else {
-      setError("Usuario o contraseña incorrectos");
+      if (response.success && response.token) {
+        // Guardar token en localStorage
+        localStorage.setItem("adminToken", response.token);
+        localStorage.setItem("adminAuth", "true");
+        navigate("/admin/dashboard");
+      } else {
+        setError("Error de autenticación");
+        setTimeout(() => setError(""), 3000);
+      }
+    } catch (err) {
+      setError(err.message || "Usuario o contraseña incorrectos");
       setTimeout(() => setError(""), 3000);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -115,11 +120,13 @@ export default function AdminLogin() {
             </div>
           </div>
 
-          <button type="submit" className="admin-login__btn">
-            <span>INGRESAR</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+          <button type="submit" className="admin-login__btn" disabled={loading}>
+            <span>{loading ? "INGRESANDO..." : "INGRESAR"}</span>
+            {!loading && (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            )}
           </button>
         </form>
 

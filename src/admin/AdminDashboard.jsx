@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllGuests, getAllNotes, getGalleryPhotos } from "../api";
+import { getAllGuests, getAllNotes, getGalleryPhotos, deletePhoto } from "../api";
 import "./Styles/AdminDashboard.css";
 
 export default function AdminDashboard() {
@@ -34,23 +34,23 @@ export default function AdminDashboard() {
         getAllGuests(),
         getAllNotes()
       ]);
-      console.log("📊 Datos recibidos:");
-      console.log("Guests:", guestsData);
-      console.log("Notes:", notesData);
       setGuests(guestsData);
       setNotes(notesData);
 
       // Cargar galería de forma opcional (no romper si falla)
       try {
         const galleryData = await getGalleryPhotos();
-        console.log("Gallery:", galleryData);
         setGallery(galleryData.photos || []);
       } catch (galleryError) {
-        console.log("Galería no disponible aún:", galleryError);
         setGallery([]);
       }
     } catch (error) {
-      console.error("Error cargando datos:", error);
+      // Si hay error de autenticación, redirigir al login
+      if (error.message?.includes("Token") || error.message?.includes("autenticación")) {
+        localStorage.removeItem("adminAuth");
+        localStorage.removeItem("adminToken");
+        navigate("/admin");
+      }
     } finally {
       setLoading(false);
     }
@@ -58,6 +58,7 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
+    localStorage.removeItem("adminToken");
     navigate("/admin");
   };
 
@@ -210,7 +211,6 @@ export default function AdminDashboard() {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Error al descargar:', error);
       alert('Error al descargar el archivo. Por favor intenta de nuevo.');
     }
   };
@@ -235,7 +235,7 @@ export default function AdminDashboard() {
         // Pequeña pausa entre descargas para no saturar el navegador
         await new Promise(resolve => setTimeout(resolve, 500));
       } catch (error) {
-        console.error(`Error descargando foto ${photo.id}:`, error);
+        // Error silencioso, continuar con la siguiente foto
       }
     }
 
@@ -407,13 +407,28 @@ export default function AdminDashboard() {
         setDownloadModal({ show: true, downloading: true, progress: downloaded, total });
         await new Promise(resolve => setTimeout(resolve, 500));
       } catch (error) {
-        console.error(`Error descargando foto ${photo.id}:`, error);
+        // Error silencioso, continuar con la siguiente foto
       }
     }
 
     setDownloadModal({ show: true, downloading: false, progress: downloaded, total, completed: true });
     setSelectedPhotos(new Set());
     setSelectionMode(false);
+  };
+
+  const handleDeletePhoto = async (photoId) => {
+    if (!confirm('¿Estás seguro de que deseas eliminar esta foto? Esta acción no se puede deshacer.')) {
+      return;
+    }
+
+    try {
+      await deletePhoto(photoId);
+      // Actualizar la lista eliminando la foto localmente
+      setGallery(gallery.filter(p => p.id !== photoId));
+      alert('Foto eliminada exitosamente');
+    } catch (error) {
+      alert('Error al eliminar la foto. Por favor intenta de nuevo.');
+    }
   };
 
   const filteredGuests = guests.filter((g) => {
@@ -905,6 +920,38 @@ export default function AdminDashboard() {
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <polyline points="7 10 12 15 17 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            <button
+              className="photo-modal__delete"
+              onClick={() => {
+                handleDeletePhoto(selectedPhoto.id);
+                setSelectedPhoto(null);
+              }}
+              title="Eliminar foto"
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '120px',
+                background: '#ef4444',
+                color: 'white',
+                border: 'none',
+                borderRadius: '50%',
+                width: '48px',
+                height: '48px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '20px',
+                transition: 'all 0.2s',
+                zIndex: 1001
+              }}
+              onMouseEnter={(e) => e.target.style.background = '#dc2626'}
+              onMouseLeave={(e) => e.target.style.background = '#ef4444'}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
             <div className="photo-modal__media">
