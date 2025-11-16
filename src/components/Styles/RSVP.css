@@ -87,8 +87,8 @@
   font-family: var(--font-sans);
   font-size:16px;
   font-weight:400;
-  line-height: var(--btn-h);
-  padding: 0 clamp(16px, 4vw, 28px);
+  line-height: 1.2;
+  padding: 24px clamp(16px, 4vw, 28px);
   outline:none;
   -webkit-appearance: none;
   -webkit-text-fill-color: var(--text);
@@ -231,7 +231,10 @@
 }
 
 @media (max-width: 480px) {
-  .rsvp__input { height: 56px; }
+  .rsvp__input {
+    height: 56px;
+    padding: 16px clamp(16px, 4vw, 28px);
+  }
   .rsvp__btn { height: 56px; }
   .rsvp__btn--primary, .rsvp__btn--ghost { width: 100%; flex: 1 1 auto; }
   .vestimenta__decor--left1 { left: -180px; }
