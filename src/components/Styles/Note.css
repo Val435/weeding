@@ -22,6 +22,9 @@
   font-weight: 700;
   font-size: 18px;
   letter-spacing: .02em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  hyphens: none;
 }
 
 .note__desc{
